@@ -1,0 +1,11 @@
+target 'cheZhiLianCoach' do
+platform :ios, '8.0'
+pod 'SDWebImage'
+pod 'MJExtension'
+pod 'AFNetworking'
+pod 'BaiduMapKit'
+pod 'MJRefresh'
+pod 'MBProgressHUD'
+pod 'FMDB’
+end
+

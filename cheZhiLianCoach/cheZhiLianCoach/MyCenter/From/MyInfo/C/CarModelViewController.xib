@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CarModelViewController">
+            <connections>
+                <outlet property="C1Button" destination="qmU-83-Mp4" id="9Iz-q8-j8p"/>
+                <outlet property="C2Button" destination="3bb-HU-oZQ" id="F1x-e1-wwq"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T0a-OW-2Kt" userLabel="navi">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line_navibottom" translatesAutoresizingMaskIntoConstraints="NO" id="zq3-qO-uha">
+                            <rect key="frame" x="0.0" y="63" width="375" height="1"/>
+                            <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="U9z-uT-Rfr"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="准教车型" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKO-PN-kbU">
+                            <rect key="frame" x="87.5" y="20" width="200" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="M4z-h6-aqq"/>
+                                <constraint firstAttribute="height" constant="44" id="Yud-BV-E39"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PB0-6c-Xww" userLabel="back">
+                            <rect key="frame" x="0.0" y="20" width="55" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="Swa-cg-gHC"/>
+                                <constraint firstAttribute="width" constant="55" id="oVe-wp-Fg1"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="icon_arrow_back">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="xrR-31-5Ey"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmY-Pk-ycz">
+                            <rect key="frame" x="315" y="20" width="60" height="44"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="eIk-x1-Rjg"/>
+                                <constraint firstAttribute="height" constant="44" id="gmf-g1-i1B"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                            <state key="normal" title="     提交">
+                                <color key="titleColor" red="1" green="0.29803921570000003" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="commitCarmodel:" destination="-1" eventType="touchUpInside" id="RyN-LQ-Zfs"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="8ub-aZ-EOb"/>
+                        <constraint firstItem="zq3-qO-uha" firstAttribute="leading" secondItem="T0a-OW-2Kt" secondAttribute="leading" id="BQP-dL-kRs"/>
+                        <constraint firstAttribute="centerX" secondItem="VKO-PN-kbU" secondAttribute="centerX" id="McG-DN-yxv"/>
+                        <constraint firstAttribute="trailing" secondItem="OmY-Pk-ycz" secondAttribute="trailing" id="X7h-JU-nNI"/>
+                        <constraint firstAttribute="bottom" secondItem="OmY-Pk-ycz" secondAttribute="bottom" id="cak-qn-1OB"/>
+                        <constraint firstAttribute="trailing" secondItem="zq3-qO-uha" secondAttribute="trailing" id="dEN-53-5Mr"/>
+                        <constraint firstItem="VKO-PN-kbU" firstAttribute="top" secondItem="T0a-OW-2Kt" secondAttribute="top" constant="20" id="h9Y-DC-TAC"/>
+                        <constraint firstAttribute="bottom" secondItem="VKO-PN-kbU" secondAttribute="bottom" id="lrw-cY-wR3"/>
+                        <constraint firstAttribute="bottom" secondItem="PB0-6c-Xww" secondAttribute="bottom" id="ub8-FK-7OC"/>
+                        <constraint firstAttribute="bottom" secondItem="zq3-qO-uha" secondAttribute="bottom" id="vgb-zN-B1F"/>
+                        <constraint firstItem="PB0-6c-Xww" firstAttribute="leading" secondItem="T0a-OW-2Kt" secondAttribute="leading" id="ymw-Kj-yXR"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNv-OI-C7X">
+                    <rect key="frame" x="27.5" y="64" width="320" height="162"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bb-HU-oZQ">
+                            <rect key="frame" x="170" y="24" width="120" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="53Y-re-8jh"/>
+                                <constraint firstAttribute="width" constant="120" id="OY4-Ic-4lt"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ic_c2car">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForC2:" destination="-1" eventType="touchUpInside" id="K5s-lJ-uVU"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qmU-83-Mp4">
+                            <rect key="frame" x="30" y="24" width="120" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="VCl-mO-hzb"/>
+                                <constraint firstAttribute="width" constant="120" id="use-1F-5Am"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ic_c1car">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clickForC1:" destination="-1" eventType="touchUpInside" id="mzc-QW-tBH"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（可多选）" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ee-Om-V4f">
+                            <rect key="frame" x="98" y="109" width="123" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="123" id="JwH-P0-Q54"/>
+                                <constraint firstAttribute="height" constant="21" id="rST-Dw-QxW"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="3bb-HU-oZQ" firstAttribute="leading" secondItem="qmU-83-Mp4" secondAttribute="trailing" constant="20" id="0G0-W4-ElZ"/>
+                        <constraint firstItem="4ee-Om-V4f" firstAttribute="top" secondItem="qmU-83-Mp4" secondAttribute="bottom" constant="15" id="2Hz-xM-4Wr"/>
+                        <constraint firstItem="qmU-83-Mp4" firstAttribute="top" secondItem="LNv-OI-C7X" secondAttribute="top" constant="24" id="IFK-K7-TbI"/>
+                        <constraint firstAttribute="width" constant="320" id="MaR-om-14H"/>
+                        <constraint firstAttribute="trailing" secondItem="3bb-HU-oZQ" secondAttribute="trailing" constant="30" id="Z3L-CB-eUI"/>
+                        <constraint firstItem="qmU-83-Mp4" firstAttribute="leading" secondItem="LNv-OI-C7X" secondAttribute="leading" constant="30" id="kPT-kp-1hZ"/>
+                        <constraint firstItem="3bb-HU-oZQ" firstAttribute="top" secondItem="LNv-OI-C7X" secondAttribute="top" constant="24" id="p3d-pn-soF"/>
+                        <constraint firstAttribute="centerX" secondItem="4ee-Om-V4f" secondAttribute="centerX" constant="0.5" id="ram-oK-Ub8"/>
+                        <constraint firstAttribute="height" constant="162" id="vMl-KK-7xX"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="T0a-OW-2Kt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ICw-jk-VP2"/>
+                <constraint firstItem="LNv-OI-C7X" firstAttribute="top" secondItem="T0a-OW-2Kt" secondAttribute="bottom" id="RtZ-QO-Nbd"/>
+                <constraint firstItem="T0a-OW-2Kt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SLF-tj-4Vu"/>
+                <constraint firstAttribute="centerX" secondItem="LNv-OI-C7X" secondAttribute="centerX" id="agK-hl-i6k"/>
+                <constraint firstAttribute="trailing" secondItem="T0a-OW-2Kt" secondAttribute="trailing" id="l4N-ta-RdB"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_c1car" width="120" height="70"/>
+        <image name="ic_c2car" width="120" height="70"/>
+        <image name="icon_arrow_back" width="13" height="11"/>
+        <image name="line_navibottom" width="1" height="1"/>
+    </resources>
+</document>

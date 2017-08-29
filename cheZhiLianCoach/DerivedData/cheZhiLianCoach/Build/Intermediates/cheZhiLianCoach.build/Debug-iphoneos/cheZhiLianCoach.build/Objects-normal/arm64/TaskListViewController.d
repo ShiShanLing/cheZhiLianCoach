@@ -1,0 +1,29 @@
+dependencies: \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Public/UserDataSingleton.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/Model/XBProvince.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/Model/XBCity.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/Model/XBArea.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/DejalActivityView.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Category/UIViewController+Toast.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Category/UIView+Frame.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Category/CommonUtil+Date.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Category/CommonUtil.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyCenter/From/LogIn/M/UserDataModel+CoreDataClass.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyCenter/From/LogIn/M/UserDataModel+CoreDataProperties.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Public/cheZhiLianCoach.pch \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/Main/C/TaskListViewController.m \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/Main/C/TaskListViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Public/GreyTopViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Public/BaseViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/Public/AppDelegate.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/From/C/HistoryViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/Main/V/TaskListTableViewCell.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/DSButton.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/UIPlaceHolderTextView.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/RefreshAndMore/DSPullToRefreshManager.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/RefreshAndMore/DSBottomPullToMoreManager.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/From/C/UploadPhotoViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/TQStarRating/TQStarRatingView.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyCenter/From/LogIn/C/LoginViewController.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/CustomControls/Countdown/JKCountDownButton.h \
+  /Users/ShisShanLing/Desktop/公司项目SVN/车智联/coach/cheZhiLianCoach/cheZhiLianCoach/MyOrder/From/C/GoComplaintViewController.h
