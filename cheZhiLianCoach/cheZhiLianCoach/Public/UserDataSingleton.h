@@ -12,9 +12,11 @@
  */
 @interface UserDataSingleton : NSObject
 + (UserDataSingleton *)mainSingleton;
-
-@property (nonatomic, copy)NSString *subState;
-@property (nonatomic, copy)NSString *studentsId;
-@property (nonatomic, copy)NSString *memberId;
+/**
+ *审核状态
+ */
+@property (nonatomic, copy)NSString *approvalState;
 @property (nonatomic, copy)NSString *coachId;
+@property (nonatomic, copy)NSString *userName;
+@property (nonatomic, copy)NSString *URL_SHY;
 @end

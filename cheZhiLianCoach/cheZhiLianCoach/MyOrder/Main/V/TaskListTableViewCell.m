@@ -9,9 +9,15 @@
 #import "TaskListTableViewCell.h"
 
 @implementation TaskListTableViewCell
-
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self  = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+    }
+    return self;
+}
 - (void)awakeFromNib {
     // Initialization code
+    
     self.sureCancelBtn.layer.cornerRadius = 3;
     self.sureCancelBtn.layer.masksToBounds = YES;
     
@@ -27,6 +33,17 @@
     self.payerType2.layer.masksToBounds = YES;
     self.payerType2.layer.borderColor = MColor(210, 210, 210).CGColor;
     self.payerType2.layer.borderWidth = 0.5;
+}
+
+- (void)handlerUpDownCarText:(DSButton *)sender {
+
+    if ([_delegate respondsToSelector:@selector(handlerUpDownCar:)]) {
+        [_delegate handlerUpDownCar:sender];
+    }
+
+}
+-(void)layoutSubviews {
+    [super layoutSubviews];
     
 }
 

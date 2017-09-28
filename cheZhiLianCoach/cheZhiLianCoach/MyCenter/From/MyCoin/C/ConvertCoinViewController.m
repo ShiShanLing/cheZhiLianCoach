@@ -79,7 +79,7 @@
     NSString *realname = @"10";
     NSString *coinnum = @"100";
     
-    NSString *titleLabelStr = [NSString stringWithFormat:@"%@教练小巴币：%@个",realname,coinnum];
+    NSString *titleLabelStr = [NSString stringWithFormat:@"%@教练学车币：%@个",realname,coinnum];
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
     [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(realname.length+6,coinnum.length)];
@@ -172,7 +172,7 @@
     
     if ([receivertype intValue] == 2) {
         if ([payertype intValue] == 0) {
-            coinFrom = @"支付方：小巴平台";
+            coinFrom = @"支付方：车智联平台";
         }else if ([payertype intValue] == 1){
             coinFrom = @"支付方：驾校";
         }else if ([payertype intValue] == 2){
@@ -192,7 +192,7 @@
     if ([payertype intValue] == 2) {
         coinFrom = [NSString stringWithFormat:@"发放方：%@",ownername];
         coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
-        coinWay = @"小巴币兑换";
+        coinWay = @"学车币兑换";
         cell.cheakBtn.hidden = NO;
         [cell.cheakBtn addTarget:self action:@selector(clickForCheak:) forControlEvents:UIControlEventTouchUpInside];
         cell.cheakBtn.tag = indexPath.row;
@@ -303,7 +303,7 @@
 }
 
 - (IBAction)clickForConvertCoin:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定兑换所有小巴币吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定兑换所有学车币吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
     UIButton *button = (UIButton *)sender;
     buttonTag = [NSString stringWithFormat:@"%ld",(long)button.tag];
@@ -317,7 +317,7 @@
 }
 
 #pragma mark - 接口
-- (void)getAPPLYCOIN  //兑换小巴币
+- (void)getAPPLYCOIN  //兑换学车币
 {
     
   }
@@ -338,17 +338,17 @@
     NSString *type = @"1";
     NSString *titleLabelStr;
     NSMutableAttributedString *string;
-    NSString *coinnum = [dic[@"coin"] description];//小巴币个数
+    NSString *coinnum = [dic[@"coin"] description];//学车币个数
     if ([type intValue] == 0) {
-        titleLabelStr = [NSString stringWithFormat:@"平台小巴币：%@个",@"100"];
+        titleLabelStr = [NSString stringWithFormat:@"平台学车币：%@个",@"100"];
         string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
         [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(6,coinnum.length)];
     }else if ([type intValue] == 1){
-        titleLabelStr = [NSString stringWithFormat:@"所属驾校小巴币：%@个",@"100"];
+        titleLabelStr = [NSString stringWithFormat:@"所属驾校学车币：%@个",@"100"];
         string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
         [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(8,coinnum.length)];
     }else if ([type intValue] == 2){
-        titleLabelStr = [NSString stringWithFormat:@"石教练小巴币：%@个",@"200"];
+        titleLabelStr = [NSString stringWithFormat:@"石教练学车币：%@个",@"200"];
         string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
         [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(realname.length+6,coinnum.length)];
     }

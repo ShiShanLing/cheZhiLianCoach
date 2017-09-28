@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A12A9B701F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */; };
+		A12A9B711F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */; };
+		A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */; };
+		A141D6841F5810140099BA53 /* MyStudentListModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6821F5810130099BA53 /* MyStudentListModel+CoreDataProperties.m */; };
+		A141D6891F58FA4A0099BA53 /* TimeChooseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6861F58FA4A0099BA53 /* TimeChooseTableViewCell.m */; };
+		A141D68A1F58FA4A0099BA53 /* timeStateCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6881F58FA4A0099BA53 /* timeStateCVCell.m */; };
+		A141D68F1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D68C1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.m */; };
+		A141D6901F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D68E1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m */; };
+		A141D6971F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6941F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m */; };
+		A141D6981F58FFD20099BA53 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */; };
+		A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */; };
+		A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */; };
 		A173D4561F4FFDF000FBC582 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = A173D4551F4FFDF000FBC582 /* china.plist */; };
 		A191AD891F4E84C90063B9A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A191AD881F4E84C90063B9A7 /* Images.xcassets */; };
 		A191AD8E1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A191AD8B1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m */; };
@@ -159,6 +171,10 @@
 		A1AB9EF91F4C31860056AB9D /* DateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AB9EF81F4C31860056AB9D /* DateButton.m */; };
 		A1AB9EFD1F4C330E0056AB9D /* ComplainMeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AB9EFB1F4C330E0056AB9D /* ComplainMeCell.m */; };
 		A1AB9EFE1F4C330E0056AB9D /* ComplainMeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AB9EFC1F4C330E0056AB9D /* ComplainMeCell.xib */; };
+		A1CE07C11F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CE07BE1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.m */; };
+		A1CE07C21F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CE07C01F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m */; };
+		A1CE07C61F6BA60E001CB804 /* SetAddrTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CE07C41F6BA60E001CB804 /* SetAddrTVCell.m */; };
+		A1CE07C71F6BA60E001CB804 /* SetAddrTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1CE07C51F6BA60E001CB804 /* SetAddrTVCell.xib */; };
 		A1F28E6D1F4E733E00442CAF /* UserDataSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */; };
 		A1F28E6F1F4E737A00442CAF /* UserLogInData.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */; };
 		DED36E82F8A57F090582B70D /* libPods-cheZhiLianCoach.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A5C879B46D53273282919B /* libPods-cheZhiLianCoach.a */; };
@@ -185,6 +201,31 @@
 		27A5C879B46D53273282919B /* libPods-cheZhiLianCoach.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cheZhiLianCoach.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A92F4EEE068BD3C96D3454A /* Pods-cheZhiLianCoach.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.debug.xcconfig"; sourceTree = "<group>"; };
 		58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.release.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.release.xcconfig"; sourceTree = "<group>"; };
+		A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachAuditStatusModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachAuditStatusModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A141D67F1F5810130099BA53 /* MyStudentListModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyStudentListModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyStudentListModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A141D6811F5810130099BA53 /* MyStudentListModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyStudentListModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A141D6821F5810130099BA53 /* MyStudentListModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyStudentListModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A141D6851F58FA4A0099BA53 /* TimeChooseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeChooseTableViewCell.h; sourceTree = "<group>"; };
+		A141D6861F58FA4A0099BA53 /* TimeChooseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeChooseTableViewCell.m; sourceTree = "<group>"; };
+		A141D6871F58FA4A0099BA53 /* timeStateCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeStateCVCell.h; sourceTree = "<group>"; };
+		A141D6881F58FA4A0099BA53 /* timeStateCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = timeStateCVCell.m; sourceTree = "<group>"; };
+		A141D68B1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachTimeListModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A141D68C1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachTimeListModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A141D68D1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachTimeListModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A141D68E1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachTimeListModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A141D6921F58FFD20099BA53 /* SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAutoLayout.h; sourceTree = "<group>"; };
+		A141D6931F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
+		A141D6941F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
+		A141D6951F58FFD20099BA53 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
+		A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
+		A1498F181F624334007A1B28 /* MyOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A173D4551F4FFDF000FBC582 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
 		A191AD881F4E84C90063B9A7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A191AD8A1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserDataModel+CoreDataClass.h"; sourceTree = "<group>"; };
@@ -432,6 +473,13 @@
 		A1AB9EFA1F4C330E0056AB9D /* ComplainMeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComplainMeCell.h; sourceTree = "<group>"; };
 		A1AB9EFB1F4C330E0056AB9D /* ComplainMeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComplainMeCell.m; sourceTree = "<group>"; };
 		A1AB9EFC1F4C330E0056AB9D /* ComplainMeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComplainMeCell.xib; sourceTree = "<group>"; };
+		A1CE07BD1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachDriverAddreModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A1CE07BE1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachDriverAddreModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A1CE07BF1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachDriverAddreModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A1CE07C01F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachDriverAddreModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A1CE07C31F6BA60E001CB804 /* SetAddrTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetAddrTVCell.h; sourceTree = "<group>"; };
+		A1CE07C41F6BA60E001CB804 /* SetAddrTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetAddrTVCell.m; sourceTree = "<group>"; };
+		A1CE07C51F6BA60E001CB804 /* SetAddrTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetAddrTVCell.xib; sourceTree = "<group>"; };
 		A1F28E6B1F4E733E00442CAF /* UserDataSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataSingleton.h; sourceTree = "<group>"; };
 		A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataSingleton.m; sourceTree = "<group>"; };
 		A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UserLogInData.plist; sourceTree = "<group>"; };
@@ -478,6 +526,18 @@
 				58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		A141D6911F58FFD20099BA53 /* SDAutoLayout */ = {
+			isa = PBXGroup;
+			children = (
+				A141D6921F58FFD20099BA53 /* SDAutoLayout.h */,
+				A141D6931F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.h */,
+				A141D6941F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m */,
+				A141D6951F58FFD20099BA53 /* UIView+SDAutoLayout.h */,
+				A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */,
+			);
+			path = SDAutoLayout;
 			sourceTree = "<group>";
 		};
 		A19BA5BA1F4BC4B100CC4A3E = {
@@ -685,6 +745,10 @@
 		A1AB9D391F4C0F4B0056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A1498F181F624334007A1B28 /* MyOrderModel+CoreDataClass.h */,
+				A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */,
+				A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */,
+				A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -755,12 +819,12 @@
 		A1AB9D411F4C0F4B0056AB9D /* C */ = {
 			isa = PBXGroup;
 			children = (
-				A1AB9D841F4C16B10056AB9D /* ScheduleSettingViewController.h */,
-				A1AB9D851F4C16B10056AB9D /* ScheduleSettingViewController.m */,
-				A1AB9D861F4C16B10056AB9D /* ScheduleSettingViewController.xib */,
 				A1AB9D871F4C16B10056AB9D /* ScheduleViewController.h */,
 				A1AB9D881F4C16B10056AB9D /* ScheduleViewController.m */,
 				A1AB9D891F4C16B10056AB9D /* ScheduleViewController.xib */,
+				A1AB9D841F4C16B10056AB9D /* ScheduleSettingViewController.h */,
+				A1AB9D851F4C16B10056AB9D /* ScheduleSettingViewController.m */,
+				A1AB9D861F4C16B10056AB9D /* ScheduleSettingViewController.xib */,
 			);
 			path = C;
 			sourceTree = "<group>";
@@ -768,6 +832,10 @@
 		A1AB9D421F4C0F4B0056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A141D68B1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.h */,
+				A141D68C1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.m */,
+				A141D68D1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.h */,
+				A141D68E1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -775,6 +843,10 @@
 		A1AB9D431F4C0F4B0056AB9D /* V */ = {
 			isa = PBXGroup;
 			children = (
+				A141D6851F58FA4A0099BA53 /* TimeChooseTableViewCell.h */,
+				A141D6861F58FA4A0099BA53 /* TimeChooseTableViewCell.m */,
+				A141D6871F58FA4A0099BA53 /* timeStateCVCell.h */,
+				A141D6881F58FA4A0099BA53 /* timeStateCVCell.m */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -822,10 +894,10 @@
 				A1AB9E761F4C1DE60056AB9D /* CustomTabBar.xib */,
 				A1AB9D4D1F4C113B0056AB9D /* AppDelegate.h */,
 				A1AB9D4E1F4C113B0056AB9D /* AppDelegate.m */,
-				A1AB9D4F1F4C113B0056AB9D /* cheZhiLianCoach.pch */,
 				A1F28E6B1F4E733E00442CAF /* UserDataSingleton.h */,
 				A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */,
 				A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */,
+				A1AB9D4F1F4C113B0056AB9D /* cheZhiLianCoach.pch */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -950,6 +1022,10 @@
 		A1AB9D991F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A1CE07BD1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.h */,
+				A1CE07BE1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.m */,
+				A1CE07BF1F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.h */,
+				A1CE07C01F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -957,6 +1033,9 @@
 		A1AB9D9A1F4C18110056AB9D /* V */ = {
 			isa = PBXGroup;
 			children = (
+				A1CE07C31F6BA60E001CB804 /* SetAddrTVCell.h */,
+				A1CE07C41F6BA60E001CB804 /* SetAddrTVCell.m */,
+				A1CE07C51F6BA60E001CB804 /* SetAddrTVCell.xib */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -1128,6 +1207,10 @@
 		A1AB9DA91F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */,
+				A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */,
+				A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */,
+				A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1208,6 +1291,10 @@
 		A1AB9DB11F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A141D67F1F5810130099BA53 /* MyStudentListModel+CoreDataClass.h */,
+				A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */,
+				A141D6811F5810130099BA53 /* MyStudentListModel+CoreDataProperties.h */,
+				A141D6821F5810130099BA53 /* MyStudentListModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1302,6 +1389,7 @@
 		A1AB9E7F1F4C202B0056AB9D /* CustomControls */ = {
 			isa = PBXGroup;
 			children = (
+				A141D6911F58FFD20099BA53 /* SDAutoLayout */,
 				A1AB9EE01F4C29CA0056AB9D /* UIPlaceHolderTextView.h */,
 				A1AB9EE11F4C29CA0056AB9D /* UIPlaceHolderTextView.m */,
 				A1AB9EDD1F4C297F0056AB9D /* DSButton.h */,
@@ -1570,6 +1658,7 @@
 				A1AB9DF11F4C1A6B0056AB9D /* MyEvaluationViewController.xib in Resources */,
 				A1AB9E371F4C1C210056AB9D /* SetTeachViewController.xib in Resources */,
 				A1AB9D6F1F4C15F00056AB9D /* TaskListTableViewCell.xib in Resources */,
+				A1CE07C71F6BA60E001CB804 /* SetAddrTVCell.xib in Resources */,
 				A1AB9DBE1F4C182F0056AB9D /* SearchAddrViewController.xib in Resources */,
 				A1AB9E2E1F4C1BF10056AB9D /* MyDetailInfoViewController.xib in Resources */,
 				A1AB9E001F4C1B290056AB9D /* MyInfoViewController.xib in Resources */,
@@ -1686,10 +1775,12 @@
 				A1AB9DD51F4C185D0056AB9D /* FeedBackViewController.m in Sources */,
 				A191AD8F1F4EC6180063B9A7 /* UserDataModel+CoreDataProperties.m in Sources */,
 				A1AB9E431F4C1C470056AB9D /* CouponNavigateViewController.m in Sources */,
+				A12A9B711F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m in Sources */,
 				A1AB9E961F4C235E0056AB9D /* DatePickerViewController.m in Sources */,
 				A1AB9D8A1F4C16B10056AB9D /* ScheduleSettingViewController.m in Sources */,
 				A1AB9EEF1F4C2A090056AB9D /* DSBottomPullToMoreManager.m in Sources */,
 				A1AB9EB71F4C26C00056AB9D /* XBProvince.m in Sources */,
+				A141D6971F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				A1AB9D501F4C113B0056AB9D /* AppDelegate.m in Sources */,
 				A1AB9E7D1F4C1E760056AB9D /* BaseViewController.m in Sources */,
 				A1AB9EAD1F4C24560056AB9D /* CPTextViewPlaceholder.m in Sources */,
@@ -1699,19 +1790,23 @@
 				A1AB9ED61F4C27CB0056AB9D /* CZCroppingScrollView.m in Sources */,
 				A1AB9D911F4C16D70056AB9D /* MyViewController.m in Sources */,
 				A1AB9EA71F4C23E20056AB9D /* TPKeyboardAvoidingScrollView.m in Sources */,
+				A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */,
 				A1AB9E0E1F4C1B5F0056AB9D /* SchoolSelectTableViewCell.m in Sources */,
 				A1AB9EDF1F4C297F0056AB9D /* DSButton.m in Sources */,
 				A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */,
 				A1AB9D6E1F4C15F00056AB9D /* TaskListTableViewCell.m in Sources */,
 				A1AB9EC41F4C27200056AB9D /* TQStarRatingView.m in Sources */,
 				A1AB9DFF1F4C1B290056AB9D /* MyInfoViewController.m in Sources */,
+				A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */,
 				A1AB9EF61F4C2CFE0056AB9D /* MainViewController.m in Sources */,
 				A1AB9EE21F4C29CA0056AB9D /* UIPlaceHolderTextView.m in Sources */,
 				A1AB9D731F4C16160056AB9D /* TaskListViewController.m in Sources */,
 				A1AB9ED71F4C27CB0056AB9D /* CZCropPreviewOverlayView.m in Sources */,
+				A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */,
 				A1AB9DBF1F4C182F0056AB9D /* SetAddrViewController.m in Sources */,
 				A1AB9E541F4C1C8D0056AB9D /* CoinRecordListTableViewCell.m in Sources */,
 				A1AB9DD11F4C185D0056AB9D /* AboutUsViewController.m in Sources */,
+				A1CE07C61F6BA60E001CB804 /* SetAddrTVCell.m in Sources */,
 				A1AB9D641F4C15BF0056AB9D /* RecommendCodeViewController.m in Sources */,
 				A1AB9D621F4C15BF0056AB9D /* LoginViewController.m in Sources */,
 				A1AB9E8D1F4C216C0056AB9D /* CommonUtil+Date.m in Sources */,
@@ -1724,6 +1819,8 @@
 				A1AB9EF31F4C2A090056AB9D /* DSPullToRefreshView.m in Sources */,
 				A1AB9E8E1F4C216C0056AB9D /* UIView+Frame.m in Sources */,
 				A1AB9DE91F4C1A4F0056AB9D /* EvaluationMeCell.m in Sources */,
+				A141D68F1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataClass.m in Sources */,
+				A141D6891F58FA4A0099BA53 /* TimeChooseTableViewCell.m in Sources */,
 				A1AB9DF01F4C1A6B0056AB9D /* MyEvaluationViewController.m in Sources */,
 				A1AB9D6C1F4C15F00056AB9D /* HistoryTableViewCell.m in Sources */,
 				A1AB9E721F4C1D9A0056AB9D /* PurseNavigationViewController.m in Sources */,
@@ -1733,8 +1830,10 @@
 				A1AB9E3B1F4C1C3B0056AB9D /* MyTicketDetailTableViewCell.m in Sources */,
 				A19BA5C81F4BC4B100CC4A3E /* main.m in Sources */,
 				A1AB9EDA1F4C27CB0056AB9D /* CZPhotoPreviewViewController.m in Sources */,
+				A141D6901F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m in Sources */,
 				A1AB9E8C1F4C216C0056AB9D /* CommonUtil.m in Sources */,
 				A1AB9DBD1F4C182F0056AB9D /* SearchAddrViewController.m in Sources */,
+				A141D6841F5810140099BA53 /* MyStudentListModel+CoreDataProperties.m in Sources */,
 				A1AB9E7E1F4C1E760056AB9D /* GreyTopViewController.m in Sources */,
 				A1AB9E5E1F4C1C9A0056AB9D /* ConvertCoinViewController.m in Sources */,
 				A1AB9E9B1F4C239A0056AB9D /* LocationViewController.m in Sources */,
@@ -1747,17 +1846,22 @@
 				A1AB9E5C1F4C1C9A0056AB9D /* CoinRecordListViewController.m in Sources */,
 				A1AB9DD31F4C185D0056AB9D /* CoachRuleViewController.m in Sources */,
 				A1AB9E451F4C1C470056AB9D /* MyTicketDetailViewController.m in Sources */,
+				A12A9B701F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m in Sources */,
 				A1AB9EA91F4C23E20056AB9D /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				A1F28E6D1F4E733E00442CAF /* UserDataSingleton.m in Sources */,
 				A1AB9EB61F4C26C00056AB9D /* XBCity.m in Sources */,
 				A1AB9EF01F4C2A090056AB9D /* DSBottomPullToMoreView.m in Sources */,
 				A1AB9ED91F4C27CB0056AB9D /* CZPhotoPickerPermissionAlert.m in Sources */,
+				A141D6981F58FFD20099BA53 /* UIView+SDAutoLayout.m in Sources */,
 				A1AB9E251F4C1BF10056AB9D /* CarModelViewController.m in Sources */,
 				A1AB9E8F1F4C216C0056AB9D /* UIViewController+Toast.m in Sources */,
 				A1AB9E4A1F4C1C660056AB9D /* MyStudentTableViewCell.m in Sources */,
 				A1AB9E311F4C1BF10056AB9D /* UserInfoViewController.m in Sources */,
 				A1AB9E631F4C1D850056AB9D /* AmountTableViewCell.m in Sources */,
 				A1AB9DD71F4C185D0056AB9D /* SetViewController.m in Sources */,
+				A1CE07C21F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m in Sources */,
+				A141D68A1F58FA4A0099BA53 /* timeStateCVCell.m in Sources */,
+				A1CE07C11F6B797C001CB804 /* CoachDriverAddreModel+CoreDataClass.m in Sources */,
 				A191AD8E1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m in Sources */,
 				A1AB9E091F4C1B4B0056AB9D /* MyInfoTextViewCell.m in Sources */,
 				A1AB9DF51F4C1A8E0056AB9D /* MyMessageCell.m in Sources */,

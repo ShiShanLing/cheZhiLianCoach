@@ -109,9 +109,6 @@
 
 @implementation MyInfoViewController
 
-//self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
-//self.userLogo.layer.masksToBounds = YES;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cells = [NSMutableArray array];
@@ -132,33 +129,7 @@
     self.nameButton.tag = 1;
     self.trainTimeButton.tag = 2;
     self.selfEvaluationButton.tag = 3;
-    //显示,时长和评分
-//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-//    NSString *score = [userInfo[@"score"] description];//教练综合评分
-//    TQStarRatingView *ratingView = [[TQStarRatingView alloc] initWithFrame:self.starView.bounds numberOfStar:5];
-//    ratingView.couldClick = NO;//不可点击
-//    ratingView.isFill = NO;
-//    [ratingView changeStarForegroundViewWithPoint:CGPointMake([score doubleValue]/5*CGRectGetWidth(self.starView.frame), 0)];//设置星级
-//    [self.starView addSubview:ratingView];
-////    self.commitBtn.hidden = YES;
-//    self.scoreLabel.text = [NSString stringWithFormat:@"综合评分%@分", score];//综合评分
-//    
-//    //培训时长
-//    NSString *totalTime = [userInfo[@"totaltime"] description];
-//    totalTime = [CommonUtil isEmpty:totalTime]?@"0":totalTime;
-//    self.timeLabel.text = [NSString stringWithFormat:@"累计培训学时 %@小时", totalTime];
-//    //当时长为0时不显示该label
-//    if ([totalTime isEqualToString:@"0"]) {
-//        self.timeLabel.hidden = YES;
-//    }else{
-//        self.timeLabel.hidden = NO;
-//    }
-    
-    // 点击背景退出键盘
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
-    [tapGestureRecognizer setCancelsTouchesInView:NO];
+
     
     [self registerForKeyboardNotifications];
     
@@ -230,8 +201,6 @@
     }else{
         self.birthdayChange = @"0";
     }
-    
-    
     NSString *years = [userInfo[@"years"] description];
     if (years.length == 0) {
         self.trainTimeLabel.text = @"请选择";
@@ -271,24 +240,10 @@
     }
     imageView.image = [CommonUtil maskImage:imageView.image withMask:[UIImage imageNamed:@"shape.png"]];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)backupgroupTap:(id)sender{
-//    [self.pwdField resignFirstResponder];
-    
-    for (int i =0; i < _titles.count; i++) {
-        MyInfoCell *cell = _cells[i];
-        [cell.contentField resignFirstResponder];
-        
-    }
-}
-
-
-
 #pragma mark - 键盘遮挡输入框处理
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
@@ -462,24 +417,17 @@
 
 #pragma mark - PickerVIew
 // 行高
-- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
-
-{
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
     return 45.0;
 }
-
 // 组数
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
-
 // 每组行数
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return self.selectArray.count;
 }
-
 // 数据
 - (void)initSexData {
     self.pickerView.tag = 1;
@@ -558,28 +506,9 @@
     MyDetailInfoViewController *targetViewController = [[MyDetailInfoViewController alloc] initWithNibName:@"MyDetailInfoViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
-
-// 开启驾校选择器
-- (void)clickForSelectSchool:(UIButton *)sender {
-    [self backupgroupTap:nil];
-    //long index = sender.tag - 299;
-    self.pickerView.tag = 0;
-    [self getCarSchool]; // 获取所有驾校
-    
-}
-
-// 开启选择器
-- (void)clickForSelect:(UIButton *)sender {
-    [self backupgroupTap:nil];
-    long index = sender.tag - 300;
-    // 选择性别
-    if (index == 1) {
-        [self selectSex:index];
-    }
-}
-
 // 性别
 - (IBAction)selectSex:(long)index {
+    
     if ([self.sexLabel.text isEqualToString:@"请选择"]) {
         [self.pickerView selectRow:0 inComponent:0 animated:YES];
         selectRow = 0;
@@ -646,31 +575,15 @@
 
 // 完成性别选择
 - (IBAction)clickForSexDone:(id)sender {
-    NSInteger row = [self.pickerView selectedRowInComponent:0];
-    if(self.pickerView.tag == 1){
-       self.sexLabel.text = self.selectArray[row];
-        NSString *text;
-        if ([@"男" isEqualToString:self.sexLabel.text]) {
-            text = @"1";
-        }else if ([@"女" isEqualToString:self.sexLabel.text]){
-            text = @"2";
-        }
-        [self updateUserData:@"gender" and:text];
-        if (![CommonUtil isEmpty:text]) {
-            [self.msgDic setObject:text forKey:@"gender"];
-        }
-    }
-    [self.selectView removeFromSuperview];
+  
+       [self makeToast:@"功能未开通"];
 }
 
 //提交
 - (IBAction)clickForCommit:(id)sender {
     MyInfoCell *cell = _cells[1];
     NSString *str1 = cell.contentField.text;
-    if([CommonUtil isEmpty:str1]){
-        [self makeToast:@"必须选择性别"];
-        return;
-    }
+   [self makeToast:@"功能未开通"];
 //    [self updateUserData];
 }
 
@@ -683,16 +596,11 @@
 
 //提交个人资料
 - (void)updateUserData:(NSString *)key and:(id)value{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *coachId = userInfo[@"coachid"];
-    
-   
-    [DejalBezelActivityView activityViewForView:self.view];
+       [self makeToast:@"功能未开通"];
 }
 
 //提交个人资料
 - (void)updateUserDirthday{
-    
     [self makeToast:@"功能未开通"];
 }
 
@@ -726,25 +634,7 @@
 }
 
 - (IBAction)clickForCamera:(id)sender {
-    NSInteger tag = ((UIButton*)sender).tag;
-    self.pickPhotoController = [self photoController];
-    
-    if(tag == 1){
-        if ([CZPhotoPickerController canTakePhoto]) {
-            //拍照
-
-            self.pickPhotoController.allowsEditing = YES;
-            [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
-        } else {
-            //相册
-            self.pickPhotoController.allowsEditing = YES;
-            [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-        }
-    }else{
-        //相册
-        self.pickPhotoController.allowsEditing = YES;
-        [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    }
+       [self makeToast:@"功能未开通"];
     
 }
 

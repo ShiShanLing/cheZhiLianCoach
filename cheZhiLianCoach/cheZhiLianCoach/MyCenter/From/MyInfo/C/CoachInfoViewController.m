@@ -121,6 +121,9 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *idCardLabel;
 @property (strong, nonatomic) IBOutlet UILabel *idCardBackLabel;
+/**
+ *这个不要动
+ */
 @property (strong, nonatomic) IBOutlet UILabel *coachCardLabel;
 @property (strong, nonatomic) IBOutlet UILabel *coachCarCardLabel;
 @property (strong, nonatomic) IBOutlet UILabel *carCheckLabel;
@@ -201,19 +204,32 @@
 
 @end
 
-@implementation CoachInfoViewController
+@implementation CoachInfoViewController {
+    
 
+
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self RequestCoachCurrentState];
     self.coachCardImageView.tag = 201;
     self.coachCarCardImageView.tag = 202;
     self.carCheckImageView.tag = 203;
     self.carCheckBackImageView.tag = 204;
     
     [self.mainScrollView contentSizeToFit];
-    [self getCoachDetail];
+//[self getCoachDetail];
 //    [self getCarMode];
     // _mainViewHeight.constant = 1360;
+    self.userState = 0;
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     self.userState = [userInfo[@"state"] description];
     self.warmingLabel.text = @"正在查询您的审核状态...";
@@ -265,25 +281,99 @@
 }
 
 - (void) RequestCoachCurrentState{
+    //http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/detail?coachId=
     
-    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findCoachDetail", kURL_SHY];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-    URL_Dic[@"memberId"] = [UserDataSingleton mainSingleton].memberId;
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    __weak CoachInfoViewController *VC = self;
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"uploadProgress%@", uploadProgress);
+        
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"0"]) {
+            [VC makeToast:responseObject[@"msg"]];
+        }else {
+            [VC ParsingCoachData:responseObject];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error%@", error);
     }];
-
-    
-    //coach/api/findCoachDetail?memberId=6a98c19036e8444ca7163db2ddc648a2
-    
-
 }
 
+- (void)ParsingCoachData:(NSDictionary *)dataDic {
+    
+    if (![dataDic[@"data"] isKindOfClass:[NSArray class]]) {
+        [self makeToast:@"资料获取失败"];
+        return;
+    }
+    NSArray *coachArray =  dataDic[@"data"];
+  
+    if (coachArray.count == 0) {
+          [self makeToast:@"资料获取失败"];
+        return;
+    }
+    NSDictionary *coachDataDic =coachArray[0];
+    
+    NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachAuditStatusModel" inManagedObjectContext:self.managedContext];
+    //根据描述 创建实体对象
+    CoachAuditStatusModel *model = [[CoachAuditStatusModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+    for (NSString *key in coachDataDic) {
+        NSLog(@"key%@", key);
+        if ([key isEqualToString:@"state"]) {
+            [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", coachDataDic[key]];
+        }
+        if ([key isEqualToString:@"coachId"]) {
+            [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", coachDataDic[key]];
+        }
+
+        if ([key isEqualToString:@"realName"]) {
+            [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", coachDataDic[key]];
+            
+        }
+        [model setValue:coachDataDic[key] forKey:key];
+        
+        
+    }
+    [UserDataSingleton mainSingleton].approvalState = [NSString stringWithFormat:@"%d", model.state];
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" "];
+    self.cityNameLabel.text = [model.address  stringByTrimmingCharactersInSet:set];
+    self.schoolTextFiled.text = model.phone;
+    self.coachCarLabel.text = @"C1";
+    self.coachNameLabel.text = model.realName;
+    [self.coachCardImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardFront] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.coachCarCardImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardBack] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.coachCertificate] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckBackImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.driveCertificate] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
+    int state = model.state;
+    self.userState = [NSString stringWithFormat:@"%hd", model.state];
+    [UserDataSingleton mainSingleton].approvalState = [NSString stringWithFormat:@"%hd", model.state];
+    switch (state) {
+        case 0:
+            self.warmingLabel.text = @"您还未提交申请...";
+             self.commitBtn.hidden = NO;
+            break;
+        case 1:
+            self.warmingLabel.text = @"正在等待审核..";
+             self.commitBtn.hidden = YES;
+            break;
+        case 2:
+            self.warmingLabel.text = @"申请已经通过";
+             self.commitBtn.hidden = YES;
+            break;
+        case 3:
+            self.warmingLabel.text = @"申请已经拒绝";
+             self.commitBtn.hidden = YES;
+            break;
+        default:
+            break;
+    }
+    NSLog(@"ParsingCoachData%@", model);
+
+}
 // 跳过
 - (void)ignoreClick {
     //    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeSelfView" object:nil];
@@ -303,21 +393,10 @@
     [self.carCheckMadeTimeField resignFirstResponder];
     [self.teachCarCardField resignFirstResponder];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-  
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-  
-}
-
 #pragma mark - 加载驾照信息
 - (void)updateUserMsg{
        
 }
-
 #pragma mark - 加载数据
 // 加载测试数据
 - (void)loadTestInfo {
@@ -568,7 +647,7 @@
         [self makeToast:@"联系方式不能为空"];
         return;
     }
-    if (self.coachCardLabel.text.length == 0) {
+    if (self.coachCarLabel.text.length == 0) {
         [self makeToast:@"请选择车型"];
         return;
     }
@@ -592,13 +671,15 @@
         [self  mutableSetValueForKey:@"请提交车辆驾驶证"];
         return;
     }
+    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/apply", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-    URL_Dic[@"memberId"] = [UserDataSingleton mainSingleton].memberId;
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"carTypeName"] = @"C1";
+    URL_Dic[@"carTypeId"] = @"1";
     URL_Dic[@"address"] = self.cityNameLabel.text;
     URL_Dic[@"phone"] = self.schoolTextFiled.text;
     URL_Dic[@"realName"] = self.coachNameLabel.text;
-    URL_Dic[@"carType"] = @"0";
     URL_Dic[@"idCardFront"] = self.idCardPath;
     URL_Dic[@"idCardBack"] = self.idCardBackPath;
     URL_Dic[@"coachCertificate"] = self.carCheckPath;
@@ -617,7 +698,7 @@
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
             [VC makeToast:responseObject[@"msg"]];
-
+            [UserDataSingleton mainSingleton].approvalState = @"1";
             [VC.navigationController popViewControllerAnimated:YES ];
         }else {
             [VC makeToast:responseObject[@"msg"]];
@@ -645,7 +726,6 @@
             self.C1Button.selected = YES;
         }
     }
-    
 }
 
 - (IBAction)clickForC2:(id)sender {
@@ -683,7 +763,6 @@
     }
     
 }
-
 // 监听弹话框点击事件
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 1)
@@ -773,7 +852,6 @@
 - (IBAction)clickForCancelSelect:(id)sender {
     [self.selectView removeFromSuperview];
 }
-
 // 重新进行选择车型
 - (IBAction)clickagainCarModelDone:(id)sender {
     //    [_myCarModelArray removeAllObjects];
@@ -787,7 +865,6 @@
     //    _mainViewHeight.constant = 1485;
     //    [self.selectView removeFromSuperview];
 }
-
 // 完成准教车型选择
 - (IBAction)clickForCarModelDone:(id)sender {
     
@@ -838,7 +915,6 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 // 拍证件照片
 - (IBAction)clickForPhoto:(UIButton *)sender {
     
@@ -960,7 +1036,6 @@
 #pragma mark - 弹框方法
 //弹框
 - (IBAction)clickForAlert:(id)sender {
-
     if (self.userState.intValue == 2) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];

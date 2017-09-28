@@ -35,6 +35,13 @@
 
 @implementation MyStudentViewController
 
+- (NSMutableArray *)studentList {
+    if (!_studentList) {
+        _studentList = [NSMutableArray array];
+    }
+    return _studentList;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.studentTableView.delegate = self;
@@ -44,23 +51,25 @@
     self.studentList = [NSMutableArray array];
     //刷新加载
     self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.studentTableView withClient:self];
+    
     //隐藏加载更多
    // self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.studentTableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     isRefresh = YES;
-//    if ([[CommonUtil currentUtil] isLogin:NO]){
-//       // [self refreshData];
-//    }
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        return;
+    }
+    [self refreshData];
     
 }
 
 - (void)refreshData{
+    
     if(isRefresh){
         [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
         [self.studentTableView setContentOffset:CGPointMake(0, -60) animated:YES];
@@ -71,28 +80,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-
 #pragma mark tableViewCell
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return kDataNum;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.studentList.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  
-    if ([_openStudentID isEqualToString:@"0"]) {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+      if ([_openStudentID isEqualToString:@"0"]) {
         //打开
         return 303;
     }else{
@@ -101,8 +95,7 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellident = @"MyStudentTableViewCell";
     MyStudentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellident];
     if (!cell) {
@@ -111,31 +104,27 @@
     }
     
     //获取数据
-    
+    MyStudentListModel *model = self.studentList[indexPath.row];
     NSString *avatar = @"";
-    NSString *coachstate = @"1";
-    NSString *learnmytime = @"2017-07-28";
-    NSString *learntime = @"6";
-    NSString *money = @"3999";
-    NSString *realname = @"石某某";
-    NSString *studentid = @"123456";
-    NSString *phone = @"123456";
+    NSString *coachstate = [NSString stringWithFormat:@"%d", model.state];
+    NSString *learnmytime = @"23";
+    NSString *learntime = @"30";
+    NSString *money = @"5299";
+    NSString *realname = model.realName;
+    NSString *studentid = @"0";
+    NSString *phone = model.phone;
     NSString *student_cardnum = @"11";
-    
     //头像
-    NSString *logo = [CommonUtil isEmpty:avatar]?@"":avatar;
-    
-    
+    NSString *logo = [CommonUtil isEmpty:avatar]?model.avatarUrl:avatar;
     if ([coachstate intValue] == 1) {
         //已认证
         cell.detailImageView.image = [UIImage imageNamed:@"logo_default"];
         //[cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
         
     }else{
-        cell.logoImageView.image = [UIImage imageNamed:@"logo_default_nopass"];
-        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
+        [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];
+        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
     }
-    
     if(![CommonUtil isEmpty:realname]){
         cell.timeLabel.text = realname;
     }else{
@@ -143,11 +132,11 @@
     }
     
     if([CommonUtil isEmpty:learnmytime]){
-        learnmytime = @"0";
+        
     }
     
     if([CommonUtil isEmpty:learntime]){
-        learntime = @"0";
+        
     }
     
     cell.addressLabel.text = [NSString stringWithFormat:@"历史学时:%d/%d",[learnmytime intValue],[learntime intValue]];
@@ -184,18 +173,11 @@
     }else{
         [self hideDetailsCell:cell];
     }
-    
-    
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    
-    
-    
-    if ([_openStudentID isEqualToString:@"1"]) {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+     if ([_openStudentID isEqualToString:@"1"]) {
         _openStudentID = @"0";
     }else{
         self.openStudentID = @"1";
@@ -214,10 +196,8 @@
     }
     
 }
-
 // details收起
-- (void)hideDetailsCell:(MyStudentTableViewCell *)cell
-{
+- (void)hideDetailsCell:(MyStudentTableViewCell *)cell{
     cell.studentDetailsView.hidden = YES;
     cell.jiantouImageView.image = [UIImage imageNamed:@"icon_button_right"];
     cell.iconTop.constant = 32;
@@ -225,10 +205,8 @@
     cell.iconWidth.constant = 9;
     cell.iconHeight.constant = 15;
 }
-
 // details展开
-- (void)showDetailsCell:(MyStudentTableViewCell *)cell
-{
+- (void)showDetailsCell:(MyStudentTableViewCell *)cell{
     cell.studentDetailsView.hidden = NO;
     cell.jiantouImageView.image = [UIImage imageNamed:@"icon_button_down"];
     cell.iconTop.constant = 35;
@@ -236,8 +214,6 @@
     cell.iconWidth.constant = 14;
     cell.iconHeight.constant = 9;
 }
-
-
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_pullToRefresh tableViewScrolled];
@@ -254,14 +230,12 @@
     [_pullToRefresh tableViewReleased];
     [_pullToMore tableViewReleased];
 }
-
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
     pageNum = 0;
     [self.studentList removeAllObjects];
     [self getStudentList];
 }
-
 /* 加载更多 */
 - (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
     [self getStudentList];
@@ -281,8 +255,49 @@
 }
 
 - (void) getStudentList{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-   }
+    //MyStudentListModel
+    //http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/findStudents?coachId=88922b469930498a89ee444e6e25f757
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findStudents", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    __weak  MyStudentViewController *VC = self;
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr= [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [VC.studentTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [VC.pullToRefresh tableViewReloadFinished:[NSDate date] Animated:YES];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC  ParsingStudentData:responseObject];
+        }else {
+            [VC makeToast:responseObject[@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+}
+
+- (void)ParsingStudentData:(NSDictionary *)dataDic {
+    NSArray *studentArray = dataDic[@"data"];
+    for (NSDictionary *studentDic in studentArray) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"MyStudentListModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        MyStudentListModel *model = [[MyStudentListModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        NSLog(@"studentDic%@", studentDic);
+        for (NSString *key in studentDic) {
+            
+            [model setValue:studentDic[key] forKey:key];
+            
+        }
+        [self.studentList addObject:model];
+    }
+    
+    [self.studentTableView reloadData];
+    NSLog(@"self.studentList%@", self.studentList);
+    
+}
 
 - (void) backLogin{
     if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){

@@ -99,7 +99,7 @@
             str = [NSString stringWithFormat:@"(课程总额%.0f元", [amount floatValue] + [amount_out1 floatValue] + [amount_out2 floatValue]];
             
             if (![CommonUtil isEmpty:amount_out1] && [amount_out1 doubleValue] > 0) {
-                str = [NSString stringWithFormat:@"%@，其中%@元小巴平台抽成", str, amount_out1];
+                str = [NSString stringWithFormat:@"%@，其中%@元车智联平台抽成", str, amount_out1];
             }
             
             if (![CommonUtil isEmpty:amount_out2] && [amount_out2 doubleValue] > 0) {

@@ -43,6 +43,8 @@
 @dynamic referralCode;
 @dynamic userType;
 @dynamic state;
+@dynamic coachId;
+@dynamic approvalState;
 -(void)setValue:(id)value forKey:(NSString *)key {
     if ([key isEqualToString:@"createTime"]) {
       //  int 转 nsstring 再转 nsdate

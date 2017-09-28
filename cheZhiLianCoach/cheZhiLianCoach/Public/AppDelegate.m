@@ -20,7 +20,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
     [self AnalysisUserData];
     return YES;
 }
@@ -39,66 +39,66 @@
     
     if (keyArray.count == 0) {
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        
         UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.window.rootViewController = navi;
         [navi setNavigationBarHidden:YES];
         [self.window makeKeyAndVisible];
-    }else {
-        
-        NSString *URL_Str = [NSString stringWithFormat:@"%@/member/api/memberDetail", kURL_SHY];
-        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-        URL_Dic[@"memberId"] =userData[@"memberId"];
-        NSLog(@"AppDelegate里面获取用户详情 URL_Dic%@", URL_Dic);
-        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-        [session.requestSerializer setTimeoutInterval:5];
-        __block AppDelegate *VC = self;
-        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
-            NSLog(@"uploadProgress%@", uploadProgress);
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"responseObject%@", responseObject);
-            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
-            if ([resultStr isEqualToString:@"0"]) {
-                
-            }else {
-                [VC AnalyticalData:responseObject];
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            [VC jumpToMainViewController];
-            NSLog(@"用户详情获取error%@", error);
-        }];
+        return;
     }
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = userData[@"coachId"];
+    NSLog(@"AppDelegate里面获取用户详情 URL_Dic%@", URL_Dic);
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session.requestSerializer setTimeoutInterval:5];
+    __block AppDelegate *VC = self;
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"0"]) {
+            LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+            UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:viewController];
+            VC.window.rootViewController = navi;
+            [navi setNavigationBarHidden:YES];
+            [VC.window makeKeyAndVisible];
+        }else {
+            [VC AnalyticalData:responseObject];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [VC jumpToMainViewController];
+        NSLog(@"用户详情获取error%@", error);
+    }];
 }
+
 //解析的登录过后的数据
 - (void)AnalyticalData:(NSDictionary *)dic {
     NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
     
     if ([state isEqualToString:@"1"]) {
-         NSDictionary *tempDic = dic[@"data"][0];
-        NSDictionary *urseDataDic = tempDic[@"member"];
+        NSDictionary *tempDic = dic[@"data"][0];
+        NSDictionary *urseDataDic = tempDic[@"coach"];
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
         
         NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-       
+        
         [userData removeAllObjects];
         for (NSString *key in urseDataDic) {
-            if ([key isEqualToString:@"subState"]) {
-                [UserDataSingleton mainSingleton].subState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
-            }
-            if ([key isEqualToString:@"studentId"]) {
-                [UserDataSingleton mainSingleton].studentsId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            if ([key isEqualToString:@"state"]) {
+                [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
             if ([key isEqualToString:@"coachId"]) {
                 [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
-            if ([key isEqualToString:@"memberId"]) {
-                [UserDataSingleton mainSingleton].memberId =urseDataDic[key];
+            if ([key isEqualToString:@"realName"]) {
+                [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
             }
             [userData setObject:urseDataDic[key] forKey:key];
-
         }
-    
+        
         //获取应用程序沙盒的Documents目录
         NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
         NSString *plistPath1 = [paths objectAtIndex:0];
@@ -147,7 +147,6 @@
 
 //跳转到MainViewController
 - (void)jumpToMainViewController{
-    
     self.mainController = [[MainViewController alloc] init];
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
     self.window.rootViewController = navi;

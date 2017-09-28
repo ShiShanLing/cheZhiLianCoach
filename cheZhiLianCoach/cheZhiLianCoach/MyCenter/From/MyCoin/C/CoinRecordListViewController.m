@@ -98,10 +98,10 @@
     NSString *addtime = [dic[@"addtime"] description];
     NSString *payername = [dic[@"payername"] description];
     
-    NSString *coinFrom = [[NSString alloc]init];//小巴币支付方
-    NSString *coinWay = [[NSString alloc]init];//小巴币方式
-    NSString *coinTime = [[NSString alloc]init];//小巴币记录时间
-    NSString *coinNumStr = [[NSString alloc]init];//小巴币额度
+    NSString *coinFrom = [[NSString alloc]init];//学车币支付方
+    NSString *coinWay = [[NSString alloc]init];//学车币方式
+    NSString *coinTime = [[NSString alloc]init];//学车币记录时间
+    NSString *coinNumStr = [[NSString alloc]init];//学车币额度
     
     
     NSRange range1 = NSMakeRange(5, 5);
@@ -112,7 +112,7 @@
     
     if ([receivertype intValue] == 2) {
         if ([payertype intValue] == 0) {
-            coinFrom = @"支付方：小巴平台";
+            coinFrom = @"支付方：车智联平台";
         }else if ([payertype intValue] == 1){
             coinFrom = @"支付方：驾校";
         }else if ([payertype intValue] == 2){
@@ -132,7 +132,7 @@
     }
 //    else if ([receivertype intValue] == 3){
 //        if ([payertype intValue] == 0) {
-//            coinFrom = @"支付方：小巴平台";
+//            coinFrom = @"支付方：车智联平台";
 //        }else if ([payertype intValue] == 1){
 //            coinFrom = @"支付方：驾校";
 //        }else if ([payertype intValue] == 2){
@@ -148,7 +148,7 @@
 //    }else
     if ([payertype intValue] == 2) {
         if ([payertype intValue] == 0) {
-            coinFrom = @"支付方：小巴平台";
+            coinFrom = @"支付方：车智联平台";
         }else if ([payertype intValue] == 1){
             coinFrom = @"支付方：驾校";
         }else if ([payertype intValue] == 2){
@@ -158,7 +158,7 @@
             coinFrom = @"支付方：学员";
         }
         coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
-        coinWay = @"小巴币兑换";
+        coinWay = @"学车币兑换";
         cell.coinNum.textColor = [UIColor greenColor];
         cell.cheakBtn.hidden = NO;
         [cell.cheakBtn addTarget:self action:@selector(clickForCheak:) forControlEvents:UIControlEventTouchUpInside];

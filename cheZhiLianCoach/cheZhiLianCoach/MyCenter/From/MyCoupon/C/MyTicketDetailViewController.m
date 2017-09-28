@@ -94,7 +94,7 @@
         requsetTag = @"2";
       //  [self getAmountData];
     }else{
-        [self makeToast:@"请至少选择一张小巴券"];
+        [self makeToast:@"请至少选择一张学车券"];
     }
     
 }
@@ -125,7 +125,7 @@
     [cell.clickButton2 addTarget:self action:@selector(selectTicket:) forControlEvents:UIControlEventTouchUpInside];
     
     if (indexPath.row < kCellNum/2) {
-        NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", @"3"];
+        NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
         NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
         cell.ticketFrom1.text = [self getFromString:@"0"];
         cell.ticketTime1.text = @"2017-07-28";
@@ -142,7 +142,7 @@
         cell.ticketName1.attributedText = string1;
         
         
-        NSString *str2 = [NSString stringWithFormat:@"%@小时小巴券", @"4"];
+        NSString *str2 = [NSString stringWithFormat:@"%@小时学车券", @"4"];
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
         cell.ticketFrom2.text = [self getFromString:@"1"];
         cell.ticketTime2.text = @"2017-07-27";
@@ -160,7 +160,7 @@
     }else{
         if (kCellNum%2 != 0) {
             
-            NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", @"3"];
+            NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
             cell.ticketFrom1.text = [self getFromString:@"0"];
             cell.ticketTime1.text = @"2017-07-28";
@@ -178,7 +178,7 @@
             cell.backView2.hidden = YES;
         }else{
             
-            NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", @"3"];
+            NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
             cell.ticketFrom1.text = [self getFromString:@"0"];
             cell.ticketTime1.text = @"2017-07-28";
@@ -194,7 +194,7 @@
             }
             cell.ticketName1.attributedText = string1;
             
-            NSString *str2 = [NSString stringWithFormat:@"%@小时小巴券", @"4"];
+            NSString *str2 = [NSString stringWithFormat:@"%@小时学车券", @"4"];
             NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
             cell.ticketFrom2.text = [self getFromString:@"1"];
             cell.ticketTime2.text = @"2017-07-27";

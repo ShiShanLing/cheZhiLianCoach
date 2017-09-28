@@ -10,7 +10,7 @@
 #import "SearchAddrViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-
+#import "SetAddrTVCell.h"
 @interface SetAddrViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) NSMutableArray *addrArray;
@@ -24,11 +24,21 @@
 
 @end
 
-@implementation SetAddrViewController
+@implementation SetAddrViewController {
+    
+
+}
+
+- (NSMutableArray *)addrArray {
+    if (!_addrArray) {
+        _addrArray = [NSMutableArray array];
+    }
+    return _addrArray;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.mainTableView registerNib:[UINib nibWithNibName:@"SetAddrTVCell" bundle:nil] forCellReuseIdentifier:@"SetAddrTVCell"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,99 +52,32 @@
     [self getAddressData];//获取练车地点信息
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     if ([self.fromSchedule intValue] == 1) {
         self.fromSchedule = @"0";
         [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
     }
 }
-
 #pragma mark - UITabelView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.addrArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *ID = @"SetAddrCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (nil == cell) {
-        cell= [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-        cell.textLabel.font = [UIFont systemFontOfSize:13];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:17];
-        
-        
-        // 添加按钮
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button addTarget:self action:@selector(clickToDefaultAddr:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:@"[默认地址]" forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize: 13.0];
-        [button setTitleColor:MColor(84, 204, 153) forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor clearColor];
-        button.tag = 10;
-        [cell.contentView addSubview:button];
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 79, kScreen_widht, 1)];
-        line.backgroundColor = MColor(211, 211, 211);
-        line.tag = 20;
-        [cell.contentView addSubview:line];
-    }
-    
-    // 加载数据
-//    NSDictionary *dic = self.addrArray[indexPath.row];
-//    NSString *iscurr = [dic[@"iscurrent"] description];//是否是当前使用地址 0.不是 1.是
-//    NSString *area = dic[@"area"];
-//    NSString *detail = dic[@"detail"];
-    
-    if(![CommonUtil isEmpty:@"123"] && ![@"null" isEqualToString:@"123"]){
-        cell.textLabel.text = @"你猜啊";
+    SetAddrTVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetAddrTVCell" forIndexPath:indexPath];
+    CoachDriverAddreModel *model = self.addrArray[indexPath.row];
+    cell.contentLabel.text = model.addressName;
+    if (model.isDefault == 1) {
+        [cell.stateImage setImage:[UIImage imageNamed:@"icon_addrarrow"] forState:(UIControlStateNormal)];
+        cell.defaultLabel.text = @"[默认地址]";
+        cell.stateLabel.text = @"正在使用";
+        cell.defaultLabel.font = [UIFont systemFontOfSize: 13.0];
+        cell.defaultLabel.textColor = MColor(84, 204, 153);
     }else{
-        cell.textLabel.text = @"";
+           [cell.stateImage setImage:[UIImage imageNamed:@"icon_myaddr_greymark"] forState:(UIControlStateNormal)];
+        cell.defaultLabel.text = @"";
+        cell.stateLabel.text = @"";
     }
-    
-    cell.detailTextLabel.text = @"详情地址你猜爱对方男反分裂能看房三分裤那时快电脑";
-    
-    CGSize size = [CommonUtil sizeWithString:@"详情地址你猜爱对方男反分裂能看房三分裤那时快电脑" fontSize:17 sizewidth:kScreen_widht - 65 - 33 - 13 sizeheight:MAXFLOAT];
-    cell.detailTextLabel.numberOfLines = ceil(size.height/17);
-    
-    if ([@"1" intValue] == 1) {
-        //当前使用
-        UIView *view = [cell.contentView viewWithTag:10];
-        if ([view isKindOfClass:[UIButton class]]) {
-            CGFloat cellHeight = 80 - 21 + size.height;
-            CGSize areaSize = [CommonUtil sizeWithString:@"你猜啊" fontSize:13 sizewidth:kScreen_widht - 65 - 13 - 33 sizeheight:MAXFLOAT];
-            CGFloat y = ceil((cellHeight - size.height - areaSize.height)/2);
-            
-            UIButton *button = (UIButton *)view;
-            button.frame = CGRectMake(kScreen_widht - 65 - 13, y - 10, 65, 20);
-            button.hidden = NO;
-            
-        }
-        
-        cell.imageView.image = [UIImage imageNamed:@"icon_addrarrow"];
-    }else{
-        UIView *view = [cell.contentView viewWithTag:10];
-        if ([view isKindOfClass:[UIButton class]]) {
-            UIButton *button = (UIButton *)view;
-            button.hidden = YES;
-            
-            CGFloat cellHeight = 80 - 21 + size.height;
-            CGSize areaSize = [CommonUtil sizeWithString:@"你猜啊" fontSize:13 sizewidth:kScreen_widht - 65 - 13 - 33 sizeheight:MAXFLOAT];
-            CGFloat y = ceil((cellHeight - size.height - areaSize.height)/2);
-            
-            button.frame = CGRectMake(kScreen_widht - 65 - 13, y - 5, 65, 25);
-        }
-        
-        cell.imageView.image = [UIImage imageNamed:@"icon_myaddr_greymark"];
-    }
-    
-    //下划线
-    UIView *view = [cell.contentView viewWithTag:20];
-    if (view != nil) {
-        view.frame = CGRectMake(0, 80 - 21 + size.height - 1, kScreen_widht, 1);
-    }
-    
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -161,31 +104,28 @@
 
 -(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary *dic = self.addrArray[indexPath.row];
-    NSString *iscurrent = [dic[@"iscurrent"] description];
-    if ([iscurrent boolValue]) {
+    CoachDriverAddreModel *model = self.addrArray[indexPath.row];
+    
+    if (model.isDefault == 1)  {
         [self makeToast:@"默认地址不能删除"];
         return;
     }
-    NSString *addressid = [dic[@"addressid"] description];
-    self.delIndexPath = indexPath;
+    [self delAddress:model.addressId];
     
-    [self delAddress:addressid];
-    
-    //[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    NSDictionary *dic = self.addrArray[indexPath.row];
-    self.addressid = [dic[@"addressid"] description];
-    
+    CoachDriverAddreModel *model = self.addrArray[indexPath.row];
+    if (model.isDefault == 1) {
+        return;
+    }
+    self.addressid = model.addressId;
     self.defaultAddrView.frame = self.view.bounds;
     [self.view addSubview:self.defaultAddrView];
 }
 
-#pragma mark - action
+#pragma mark - action  添加搜索地址
 - (IBAction)clickToSearchAddrView:(id)sender {
     
     SearchAddrViewController *targetViewController = [[SearchAddrViewController alloc] initWithNibName:@"SearchAddrViewController" bundle:nil];
@@ -203,30 +143,76 @@
 
 #pragma mark 设置为默认地址
 - (IBAction)clickToSetDefaultAddr:(id)sender {
-    [self setDefaultAddress:self.addressid];
+    [DejalBezelActivityView activityViewForView:self.view];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setDefault", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"addressId"] = self.addressid;
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    __weak  SetAddrViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"masg"] time:1.2];
+            [VC.defaultAddrView removeFromSuperview];
+        }else {
+            [VC showAlert:responseObject[@"masg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
     
 }
 
 #pragma mark - 接口
 //获取地址信息
 - (void)getAddressData{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-  
+    [DejalBezelActivityView activityViewForView:self.view];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findTrainAddressList", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    __weak  SetAddrViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.requestSerializer.timeoutInterval = 5;
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取地址信息responseObject%@", responseObject);
+        [DejalBezelActivityView removeView];
+        [VC ParsingAddressInfor:responseObject[@"data"]];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [DejalBezelActivityView removeView];
+        NSLog(@"error%@", error);
+    }];
 }
 
-//设为默认地址
-- (void)setDefaultAddress:(NSString *)addressid{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-      [DejalBezelActivityView activityViewForView:self.view];
+- (void)ParsingAddressInfor:(NSArray *)data {
+    if (data.count == 0) {
+        [self showAlert:@"还没有添加地址" time:1.2];
+        return;
+    }
+    for (NSDictionary *dic in data) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachDriverAddreModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        CoachDriverAddreModel *model = [[CoachDriverAddreModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        for (NSString *key in dic) {
+            [model setValue:dic[key] forUndefinedKey:key];
+        }
+        [self.addrArray addObject:model];
+    }
+    NSLog(@"self.addrArray%@", self.addrArray);
+    [self.mainTableView reloadData];
 }
 
 //删除地址
 - (void)delAddress:(NSString *)addressid{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     
-        [DejalBezelActivityView activityViewForView:self.view];
+    
 }
 
 

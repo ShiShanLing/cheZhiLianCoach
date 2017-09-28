@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
 
-#import "GreyTopViewController.h"  //小巴币记录
+#import "GreyTopViewController.h"  //学车币记录
 
 @interface CoinRecordListViewController : GreyTopViewController
 

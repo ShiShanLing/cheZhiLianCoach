@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
 
-#import "GreyTopViewController.h"  //小巴券目录
+#import "GreyTopViewController.h"  //学车券目录
 
 @interface CouponNavigateViewController : GreyTopViewController
 

@@ -13,6 +13,7 @@
     static UserDataSingleton *ton = nil;
     if (ton == nil) {
         ton = [[UserDataSingleton alloc] init];
+        
     }
     return ton;
 }

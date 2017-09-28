@@ -13,7 +13,7 @@
 #import "BaseViewController.h"
 
 @interface BaseViewController ()
-
+@property (nonatomic, strong)UIAlertController *alertV;
 @end
 
 @implementation BaseViewController
@@ -55,13 +55,55 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
     {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
+    if ([UserDataSingleton mainSingleton].URL_SHY.length != 0) {
+        return;
+    }
+//    __weak BaseViewController *VC = self;
+//    self.alertV = [UIAlertController alertControllerWithTitle:@"提醒!" message:@"请填写您的服务器" preferredStyle:UIAlertControllerStyleAlert];
+//    [_alertV addTextFieldWithConfigurationHandler:^(UITextField *textField){
+//        textField.placeholder = @"服务器地址:";
+//    }];
+//    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"填好了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        UITextField *URLTF = _alertV.textFields.firstObject;
+//        [UserDataSingleton mainSingleton].URL_SHY = URLTF.text;
+//        [VC validateUrl:[NSURL URLWithString:kURL_SHY]];
+//    }];
+//    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"爷不填!" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//        [VC showAlert:@"不填打死" time:1.2];
+//        [VC presentViewController:_alertV animated:YES completion:nil];
+//        return;
+//    }];
+//    // 3.将“取消”和“确定”按钮加入到弹框控制器中
+//    [_alertV addAction:okAction];
+//    [_alertV addAction:noAction];
+//    [self presentViewController:_alertV animated:YES completion:^{
+//        nil;
+//    }];
+}
+
+//判断
+-(void) validateUrl: (NSURL *) candidate {
+    __weak BaseViewController *VC = self;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:candidate];
+    [request setHTTPMethod:@"HEAD"];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"error %@",error);
+        if (error) {
+            [VC makeToast:@"服务器不可用,请重新填写!"];
+            return ;
+        }else{
+            [VC makeToast:@"欢迎使用车智联教练内侧版,有问题及时反馈哦!"];
+            return ;
+        }
+    }];
+    [task resume];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,7 +127,6 @@
 - (void)indeterminateExample {
     
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];//加载指示器出现
-    
 }
 
 - (void)delayMethod{

@@ -37,6 +37,11 @@
 @property (strong, nonatomic) IBOutlet UIView *getMoneyView;        // 申请金额视图
 @property (strong, nonatomic) IBOutlet UIView *commitView;          // 提交申请
 @property (strong, nonatomic) IBOutlet UIView *successAlertView;    // 提交成功提示
+/**
+ *申请状态提示语
+ */
+@property (weak, nonatomic) IBOutlet UILabel *applyStateLabel;
+
 @property (strong, nonatomic) IBOutlet UIView *priceAndAddrView;    // 选择设置价格&上车地址&教学内容
 @property (strong, nonatomic) IBOutlet UIView *priceAndAddrBar;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *priceWidthConstraint;//价格宽度约束
@@ -83,6 +88,9 @@
 @property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 
 @property (strong, nonatomic) IBOutlet UIView *dataBackView;
+
+@property (weak, nonatomic) IBOutlet UILabel *auditStateLabel;
+
 - (IBAction)clickForRecommendPrize:(id)sender;
 
 /**
@@ -556,7 +564,7 @@
     SetAddrViewController *targetViewController = [[SetAddrViewController alloc] initWithNibName:@"SetAddrViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
-//发放小巴券
+//发放学车券
 - (IBAction)clickForSendCoupon:(id)sender {
     CouponNavigateViewController *targetViewController = [[CouponNavigateViewController alloc] initWithNibName:@"CouponNavigateViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
@@ -593,8 +601,8 @@
     targetViewController.superViewNum = @"1";
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
-//充值
-- (IBAction)clickForChongzhi:(id)sender {
+//充值 我的钱包
+ - (IBAction)clickForChongzhi:(id)sender {
     PurseNavigationViewController *nextViewController = [[PurseNavigationViewController alloc] initWithNibName:@"PurseNavigationViewController" bundle:nil];
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
@@ -698,10 +706,11 @@
     
         
     }else {
-        
-        NSString *URL_Str = [NSString stringWithFormat:@"%@/member/api/memberDetail", kURL_SHY];
+        //http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/detail?coachId=206405433894470f91db2657ae8e73e3
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
         NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-        URL_Dic[@"memberId"] =userData[@"memberId"];
+        URL_Dic[@"coachId"] =userData[@"coachId"];
+        NSLog(@"URL_Dic%@", URL_Dic);
         AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
         __block MyViewController *VC = self;
         [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -715,39 +724,39 @@
                 [VC AnalyticalData:responseObject];
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
             [VC showAlert:@"请求失败请重试" time:1.0];
         }];
     }
 }
 //解析的用户详情信息
 - (void)AnalyticalData:(NSDictionary *)dic {
+    
     [self.userDataArray removeAllObjects];
     NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
     if ([state isEqualToString:@"1"]) {
         NSDictionary *tempDic = dic[@"data"][0];
-        NSDictionary *urseDataDic = tempDic[@"member"];
+        NSDictionary *urseDataDic = tempDic[@"coach"];
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
         
         NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-        NSEntityDescription *des = [NSEntityDescription entityForName:@"UserDataModel" inManagedObjectContext:self.managedContext];
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachAuditStatusModel" inManagedObjectContext:self.managedContext];
         //根据描述 创建实体对象
-        UserDataModel *model = [[UserDataModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        CoachAuditStatusModel *model = [[CoachAuditStatusModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
         [userData removeAllObjects];
         for (NSString *key in urseDataDic) {
-            if ([key isEqualToString:@"subState"]) {
-                [UserDataSingleton mainSingleton].subState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
-            }
-            if ([key isEqualToString:@"studentId"]) {
-                [UserDataSingleton mainSingleton].studentsId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            if ([key isEqualToString:@"state"]) {
+                [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
             if ([key isEqualToString:@"coachId"]) {
                 [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                NSLog(@"[UserDataSingleton mainSingleton].coachId%@", [UserDataSingleton mainSingleton].coachId);
             }
-            if ([key isEqualToString:@"memberId"]) {
-                [UserDataSingleton mainSingleton].memberId =urseDataDic[key];
+            if ([key isEqualToString:@"realName"]) {
+                [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
             }
             [userData setObject:urseDataDic[key] forKey:key];
-            NSLog(@"value%@ key%@", urseDataDic[key], key);
             [model setValue:urseDataDic[key] forKey:key];
         }
         [self.userDataArray addObject:model];
@@ -769,24 +778,25 @@
 
 
 - (void)refreshUI {
-    UserDataModel *model = self.userDataArray[0];
+    CoachAuditStatusModel *model = self.userDataArray[0];
     //判断该用户是否通过审核
-    
     int state = model.state;
-    NSString *logoUrl = model.memberAvatar;
-    NSString *name = model.memberName;
-    NSString *phone = model.memberMobile;
-    NSString *signstate = @"2";
-    if ([signstate intValue]==1) {
-        self.starImageView.hidden = NO;
-    }else{
+    //NSString *logoUrl = model.memberAvatar;
+    NSString *name = model.realName;
+    NSString *phone = model.phone;
+    if (model.state == 0 || model.state == 1 || model.state == 3 ) {
         self.starImageView.hidden = YES;
+        self.strokeImageView.hidden = YES;
+    }else{
+        self.strokeImageView.hidden = NO;
+        self.starImageView.hidden = NO;
     }
     //培训时长
     NSString *totalTime = @"10";
     totalTime = [CommonUtil isEmpty:totalTime]?@"0":totalTime;
     
-    if (state == 3) {
+    if (model.state == 2) {
+        [self.checkView removeFromSuperview];
         self.dataView.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds)+80);
         [self.mainScrollView addSubview:self.dataView];
         self.mainScrollView.userInteractionEnabled=YES;
@@ -800,29 +810,24 @@
         }else{
             self.nameLabel.text = name;
         }
-        
         self.phoneLabel.text = phone;
-        [self.trainTimeButton setTitle:[NSString stringWithFormat:@"   已累计培训%@学时",totalTime] forState:UIControlStateNormal];
+        [self.trainTimeButton setTitle:[NSString stringWithFormat:@" 已累计培训%@学时",totalTime] forState:UIControlStateNormal];
         //余额
         if ([CommonUtil isEmpty:money]) {
             money = @"0";
         }
         self.cashLabel.text = [NSString stringWithFormat:@"%@",money];
-        
         //小巴券时间
         int couponhour = 12;
         self.xiaobaTicketLabel.text = [NSString stringWithFormat:@"%d",couponhour];
-        
         //小巴币个数
         NSString *coinnum = @"10";
         self.xiaobaCoinLabel.text = coinnum;
-        
         float score = 4.5;
         UILabel *label1 = [UILabel new];
         label1.text = self.nameLabel.text;
         label1.font =  [UIFont systemFontOfSize:20];
         label1.numberOfLines = 0;       // 设置无限换行
-        
         CGRect rect = self.priceAndAddrBar.bounds;
         rect.origin.y = 3;
         rect.size.height = 15;
@@ -832,12 +837,30 @@
         [self.starView changeStarForegroundViewWithScore:score];
         
     }else{
-        //未通过审核
+        int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
+        switch (state) {
+            case 0:
+                self.auditStateLabel.text = @"还为申请成为教练!";
+                break;
+            case 1:
+                self.auditStateLabel.text = @"正在等待审核您的资料!";
+                break;
+            case 2:
+                self.auditStateLabel.text = @"您的资料已经审核通过!";
+                break;
+            case 3:
+                self.auditStateLabel.text = @"您的资料审核未通过,请重新提交!";
+                self.applyStateLabel.text = model.rejectReason;
+                break;
+            default:
+                break;
+        }
         self.nameLabel.text = @"";
         self.checkView.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds));
         [self.view addSubview:self.checkView];//显示未通过审核的页面
         [self performSelector:@selector(updateLogoImage:) withObject:self.checkLogoImageView afterDelay:0.1f];
         self.checkNameLabel.text = name;//名称
+        self.checkLogoImageView.hidden = NO;
         self.checkLogoImageView.image = [UIImage imageNamed:@"icon_portrait_default"];
     }
 

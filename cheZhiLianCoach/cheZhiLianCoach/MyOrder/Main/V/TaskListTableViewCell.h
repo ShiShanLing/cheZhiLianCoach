@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "DSButton.h"
 
+@protocol TaskListTableViewCellDelgate <NSObject>
+
+- (void)handlerUpDownCar:(DSButton *)sender;
+
+@end
+
 @interface TaskListTableViewCell : UITableViewCell
+
+@property (nonatomic,weak)id<TaskListTableViewCellDelgate>delegate;
 
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;//时间
 @property (strong, nonatomic) IBOutlet UIView *studentDetailsView;

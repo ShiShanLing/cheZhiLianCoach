@@ -33,10 +33,10 @@
         self.titleLabel.text = @"服务标准及约定";
     }else if([self.fromVC intValue]==2){
         request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/popularcoaches.html"]];
-        self.titleLabel.text = @"小巴明星教练服务协议";
+        self.titleLabel.text = @"车智联明星教练服务协议";
     }else if([self.fromVC intValue]==3){
         request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/serviceprotocol-c.html"]];
-        self.titleLabel.text = @"小巴陪驾服务协议";
+        self.titleLabel.text = @"车智联陪驾服务协议";
     }
     [self.webView loadRequest:request];
 }
@@ -51,9 +51,9 @@
     if ([self.fromVC intValue]==1) {
         self.titleLabel.text = @"服务标准及约定";
     }else if([self.fromVC intValue]==2){
-        self.titleLabel.text = @"小巴明星教练服务协议";
+        self.titleLabel.text = @"车智联明星教练服务协议";
     }else if([self.fromVC intValue]==2){
-        self.titleLabel.text = @"小巴陪驾服务协议";
+        self.titleLabel.text = @"车智联陪驾服务协议";
     }
 }
 

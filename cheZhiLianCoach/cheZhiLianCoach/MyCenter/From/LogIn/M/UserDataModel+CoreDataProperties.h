@@ -43,8 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *noPayOrder;
 @property (nonatomic) int16_t noReceiveOrder;
 @property (nullable, nonatomic, copy) NSString *referralCode;
+@property (nullable, nonatomic, copy) NSString *coachId;
 @property (nonatomic) int16_t userType;
-
+@property (nonatomic) int16_t approvalState;
 -(void)setValue:(id)value forKey:(NSString *)key;
 
 @end

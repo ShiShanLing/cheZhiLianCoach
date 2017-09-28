@@ -51,7 +51,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    UIControl *item = [[UIControl alloc]init];
 //    item.tag = 1;
-    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated

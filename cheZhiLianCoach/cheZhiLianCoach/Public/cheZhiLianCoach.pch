@@ -10,17 +10,24 @@
 #define cheZhiLianCoach_pch
 
 // Include any system framework and library headers here that should be included in all compilation units.
+
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 //codedata  model
 #import "UserDataModel+CoreDataProperties.h"
-
+#import "CoachAuditStatusModel+CoreDataProperties.h"
+#import "MyStudentListModel+CoreDataProperties.h"
+#import "CoachTimeListModel+CoreDataProperties.h"
+#import "MyOrderModel+CoreDataProperties.h"
+#import "CoachDriverAddreModel+CoreDataProperties.h"//教练的地址
 //第三方
 #import "UIImageView+WebCache.h"
 #import <AFNetworking.h>
 #import "MBProgressHUD.h"//第三方网络加载
 #import <MJRefresh.h>//第三方刷新类
-
+#import "UITableView+SDAutoTableViewCellHeight.h"
+#import "SDAutoLayout.h"
+#import "UIView+SDAutoLayout.h"
 //自己的类
 #import "CommonUtil.h"//自己添加的类
 #import "CommonUtil+Date.h"//时间处理的类
@@ -31,22 +38,20 @@
 #import "XBCity.h"//时间model 不是我写的
 #import "XBProvince.h"//时间model 不是我写的
 #import "UserDataSingleton.h"//单例
-
 //不要问有的地方为什么同样的结果用两个宏 因为他喵的代码不是我写的 我懒的替换
 #define  kScreen_heigth [UIScreen mainScreen].bounds.size.height//屏幕高度
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width//宽度
 #define  kScreen_widht  [UIScreen mainScreen].bounds.size.width//屏幕宽度
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width//宽度
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height//屏幕高度
 #define  kOrange_Color  MColor(255, 143, 0)// 通用的橙色
 #define  kBlack_Color   MColor(51, 51, 51)// 通用的黑色
 #define kNavigation_Color MColor(255, 143, 0)//导航条通用的白色
-
 #define  kDark [UIColor colorWithRed:238/256.0 green:238/256.0 blue:238/256.0 alpha:1];
-
 #define MFont(f) [UIFont systemFontOfSize:f]//给文字大小
-#define kIphone6Height 667.0
-#define kIphone6Width 375.0
-#define YouLikeLineCount 2
+#define kIphone6Height  667.0
+#define kIphone6Width   375.0
+#define YouLikeLineCount    2
 #define YouLikeCellW ((SScreen_Width - YouLikeInset * (YouLikeLineCount - 1)) / YouLikeLineCount) * 1.0
 #define YouLikeInset kFit(6)
 #define YouLikeCellH kFit((kFit(259) - YouLikeInset))
@@ -54,10 +59,13 @@
 #define SScreen_Height [UIScreen mainScreen].bounds.size.height
 #define kFit(x) (SScreen_Width*((x)/kIphone6Width))
 #define MColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0f]
+//张玉霄  http://192.168.0.250
+//沈会阳  http://192.168.100.101
+//线上      http://106.14.158.95
+//http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/login
+#define kURL_SHY @"http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"
 
-//张玉霄 192.168.0.215
-//沈会阳 192.168.100.101
+#define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
 
-#define kURL_SHY @"http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"
-
+//[UserDataSingleton mainSingleton].URL_SHY [NSString stringWithFormat:@"http://%@%@", [UserDataSingleton mainSingleton].URL_SHY,@"/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"]
 #endif /* cheZhiLianCoach_pch */

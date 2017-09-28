@@ -350,6 +350,7 @@ forHTTPHeaderField:(NSString *)field
                                      error:(NSError *__autoreleasing *)error
 {
     NSParameterAssert(method);
+    NSLog(@"%@",URLString );
     NSParameterAssert(URLString);
 
     NSURL *url = [NSURL URLWithString:URLString];

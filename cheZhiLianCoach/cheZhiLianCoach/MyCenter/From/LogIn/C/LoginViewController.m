@@ -109,19 +109,17 @@
         [self makeToast:@"请输入您的手机号码"];
         return;
     }
-    
     if(![CommonUtil checkPhonenum:phone]){
         [self makeToast:@"手机号码输入有误,请重新输入"];
         return;
     }
-  
     if([CommonUtil isEmpty:password])
     {
         [self makeToast:@"请输入验证码"];
         return ;
     }
     [self login:phone passWord:password];
-   
+    
     
 }
 
@@ -155,7 +153,7 @@
     int chazhi = (_height - self.loginDetailsView.bounds.size.height) / 2;
     
     self.scrollView.contentOffset = CGPointMake(0, height - chazhi+20-10);
-
+    
 }
 
 //当键退出时调用
@@ -181,7 +179,7 @@
 - (IBAction)clickForGetVcode:(JKCountDownButton *)sender {
     
     
-    NSString *phone = [self.userName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *phone = [self.userName.text  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if([CommonUtil isEmpty:phone]){
         [self makeToast:@"请输入您的手机号码"];
         return;
@@ -197,48 +195,48 @@
     //button type要 设置成custom 否则会闪动
     [sender startWithSecond:60];
     
-    [sender didChange:^NSString *(JKCountDownButton *countDownButton,int second) {
-        NSString *title = [NSString stringWithFormat:@"剩余%d秒",second];
-        return title;
-    }];
+    
     [sender didFinished:^NSString *(JKCountDownButton *countDownButton, int second) {
         countDownButton.enabled = YES;
         return @"点击重新获取";
     }];
-
+    //http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/floor/api/verifyCode?mobile=13646712075
     NSString *URL_Str = [NSString stringWithFormat:@"%@/floor/api/verifyCode", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"mobile"] = phone;
+    NSLog(@"%@", URL_Dic);
     __weak LoginViewController *VC = self;
-    
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"uploadProgress%@", uploadProgress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"验证码responseObject%@", responseObject);
+        [VC performSelector:@selector(delayMethod)];
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
-            
+            [sender didChange:^NSString *(JKCountDownButton *countDownButton,int second) {
+                NSString *title = [NSString stringWithFormat:@"剩余%d秒",second];
+                return title;
+            }];
         }else {
             [VC makeToast:@"验证码获取失败请重试"];
         }
-        [VC performSelector:@selector(delayMethod)];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-         [VC performSelector:@selector(delayMethod)];
+        [VC performSelector:@selector(delayMethod)];
         [VC makeToast:@"网路超时请重试!"];
         NSLog(@"error%@", error);
     }];
-
 }
 //登录接口
 - (void)login:(NSString *)userName passWord:(NSString *) passWord {
     
     [self performSelector:@selector(indeterminateExample)];
-    NSString *URL_Str = [NSString stringWithFormat:@"%@/member/api/coachLogin",kURL_SHY];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/login",kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"mobile"] = userName;
     URL_Dic[@"mobileCode"] = passWord;
     URL_Dic[@"schoolId"] = @"1";
+    NSLog(@"URL_Dic%@", URL_Dic);
     __weak LoginViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -246,45 +244,84 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"登录responseObject%@", responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
-        [self performSelector:@selector(delayMethod)];
+        [VC performSelector:@selector(delayMethod)];
         if ([resultStr isEqualToString:@"1"]) {
             [VC AnalyticalDataDetails:responseObject];
         }else {
-            [VC makeToast:@"登录失败请重试,失败请重试!"];
+            [VC makeToast:responseObject[@"msg"]];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [VC  makeToast:@"网络超时请重试!"];
-        [self performSelector:@selector(delayMethod)];
+        [VC  performSelector:@selector(delayMethod)];
         NSLog(@"error%@", error);
     }];
-    [DejalBezelActivityView activityViewForView:self.view];
+    
 }
 //存储用户信息到本地plis 文件一份 用于个界面对用户信息的更改和 获取
 - (void)AnalyticalDataDetails:(NSDictionary *)dic {
     
     NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
     if ([state isEqualToString:@"1"]) {
+        NSArray *userDataArray = dic[@"data"];
+        if (userDataArray.count == 0) {
+            [self makeToast:@"数据异常,请联系工作人员"];
+            return;
+        }
         NSDictionary *userDataDic = dic[@"data"][0];
         NSDictionary *userDic = userDataDic;
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
         NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
         [userData removeAllObjects];
-        for (NSString *key in userDic) {
-            
-            if ([key isEqualToString:@"subState"]) {
-                [UserDataSingleton mainSingleton].subState =[NSString stringWithFormat:@"%@", userDic[key]];
+        
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"coachId"] =userDic[@"coachId"];
+        NSLog(@"AppDelegate里面获取用户详情 URL_Dic%@ userDic%@", URL_Dic, userDic);
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session.requestSerializer setTimeoutInterval:5];
+        __weak LoginViewController *VC = self;
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"获取用户详情responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"0"]) {
+                
+            }else {
+                [VC AnalyticalDetailsData:responseObject];
             }
-            if ([key isEqualToString:@"studentId"]) {
-                [UserDataSingleton mainSingleton].studentsId =[NSString stringWithFormat:@"%@", userDataDic[key]];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"用户详情获取error%@", error);
+        }];
+        
+    }
+}
+//解析的登录过后的数据
+- (void)AnalyticalDetailsData:(NSDictionary *)dic {
+    NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
+    if ([state isEqualToString:@"1"]) {
+        NSDictionary *tempDic = dic[@"data"][0];
+        NSDictionary *urseDataDic = tempDic[@"coach"];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
+        
+        NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        
+        [userData removeAllObjects];
+        for (NSString *key in urseDataDic) {
+            if ([key isEqualToString:@"state"]) {
+                [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
             if ([key isEqualToString:@"coachId"]) {
-                [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", userDataDic[key]];
+                [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
             }
-            if ([key isEqualToString:@"memberId"]) {
-                [UserDataSingleton mainSingleton].memberId =userDic[key];
+            if ([key isEqualToString:@"realName"]) {
+                [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
             }
-            [userData setObject:userDic[key] forKey:key];
+            [userData setObject:urseDataDic[key] forKey:key];
         }
         //获取应用程序沙盒的Documents目录
         NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
@@ -294,16 +331,15 @@
         NSString *filename=[plistPath1 stringByAppendingPathComponent:@"UserLogInData.plist"];
         //输入写入
         [userData writeToFile:filename atomically:YES];
+        
         //那怎么证明我的数据写入了呢？读出来看看
         NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
-        
-        NSLog(@"userData2%@", userData2);
-        
-        // 用户密码都不为空调用接口
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [app jumpToMainViewController];
+        NSLog(@"查看是否存储成功%@", userData2);
     }
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app jumpToMainViewController];
 }
+
 
 - (IBAction)handleDirectLogin:(UIButton *)sender {
     

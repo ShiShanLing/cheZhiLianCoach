@@ -24,14 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     //圆角
     self.sureButton.layer.cornerRadius = 4;
     self.sureButton.layer.masksToBounds = YES;
-    
     self.inviteCodeView.layer.borderWidth = 1;
     self.inviteCodeView.layer.borderColor = MColor(222, 222, 222).CGColor;
-    
 }
 //获取邀请列表
 - (void) getRecommendRecordList{

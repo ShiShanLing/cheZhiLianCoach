@@ -96,33 +96,26 @@
  获取本月有几周
  */
 + (NSInteger)getWeekCountOfDate:(NSDate *)date;
-
 /*!
  获取月末时间
  */
 + (NSDate *)getLastDayOfDate:(NSDate *)date;
-
 /*!
  获取月初时间
  */
 + (NSDate *)getFirstDayOfDate:(NSDate *)date;
-
 /*!
  判断相差几个月
  @param firstDate 被比较日期
  @param sendDate 比较的日期
  */
 + (NSInteger)compareMonth:(NSDate *)firstDate sendDate:(NSDate *)sendDate;
-
 //获取中文的星期
 + (NSString *)getChineseWeekday:(NSDate *)date;
-
 //获取英文的星期
 + (NSString *)getEnglishWeekday:(NSDate *)date;
-
 //获取英文的月份
 + (NSString *)getEnglishMonth:(NSDate *)date;
-
 //获取中文的星期
 + (NSString *)getChineseWeekday:(NSDate *)date;
 
@@ -141,4 +134,7 @@
 
 + (NSInteger)getYearOfDate:(NSDate *)date;
 + (NSString*)getCurrentTimes;
+
++ (NSString *)InDataForString:(NSDate *)date;
+
 @end

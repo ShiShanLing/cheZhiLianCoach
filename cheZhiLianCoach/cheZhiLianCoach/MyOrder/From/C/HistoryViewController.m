@@ -248,7 +248,7 @@
         endTime = [CommonUtil getStringForDate:[CommonUtil getDateForString:endTime format:@"yyyy-MM-dd HH:mm:ss"] format:@"HH:mm"];
     }
     
-    //支付方式   1：现金 2：小巴券 3：小巴币
+    //支付方式   1：现金 2：学车券 3：学车币
     NSString *paytype = @"1";
     if ([paytype intValue] == 1) {
         cell.payerType.hidden = NO;
@@ -474,7 +474,10 @@
 - (void)contactClick:(DSButton *)sender
 {
     if(![CommonUtil isEmpty:sender.phone] && ![@"暂无" isEqualToString:sender.phone]){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", sender.phone]]];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", sender.phone]]];
+        });
+        
     }else{
         [self makeToast:@"该学员还未设置电话号码"];
     }
@@ -663,7 +666,6 @@
     
     self.goCommentView.frame = newTextViewFrame;
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:NO];
-    
     [UIView commitAnimations];
 }
 
@@ -685,11 +687,9 @@
     self.goCommentView.frame = self.view.frame;
     [UIView commitAnimations];
 }
-
 - (IBAction)hideKeyboardClick:(id)sender {
     [self.commentTextView resignFirstResponder];
 }
-
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_pullToRefresh tableViewScrolled];

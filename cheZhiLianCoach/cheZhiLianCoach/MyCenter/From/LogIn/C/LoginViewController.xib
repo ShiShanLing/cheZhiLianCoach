@@ -264,7 +264,7 @@
                                 <constraint firstAttribute="width" constant="196" id="zKX-s2-CEg"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <state key="normal" title="登录小巴">
+                            <state key="normal" title="登录车智联">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>

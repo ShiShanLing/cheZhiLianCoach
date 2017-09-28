@@ -7,7 +7,9 @@
 //
 
 #import "GreyTopViewController.h"   //课程设置
-
+/**
+ *课程设置
+ */
 @interface ScheduleSettingViewController : GreyTopViewController
 
 @property (strong, nonatomic) NSString *time;
@@ -20,5 +22,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *rentPricePencil;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *isRentConstraint;
+/**
+ *选择时间数组
+ */
+@property (nonatomic, strong)NSMutableArray  *chooseTime;
+/**
+ *一节课的价钱
+ */
+@property (nonatomic, strong)NSString *CoursePrice;
 
 @end

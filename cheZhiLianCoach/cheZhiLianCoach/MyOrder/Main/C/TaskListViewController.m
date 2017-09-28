@@ -18,7 +18,7 @@
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
 
-@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate>{
+@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate, TaskListTableViewCellDelgate>{
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
     BOOL isRefresh;//是否刷新
@@ -59,7 +59,7 @@
 //参数
 @property (strong, nonatomic) NSIndexPath *selectIndexPath;
 @property (strong, nonatomic) NSMutableDictionary *scoreDic;//分数
-@property (strong, nonatomic) NSMutableArray *taskList;                 //任务信息
+@property (strong, nonatomic) NSMutableArray *taskListArray;  //任务信息
 @property (strong, nonatomic) NSMutableArray *noSortArray;                 //没有整理过的任务信息
 @property (strong, nonatomic) NSMutableDictionary *rowDic;                 // 每一行的状态list
 @property (strong, nonatomic) NSString *commentOrderId; //评论的订单id
@@ -79,18 +79,32 @@
 
 @implementation TaskListViewController
 
+- (NSMutableArray *)taskListArray {
+    if (!_taskListArray) {
+        _taskListArray  = [NSMutableArray array];
+    }
+    return  _taskListArray;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([UserDataSingleton mainSingleton].URL_SHY.length != 0) {
+        return;
+    }
+  
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     isRefresh = YES;
     self.openOrderId = @"0";
     self.commentOrderId = @"0";
-    self.noDataViewBtn.hidden = YES;
     self.scoreDic = [NSMutableDictionary dictionary];
     self.noSortArray = [NSMutableArray array];
     hasTask = NO;
     self.rowDic = [NSMutableDictionary dictionary];
-    self.taskList = [NSMutableArray array];
 
     self.commentTextView.delegate = self;
     self.commentTextView.placeholder = @"来说点什么吧";
@@ -100,49 +114,19 @@
     self.commentContentViewTopJuli.constant = ([UIScreen mainScreen].bounds.size.height - 319) / 2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-//    //刷新加载
-//    self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.tableView withClient:self];
-//    
-//    //隐藏加载更多
-//    self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
+    //刷新加载
+    self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.tableView withClient:self];
+    //隐藏加载更多
+    self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
-    //星级设置
-   // [self addStartEvaluate];
-    //广告接口
-  //  [self getAdvertisement];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     //设置默认分数
     [self.scoreDic setObject:@"5" forKey:@"score1"];
     [self.scoreDic setObject:@"5" forKey:@"score2"];
     [self.scoreDic setObject:@"5" forKey:@"score3"];
 }
 
-- (void)addStartEvaluate{
-    
-    self.starRatingView1 = [[TQStarRatingView alloc] initWithFrame:self.scoreStarView1.bounds numberOfStar:5];
-    self.starRatingView1.couldClick = YES;//可点击
-    self.starRatingView1.delegate = self;
-    self.starRatingView1.isFill = YES;//整数显示
-    //[self.starRatingView1 changeStarForegroundViewWithPoint:CGPointMake(0, 0)];
-    [self.scoreStarView1 addSubview:self.starRatingView1];
-    
-    self.starRatingView2 = [[TQStarRatingView alloc] initWithFrame:self.scoreStarView2.bounds numberOfStar:5];
-    self.starRatingView2.couldClick = YES;//可点击
-    self.starRatingView2.delegate = self;
-    self.starRatingView2.isFill = YES;//整数显示
-    //[self.starRatingView2 changeStarForegroundViewWithPoint:CGPointMake(0, 0)];
-    [self.scoreStarView2 addSubview:self.starRatingView2];
-    
-    self.starRatingView3 = [[TQStarRatingView alloc] initWithFrame:self.scoreStarView3.bounds numberOfStar:5];
-    self.starRatingView3.couldClick = YES;//可点击
-    self.starRatingView3.isFill = YES;//整数显示
-    self.starRatingView3.delegate = self;
-    //[self.starRatingView3 changeStarForegroundViewWithPoint:CGPointMake(0, 0)];
-    [self.scoreStarView3 addSubview:self.starRatingView3];
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -152,10 +136,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     isRefresh = YES;
-    if ([[CommonUtil currentUtil] isLogin:NO]){
-        [self refreshData];
-    }
-
+    [self refreshData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -170,75 +151,94 @@
         [self pullToRefreshTriggered:self.pullToRefresh];
     }
 }
+/* 刷新处理 */
+- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
+    pageNum = 0;
+    [self getTaskList];
+}
+/* 加载更多 */
+- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
+    [self getTaskList];
+}
 
+- (void)getDataFinish{
+    [self.pullToRefresh tableViewReloadFinishedAnimated:YES];
+    [self.pullToMore tableViewReloadFinished];
+    
+    if (self.taskListArray.count == 0) {
+        //  self.noDataViewBtn.hidden = NO;
+    }else{
+        self.noDataViewBtn.hidden = YES;
+    }
+    
+}
+#pragma mark - 接口
+- (void)getTaskList{
+   
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findReservationOrder", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId" ] =[UserDataSingleton mainSingleton].coachId;
+    __weak  TaskListViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr  = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC AnalyticalData:responseObject];
+            [VC.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+            [VC.pullToRefresh setPullToRefreshViewVisible:YES];
+        }else {
+            [VC.taskListArray removeAllObjects];
+            [VC makeToast:responseObject[@"msg"]];
+            [VC.tableView reloadData];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC makeToast:@"获取失败请重试"];
+        [VC.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [VC.pullToRefresh setPullToRefreshViewVisible:YES];
+        NSLog(@"error%@", error);
+    }];
+}
+
+- (void)AnalyticalData:(NSDictionary *)dataDic {
+    [self.taskListArray removeAllObjects];
+    NSArray *dataArray = dataDic[@"data"];
+    if (dataArray.count == 0) {
+        self.noDataViewBtn.hidden = NO;
+        //[self showAlert:@"你还没有订单可以选择" time:1.2];
+        [self.tableView reloadData];
+        return;
+    }
+    self.noDataViewBtn.hidden = YES;
+    for (NSDictionary *modelData in dataArray) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"MyOrderModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        MyOrderModel *model = [[MyOrderModel   alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        
+        for (NSString *key in modelData) {
+            [model setValue:modelData[key] forKey:key];
+        }
+        [self.taskListArray  addObject:model];
+          NSLog(@"self.taskListArray%@model%@",self.taskListArray, model);
+    }
+    [self.tableView reloadData];
+}
 #pragma mark - UITableView
 #pragma mark tableViewSection
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 10;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 29;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 29)];
-    view.backgroundColor = MColor(243, 243, 243);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, [UIScreen mainScreen].bounds.size.width, 29)];
-    label.font = [UIFont systemFontOfSize:12];
-    label.textColor = MColor(170, 170, 170);
-    
-    
-    
-    NSString *weekDay = @"2017-07-28";
-    
-    
-    NSString *nowDateStr = @"2017-07-28";
-    if ([nowDateStr isEqualToString:weekDay]) {
-        //今天
-        label.text = [NSString stringWithFormat:@"今日任务 %@ %@", weekDay,  weekDay];
-        view.backgroundColor = [UIColor blackColor];
-        label.textColor = [UIColor whiteColor];
-       
-    }else{
-        
-        long time = 1;
-        
-        NSString *timeText = @"";
-        if (time > 0){
-            //明天
-            timeText = [NSString stringWithFormat:@"%ld日前任务 %@ %@", time, @"2017-07-28", weekDay];
-        }else if (time == 1) {
-            //明天
-            timeText = [NSString stringWithFormat:@"明日任务 %@ %@", @"2017-07-28", weekDay];
-        }else{
-            //后天
-            timeText = [NSString stringWithFormat:@"%ld日后任务 %@ %@", -time, @"2017-07-28", weekDay];
-        }
-        
-        label.text = timeText;
-    }
-
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1)];
-    line.backgroundColor = MColor(210, 210, 210);
-    [view addSubview:line];
-    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 29, [UIScreen mainScreen].bounds.size.width, 1)];
-    line2.backgroundColor = MColor(210, 210, 210);
-    [view addSubview:line2];
-    [view addSubview:label];
-    
-    return view;
-}
 #pragma mark tableViewCell
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-  
-    
-    
-    return 3;
+    return self.taskListArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     return 300;
     //return 76;
 }
@@ -246,14 +246,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellident = @"taskCell";
     TaskListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellident];
+  //  cell.delegate = self;
+    MyOrderModel *model = self.taskListArray[indexPath.row];
+   // NSLog(@"model%@", model);
     if (!cell) {
         [tableView registerNib:[UINib nibWithNibName:@"TaskListTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
         cell = [tableView dequeueReusableCellWithIdentifier:cellident];
     }
     //获取数据
     {
-    //隐藏最后一条黑线
-    //indexPath.section == [self.taskList indexOfObject:dic]
+        
     if (9) {
         if (indexPath.row == 2) {
             cell.blackLine.hidden = YES;
@@ -278,11 +280,10 @@
         cell.getCarClick.hidden = NO;
         cell.cancelLabel.hidden = YES;
     }
-    
-    NSString *startTime = @"2017-01-23";//开始时间
-    NSString *endTime = @"2017-7-28";//结束时间
-    NSString *address = @"杭州市上城区巴拉巴拉巴拉";//地址
-    NSString *total = @"123"; //订单总价
+    NSString *startTime = [CommonUtil InDataForString:model.startTime];//开始时间
+    NSString *endTime = [CommonUtil InDataForString:model.endTime];//结束时间
+    NSString *address = @"";//地址
+    NSString *total = [NSString stringWithFormat:@"%d", model.price] ; //订单总价
     /**
      state =
      0：
@@ -297,33 +298,39 @@
      3:
      接口相关:coachstate为1
      前端处理:显示练车中,且可以确认下车."
+     
+     以上纯属瞎扯  这才是真的 
+     0 未上车 可以上车
+     1 上车了 可以下车
+     2 下车了 可以投诉
+     
      */
-    NSString *state = @"1";
-    
-    if ([state intValue] != 0) {
+    int state = model.trainState;
+        NSLog(@"model.trainState%d",model.trainState);
+    if (state != 0) {
         //红色日期 （开始时间1小时内到结束时间为止）
         cell.timeLabel.textColor = MColor(246, 102, 93);
     }else{
         cell.timeLabel.textColor = MColor(28, 28, 28);
     }
     //支付方式   1：现金 2：小巴券 3：小巴币
-    NSString *paytype = @"1";
-    if ([paytype intValue] == 1) {
+     int paytype = arc4random()%3 + 1;
+    if (paytype  == 1) {
         cell.payerType.hidden = NO;
         cell.payerType.text = @"¥";
         cell.payerType.hidden = NO;
         cell.payerType2.hidden = YES;
-    }else if ([paytype intValue] == 2) {
+    }else if (paytype== 2) {
         cell.payerType.hidden = NO;
         cell.payerType.text =  @"券";
         cell.payerType.hidden = NO;
         cell.payerType2.hidden = YES;
-    }else if ([paytype intValue] == 3) {
+    }else if (paytype == 3) {
         cell.payerType.hidden = NO;
         cell.payerType.text = @"币";
         cell.payerType.hidden = NO;
         cell.payerType2.hidden = YES;
-    }else if ([paytype intValue] == 4) {
+    }else if (paytype== 4) {
         cell.payerType.hidden = NO;
         cell.payerType.text = @"币";
         cell.payerType.hidden = NO;
@@ -333,9 +340,7 @@
         cell.payerType.hidden = YES;
         cell.payerType2.hidden = YES;
     }
-    
-    //是否是陪驾订单
-    NSString *subjectname = @"石某某";
+    NSString *subjectname = @"";
     if (subjectname.length == 0 || !subjectname) {
         cell.accompanyDriveBtn.hidden = YES;
     }else{
@@ -348,7 +353,7 @@
             [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
         }
     }
-    NSString *coursetype = @"5";
+    NSString *coursetype = @"1";
     if ([coursetype intValue] == 5) {
         cell.accompanyDriveBtn.hidden = NO;
         [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_not_attach_car"] forState:UIControlStateNormal];
@@ -356,61 +361,45 @@
     
     //头像
     NSString *logo = @"";
-    
-    NSString *studentState = @"1";//0.未认证 1.认证.studentState
-
-    if ([studentState intValue] == 1) {
+    int studentState = arc4random()%2+1;//0.未认证 1.认证.studentState
+    if (studentState == 1) {
         //已认证
         cell.logoImageView.layer.cornerRadius = cell.logoImageView.bounds.size.width/2;
         cell.logoImageView.layer.masksToBounds = YES;
         cell.logoImageView.image = [UIImage imageNamed:@"logo_default"];
         [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
-        
     }else{
         cell.logoImageView.image = [UIImage imageNamed:@"logo_default_nopass"];
         [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
     }
-    
     //任务时间
     NSString *time = [NSString stringWithFormat:@"%@ - %@", startTime, endTime];
-    NSMutableAttributedString *timeStr = [[NSMutableAttributedString alloc] initWithString:time];
-    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:28] range:NSMakeRange(0, startTime.length - 3)];
-    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:28] range:NSMakeRange(time.length - endTime.length, endTime.length - 3)];
-    [timeStr addAttribute:NSForegroundColorAttributeName value:MColor(210, 210, 210) range:NSMakeRange(startTime.length + 1, 1)];
-    cell.timeLabel.attributedText = timeStr;
-    
+        cell.timeLabel.font = MFont(kFit(12));
+    cell.timeLabel.text = time;
     cell.getCarClick.indexPath = indexPath;
     cell.finishView.hidden = YES;
-    
     //订单总价
     cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",total];
-    
     //地址
     cell.addressLabel.text = address;
-    
     // 投诉
-    NSString *phone =@"1364671****";
+    NSString *phone =@"136467120175";
     cell.complaintBtn.phone = phone;
     [cell.complaintBtn addTarget:self action:@selector(complaintClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     // 联系
     cell.contactBtn.phone = phone;
     [cell.contactBtn addTarget:self action:@selector(contactClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     //姓名
     NSString *name = @"测试数据";
     name = [NSString stringWithFormat:@"学员姓名 %@", name];
     cell.nameLabel.text = name;
-    
     //联系电话
     phone = [NSString stringWithFormat:@"联系电话 %@", phone];
     cell.phoneLabel.text = phone;
-    
     //学员证号
     NSString *num = @"123456789";
     num = [NSString stringWithFormat:@"学员证号 %@", num];
     cell.studentNumLabel.text = num;
-   
     // 判断按钮状态
     /**
      state =
@@ -427,16 +416,15 @@
      接口相关:coachstate为1
      前端处理:显示练车中,且可以确认下车."
      */
-    
     NSString *key = [NSString stringWithFormat:@"row%@", @"123455677"];
     NSString *rowState = [self.rowDic objectForKey:key];
-    
+        
     if ([rowState intValue] == 2) {
         //完成状态
         cell.finishView.hidden = NO;
         [self showDetailsCell:cell];
     }else {
-        if ([_openOrderId isEqualToString:@"1"]) {
+        if ([_openOrderId isEqualToString:@"1"]) {//判断打开或者关闭 cell
             //打开
             cell.finishView.hidden = YES; //打开情况下隐藏黑线
             cell.blackLine.hidden = YES;
@@ -447,18 +435,18 @@
             [self showDetailsCell:cell];
         }
     }
-    
-    if ([state intValue] == 0 || [state intValue] == 1) {
+#warning 这个地方还要更改 因为目前就一个数组
+    cell.getCarClick.tag = indexPath.row;
+    cell.getCarClick.trainState = [NSString stringWithFormat:@"%d", model.trainState];
+    [cell.getCarClick addTarget:self action:@selector(handlerUpDownCar:) forControlEvents:(UIControlEventTouchUpInside)];
+    if (state == 0) {
         //可以确认上车
-//        cell.getCarClick.userInteractionEnabled = YES;
-        [self checkUpCarBtn:cell.getCarClick];//确认上车
-    }else if ([state intValue] == 3){
+        [cell.getCarClick setTitle:@"确认上车" forState:(UIControlStateNormal)];
+    }else if (state  == 1){
         //可以确认下车
-//        cell.getCarClick.userInteractionEnabled = YES;
-        [self checkDownCarBtn:cell.getCarClick];//确认下车
+        [cell.getCarClick setTitle:@"确认下车" forState:(UIControlStateNormal)];
     }else{
-//        cell.getCarClick.userInteractionEnabled = YES;
-        [self checkUpCarBtn:cell.getCarClick];//确认上车
+     //   [self checkUpCarBtn:cell.getCarClick];//确认上车
     }
     }
     return cell;
@@ -520,10 +508,12 @@
 }
 #pragma mark - button action
 #pragma mark 联系
-- (void)contactClick:(DSButton *)sender
-{
+- (void)contactClick:(DSButton *)sender {
+
     if(![CommonUtil isEmpty:sender.phone] && ![@"暂无" isEqualToString:sender.phone]){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", sender.phone]]];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", sender.phone]]];
+                });
     }else{
         [self makeToast:@"该学员还未设置电话号码"];
     }
@@ -543,9 +533,8 @@
     }else if([advertisementopentype intValue]==2){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
     }
-    
 }
-#pragma mark 投诉
+#pragma mark 投诉 -- 发短信
 - (void)complaintClick:(DSButton *)sender {
     
     if(![CommonUtil isEmpty:sender.phone] && ![@"暂无" isEqualToString:sender.phone]){
@@ -554,22 +543,7 @@
         [self makeToast:@"该学员还未设置电话号码"];
     }
 }
-#pragma mark 确认上车
-- (void)checkUpCarBtn:(DSButton *)button {
-    UIImage *image1 = [UIImage imageNamed:@"background_check_geton"];
-    UIImage *image1_h = [UIImage imageNamed:@"background_check_geton_h"];
-    [image1 resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [image1_h resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    
-    [button setBackgroundImage:image1 forState:UIControlStateNormal];
-    [button setBackgroundImage:image1_h forState:UIControlStateHighlighted];
-    [button setTitle:@"确认上车" forState:UIControlStateNormal];
-    [button setTitle:@"确认下车" forState:(UIControlStateHighlighted)];
-    button.enabled = YES;
-    
-    [button removeTarget:self action:@selector(getOffCarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button addTarget:self action:@selector(getUpCarClick:) forControlEvents:UIControlEventTouchUpInside];
-}
+
 #pragma mark 练车中
 - (void)practicingCarBtn:(DSButton *)button {
     UIImage *image = [UIImage imageNamed:@"background_practice"];
@@ -578,22 +552,55 @@
     [button setTitle:@"练车中" forState:UIControlStateNormal];
     button.enabled = NO;
 }
-#pragma mark 确认下车 background_check_getoff
-- (void)checkDownCarBtn:(DSButton *)button {
+
+- (void)handlerUpDownCar:(DSButton *)sender {
     
-    UIImage *image1 = [UIImage imageNamed:@"background_check_getoff"];
-    UIImage *image1_h = [UIImage imageNamed:@"background_check_getoff_h"];
-    [image1 resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [image1_h resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    __weak TaskListViewController *VC =self;
     
-    [button setBackgroundImage:image1 forState:UIControlStateNormal];
-    [button setBackgroundImage:image1_h forState:UIControlStateHighlighted];
-    [button setTitle:@"确认下车" forState:UIControlStateNormal];
-    button.enabled = YES;
+    MyOrderModel *model = self.taskListArray[sender.indexPath.row];
+    NSLog(@"model.trainState%hd sender.trainState%@", model.trainState, sender.trainState);
+    UIAlertController *alertV = [UIAlertController alertControllerWithTitle:@"警告!" message:model.trainState == 0 ?@"确定学员上车":@"确定学员下车"  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        [self  respondsToSelector:@selector(indeterminateExample)];
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/confirmOnBus", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"id"] = model.orderId;
+        URL_Dic[@"flag"] = [NSString stringWithFormat:@"%d", sender.trainState.intValue + 1];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            [self  respondsToSelector:@selector(delayMethod)];
+            if ([resultStr isEqualToString:@"1"]) {
+                [VC makeToast:@"编辑成功!"];
+                [VC getTaskList];
+            }else {
+                [VC makeToast:responseObject[@"msg"]];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [self  respondsToSelector:@selector(delayMethod)];
+            NSLog(@"error%@", error);
+        }];
+
+    }];
     
-    [button removeTarget:self action:@selector(getUpCarClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button addTarget:self action:@selector(getOffCarClick:) forControlEvents:UIControlEventTouchUpInside];
-}
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"点错了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        return ;
+    }];
+    // 3.将“取消”和“确定”按钮加入到弹框控制器中
+    [alertV addAction:cancle];
+    [alertV addAction:confirm];
+    // 4.控制器 展示弹框控件，完成时不做操作
+    [self presentViewController:alertV animated:YES completion:^{
+        nil;
+    }];
+
+    
+ }
+
 #pragma mark 点击确认上车弹框
 - (void)getUpCarClick:(id)sender {
 
@@ -602,99 +609,18 @@
 }
 #pragma mark 点击确认下车弹框确认
 - (void)getOffCarClick:(id)sender {
-
     
 }
 #pragma mark 点击同意取消订单
 - (void)sureCancelClick:(DSButton *)button {
-    self.selectIndexPath = button.indexPath;
-    if (self.selectIndexPath.section >= self.taskList.count) {
-        return;//数组越界判断
-    }
-    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-    NSArray *array = dic[@"list"];
-    if (self.selectIndexPath.row >= array.count) {
-        return;//数组越界判断
-    }
-    dic = [array objectAtIndex:self.selectIndexPath.row];
-    [self sureCancle:[dic[@"orderid"] description]];
+  
 }
 #pragma mark 点击不同意取消订单
 - (void)noCancelClick:(DSButton *)button {
-    self.selectIndexPath = button.indexPath;
-    if (self.selectIndexPath.section >= self.taskList.count) {
-        return;//数组越界判断
-    }
-    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-    NSArray *array = dic[@"list"];
-    if (self.selectIndexPath.row >= array.count) {
-        return;//数组越界判断
-    }
-    dic = [array objectAtIndex:self.selectIndexPath.row];
-    [self noCancle:[dic[@"orderid"] description]];
+   
 }
-#pragma mark - alertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (self.selectIndexPath.section >= self.taskList.count) {
-        return;//数组越界判断
-    }
-    //判断该学员是否填写过资料
-    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-    NSArray *array = dic[@"list"];
-    
-    if (self.selectIndexPath.row >= array.count) {
-        return;//数组越界判断
-    }
-    
-    dic = [array objectAtIndex:self.selectIndexPath.row];
-    
-    if (alertView.tag == 0 || alertView.tag == 2) {
-        //确认上车
-        if (alertView.tag == 0 && buttonIndex == 1) {
-            NSDictionary *studentInfo = [NSDictionary dictionaryWithDictionary:dic[@"studentinfo"]];//学员信息
-            
-            //该学员未填写过资料，跳转到资料页面
-            UploadPhotoViewController *nextController = [[UploadPhotoViewController alloc] initWithNibName:@"UploadPhotoViewController" bundle:nil];
-            nextController.studentId = [studentInfo[@"studentid"] description];
-            [self.navigationController pushViewController:nextController animated:YES];
-        }else if ((alertView.tag == 0 && buttonIndex == 2) || (alertView.tag == 2 && buttonIndex == 1)){
-            [self startLocation];//开始定位
-            [DejalBezelActivityView activityViewForView:self.view];
-            upcarOrderId = [dic[@"orderid"] description];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
-        }
-    }else if (alertView.tag == 1){
-        if (buttonIndex == 1) {
-            [self getOffCarTask:[dic[@"orderid"] description]];
-        }
-    }else if (alertView.tag == 6){
-        if (buttonIndex == 1) {
-            if (self.selectIndexPath.section >= self.taskList.count) {
-                return;//数组越界判断
-            }
-            //判断该学员是否填写过资料
-            NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-            NSArray *array = dic[@"list"];
-            
-            if (self.selectIndexPath.row >= array.count) {
-                return;//数组越界判断
-            }
-            dic = [array objectAtIndex:self.selectIndexPath.row];
-            [self startLocation];//开始定位
-            [DejalBezelActivityView activityViewForView:self.view];
-            upcarOrderId = [dic[@"orderid"] description];
-            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
-        }
-    }
-}
+
 #pragma mark - 定位 BMKLocationServiceDelegate
-- (void)startLocation {
-  
-}
-// 测试反地理编码
-- (void)testLocation {
-    
-}
 #pragma mark details收起
 - (void)hideDetailsCell:(TaskListTableViewCell *)cell {
     cell.studentDetailsView.hidden = YES;
@@ -709,7 +635,7 @@
 - (void)deleteCell {
 
     // 删除数据
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.taskList objectAtIndex:self.selectIndexPath.section]];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.taskListArray objectAtIndex:self.selectIndexPath.section]];
     NSMutableArray *array = [NSMutableArray arrayWithArray:dic[@"list"]];
     NSDictionary *rowDic = [array objectAtIndex:self.selectIndexPath.row];
     [array removeObject:rowDic];
@@ -717,16 +643,16 @@
     
     if (array.count == 0) {
         //该日期下已经没有数据，移除
-        [self.taskList replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
+        [self.taskListArray replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
         [self.tableView deleteRowsAtIndexPaths:@[self.selectIndexPath] withRowAnimation:UITableViewRowAnimationRight];
         
         [self.rowDic removeAllObjects];
-        [self.taskList removeObject:dic];
+        [self.taskListArray removeObject:dic];
         [self.tableView reloadData];
 //        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:self.selectIndexPath.section] withRowAnimation:UITableViewRowAnimationRight];
     }else{
         //该日期下还有数据，替换
-        [self.taskList replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
+        [self.taskListArray replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
         [self.tableView deleteRowsAtIndexPaths:@[self.selectIndexPath] withRowAnimation:UITableViewRowAnimationRight];
         
     }
@@ -746,7 +672,7 @@
     self.commentView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:self.commentView];
 
-    if (self.taskList.count == 0) {
+    if (self.taskListArray.count == 0) {
         //没有数据
        // self.noDataViewBtn.hidden = NO;
     }else{
@@ -900,34 +826,8 @@
     [_pullToRefresh tableViewReleased];
     [_pullToMore tableViewReleased];
 }
-/* 刷新处理 */
-- (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-    pageNum = 0;
-    [self.rowDic removeAllObjects];
-    [self getTaskList];
-}
-/* 加载更多 */
-- (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
-    [self getTaskList];
-}
 
-- (void)getDataFinish{
-    [self.pullToRefresh tableViewReloadFinishedAnimated:YES];
-    [self.pullToMore tableViewReloadFinished];
-    
-    if (self.taskList.count == 0) {
-      //  self.noDataViewBtn.hidden = NO;
-    }else{
-        self.noDataViewBtn.hidden = YES;
-    }
-    
-}
-#pragma mark - 接口
-- (void)getTaskList{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
- 
-}
+
 #pragma mark 确认上车接口
 - (void)ComfirmTask:(NSString *)orderId{
     [self makeToast:@"该功能未开通"];

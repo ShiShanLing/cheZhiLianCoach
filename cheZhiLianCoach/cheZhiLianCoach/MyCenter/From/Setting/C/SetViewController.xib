@@ -253,7 +253,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kY6-CQ-HTA">
                     <rect key="frame" x="0.0" y="223" width="375" height="53"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   小巴明星教练服务协议" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujb-Qj-Bfi" userLabel="服务标准及约定">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   车智联明星教练服务协议" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujb-Qj-Bfi" userLabel="服务标准及约定">
                             <rect key="frame" x="0.0" y="0.0" width="200" height="53"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="53" id="5E2-3T-5AX"/>
@@ -308,7 +308,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SqX-qK-Opm">
                     <rect key="frame" x="0.0" y="276" width="375" height="53"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   小巴陪驾服务协议" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOf-Pc-xNs" userLabel="服务标准及约定">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   车智联陪驾服务协议" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOf-Pc-xNs" userLabel="服务标准及约定">
                             <rect key="frame" x="0.0" y="0.0" width="200" height="53"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="Yzt-sm-nIX"/>

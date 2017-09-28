@@ -480,9 +480,9 @@ static CommonUtil *defaultUtil = nil;
     NSString *filename=[plistPath1 stringByAppendingPathComponent:@"UserLogInData.plist"];
     //输入写入
     [userData writeToFile:filename atomically:YES];
-    [UserDataSingleton mainSingleton].memberId = @"";
-    [UserDataSingleton mainSingleton].studentsId = @"";
-    [UserDataSingleton mainSingleton].subState = @"";
+    
+    [UserDataSingleton mainSingleton].coachId = @"";
+    [UserDataSingleton mainSingleton].approvalState = @"";
     
 }
 

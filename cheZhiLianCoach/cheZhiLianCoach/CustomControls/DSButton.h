@@ -10,6 +10,8 @@
 
 @interface DSButton : UIButton
 
+
+//name
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *value;
 @property (nonatomic, strong) NSMutableDictionary *data;
@@ -18,7 +20,11 @@
 @property (nonatomic) NSInteger index;
 
 @property (nonatomic, copy) NSString *urlString;
-
+//cellL里面是否上下车的标志
+@property (nonatomic, copy) NSString *trainState;
+/**
+ *在cell里面的的下标
+ */
 @property (nonatomic, copy) NSIndexPath *indexPath;
 
 @property (strong, nonatomic) NSString *phone;

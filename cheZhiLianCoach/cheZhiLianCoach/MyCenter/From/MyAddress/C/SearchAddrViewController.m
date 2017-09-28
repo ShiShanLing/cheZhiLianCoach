@@ -88,22 +88,46 @@
     //上传数据
     NSString *place = [self.positionTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    if ([CommonUtil isEmpty:place]) {
-        [self makeToast:@"请选择或者输入学车地址"];
-        return;
-    }
-    
-    if ([CommonUtil isEmpty:self.area]) {
-        [self makeToast:@"请选择省市"];
-        return;
-    }
+//    if ([CommonUtil isEmpty:place]) {
+//        [self makeToast:@"请选择或者输入学车地址"];
+//        return;
+//    }
+//    
+//    if ([CommonUtil isEmpty:self.area]) {
+//        [self makeToast:@"请选择省市"];
+//        return;
+//    }
     [self saveAddress:place];
     
 }
 
 #pragma mark - 接口
 - (void)saveAddress:(NSString *)place{
-   
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/addTrainAddress", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    //=ee63ee92e55245fca333bb032a85a875&=123
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"addressName"] = @"河南省-驻马店市-平舆县-东和店镇(测试数据)";
+    __weak  SearchAddrViewController  *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        NSLog(@"responseObject%@", responseObject);
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC.navigationController popViewControllerAnimated:YES];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC showAlert:@"网络出现错误.请稍后重试!" time:1.2];
+        NSLog(@"error%@", error);
+    }];
+    
+    
     
 }
 

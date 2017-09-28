@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -15,20 +15,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴币兑换" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99l-PB-gjJ">
-                        <rect key="frame" x="12" y="8" width="83" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车智联币兑换" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99l-PB-gjJ">
+                        <rect key="frame" x="12" y="8" width="103" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="83" id="ARr-UO-Q4S"/>
+                            <constraint firstAttribute="width" constant="103" id="ARr-UO-Q4S"/>
                             <constraint firstAttribute="height" constant="21" id="I7d-02-Xwz"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发放人：小巴平台" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ek-qB-yuX">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发放人：车智联平台" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ek-qB-yuX">
                         <rect key="frame" x="12" y="37" width="208" height="16"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="208" id="5Az-UF-6WF"/>
@@ -66,7 +66,7 @@
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sOP-S3-FHk">
-                        <rect key="frame" x="103" y="6" width="80" height="25"/>
+                        <rect key="frame" x="116" y="6" width="80" height="25"/>
                         <color key="backgroundColor" red="0.95294117649999999" green="0.50196078430000002" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="MwY-5g-F9a"/>
@@ -85,7 +85,7 @@
                     <constraint firstItem="DRZ-TU-DP4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="Eu7-jT-I3l"/>
                     <constraint firstItem="DRZ-TU-DP4" firstAttribute="top" secondItem="gSU-qU-Uqn" secondAttribute="bottom" constant="5" id="IEM-gi-Od1"/>
                     <constraint firstAttribute="trailing" secondItem="gSU-qU-Uqn" secondAttribute="trailing" constant="7" id="KdR-fv-6pV"/>
-                    <constraint firstItem="sOP-S3-FHk" firstAttribute="leading" secondItem="99l-PB-gjJ" secondAttribute="trailing" constant="8" id="Yhs-1M-JtB"/>
+                    <constraint firstItem="sOP-S3-FHk" firstAttribute="leading" secondItem="99l-PB-gjJ" secondAttribute="trailing" constant="1" id="Yhs-1M-JtB"/>
                     <constraint firstItem="sOP-S3-FHk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="cFp-zr-ddr"/>
                     <constraint firstItem="JJX-yu-ZhX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="e0X-Oq-ecn"/>
                     <constraint firstAttribute="trailing" secondItem="DRZ-TU-DP4" secondAttribute="trailing" id="eXe-nF-XIE"/>
