@@ -50,8 +50,6 @@
 - (IBAction)clickForCancelInfoView:(id)sender;
 - (IBAction)callPhoneBtn:(id)sender;
 
-
-
 @property (assign, nonatomic) int rows; // 数据行数;
 @property (assign, nonatomic) int pagenum; //评论页数
 @property (copy, nonatomic) NSString *phoneNum;
@@ -82,7 +80,7 @@
     
     self.phoneNum = @"12345678912";
     
-   // self.rows = 5;
+    // self.rows = 5;
     myDataArr = [[NSMutableArray alloc] init];
     //myDataArr = [[NSMutableArray alloc] init];
     
@@ -108,7 +106,7 @@
     
     // 设置圆角
     UIImage *backgroundImage = [[UIImage imageNamed:@"bar_tousu.png"]
-                                      resizableImageWithCapInsets:UIEdgeInsetsMake(0,13,0,13)];
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(0,13,0,13)];
     [self.backgoundImageView setImage:backgroundImage];
     
     self.selectBarView.layer.cornerRadius = 13;
@@ -168,11 +166,12 @@
 
 #pragma mark - tableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //return self.rows;
-       return  10;
+    if (self.evaluationType == 2) {
+        return complainMyDataArr.count;
+    }else {
+        return  10;
+    }
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // 我的评价
@@ -201,7 +200,6 @@
         
         return cell;
     }
-    
     // 评价我的
     else if (self.evaluationType == 1) {
         static NSString *ID = @"EvaluationMeCellIdentifier";
@@ -212,13 +210,13 @@
         }
         
         // 加载数据
+        
         cell.evaluationContent = @"是个好教练,可惜长得爱国了点"; // 评价详情
         cell.studentIcon = @"logo.jpg"; // 学员头像
         cell.score = 5.0;  // 评分
         
-        NSString *startTime = @"2017-03-23";  // 任务开始时间
-        NSString *endTime = @"2017-08-21";      // 任务结束时间
-        NSString *dataTime =[NSString stringWithFormat:@"%@~%@",startTime ,endTime ];
+        NSString *startTime = @"2017-10-10";  // 任务开始时间
+        NSString *dataTime =[NSString stringWithFormat:@"%@",startTime];
         cell.evaluationData = dataTime;           // 任务时间
         cell.studentInfoBtn.tag = indexPath.row;
         [cell loadData:nil];
@@ -226,6 +224,9 @@
     }
     // 投诉我的
     else{
+        
+        EvaluationOrderModel *model = complainMyDataArr[indexPath.row];
+        
         static NSString *ID = @"ComplainMeCellIdentifier";
         ComplainMeCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
         if (nil == cell) {
@@ -241,84 +242,14 @@
         if(myDataArr == nil){
             return 0;
         }
-        //NSDictionary *dict = [myDataArr objectAtIndex:indexPath.row];
-        NSArray *contentArr = @[@[], @[]];
-        if(contentArr.count == 0)
-        {
-            cell.hasDealedWith = 0;
-            cell.complainContent = @"--";
-            cell.complainBecauseLenght = 0;
-            cell.clheight = 0;
-        }else{
-            int cHeight = 0;
-            cell.hasDealedWith = 1;
-            for(int i = 0; i<contentArr.count; i++)
-            {
-                for(int a = 0; a<contentArr.count; a++){
-                    NSDictionary *dic = [contentArr objectAtIndex:a];
-                    NSString *type1 = @"1";  // 投诉状态是否处理 0未处理  1处理
-                    NSString *type2 = @"0";
-                    if([type1 isEqualToString:type2]){
-                        cell.hasDealedWith = 0;
-                    }
-                }
-                if(i == 0){
-                    
-                    cell.type2 = 1;  // 投诉状态是否处理 0未处理  1处理
-                    NSString *strBecause = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很贵";     // 投诉原因
-                    NSString *strt;
-                    if(![CommonUtil isEmpty:strBecause])
-                    {
-                        strt  = [NSString stringWithFormat:@"#%@#",strBecause];
-                    }else{
-                        strt = @"";
-                    }
-                    cell.complainBecauseLenght = strt.length;
-                    NSString *strContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很贵";
-                    cell.complainContent = [NSString stringWithFormat:@"%@%@",strt,strContent] ;
-                }
-                else{
-                    NSArray * chArr = [complainMyDic objectForKey:[NSString stringWithFormat:@"%li",(long)indexPath.row]];
-                    
-                    UILabel *contentLabel = [[UILabel alloc] init];
-                    
-                    contentLabel.frame = CGRectMake(0, 0, 235, 10);
-                    
-                    NSInteger ty = 1;
-                    NSString *strBecause = @"不认真教";     // 投诉原因
-                    NSString *strt;
-                    if(![CommonUtil isEmpty:strBecause])
-                    {
-                        strt  = [NSString stringWithFormat:@"#%@#",strBecause];
-                    }else{
-                        strt = @"";
-                    }
-                    NSString *strContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很贵";
-                    NSString *complainContent = [NSString stringWithFormat:@"%@%@",strt,strContent];
-                    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:complainContent];
-                    [str addAttribute:NSForegroundColorAttributeName value:MColor(33, 180, 120) range:NSMakeRange(0,strt.length)];
-                    contentLabel.attributedText = str;
-                    contentLabel.lineBreakMode = NSLineBreakByCharWrapping;//实现文字多行显示
-                    contentLabel.numberOfLines = 0;
-                    if(ty == 1 || ty == 2)
-                    {
-                        contentLabel.textColor = MColor(210, 210, 210);
-                    }
-                    [cell.depositView addSubview:contentLabel];
-                }
-                cell.clheight = cHeight;
-            }
-            
-        }
-        NSString *startTime = @"2017-03-23";  // 任务开始时间
-        NSString *endTime = @"2017-08-21";      // 任务结束时间
-        NSString *dataTime =[NSString stringWithFormat:@"%@~%@",startTime ,endTime ];
-        cell.complainData = dataTime;                                 // 任务时间段
+        cell.type2 = model.appealState;
+        cell.hasDealedWith = model.appealState;
+        cell.complainContent = model.appealReason;
+        NSString *startTime = [CommonUtil getStringForDate:model.appealTime];
+        NSString *dataTime =[NSString stringWithFormat:@"%@",startTime ];
+        cell.complainData = dataTime;// 任务时间段
         cell.studentIcon = @"logo.jpg";      // 学员头像
-        
-        //cell.complainContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很高...";
         cell.studentInfoBtn.tag = indexPath.row;
-
         [cell loadData:nil];
         if (indexPath.row == (myDataArr.count - 1)) {
             [_pullToMore tableViewReloadFinished];
@@ -329,7 +260,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.evaluationType == 0) {
-        
         NSString *EvaluationContent = @"是个好学员,一教就会";
         CGSize textSize;
         if([CommonUtil isEmpty:EvaluationContent]){
@@ -349,36 +279,29 @@
         }
         return 152 - 35 + textSize.height;
     } else {
-         NSString *complainContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很贵";
         return [self computeContentMyHeight:indexPath.row];
     }
 }
 // 计算投诉我的每个内容高度
 - (int)computeContentMyHeight:(NSInteger)index{
     // 从字典中获取我的投诉数据
+    EvaluationOrderModel *model = complainMyDataArr[index];
     if(complainMyDataArr == nil){
         return 0;
     }
-        NSString *strBecause = @"不认真教学";     // 投诉原因
-        NSString *strt;
-        if(![CommonUtil isEmpty:strBecause])
-        {
-            strt  = [NSString stringWithFormat:@"#%@#",strBecause];
-        }else{
-            strt = @"";
-        }
-    NSString *strContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很贵";
- // 投诉内容
-        NSString *complainContent = [NSString stringWithFormat:@"%@%@",strt,strContent];
-        CGSize textSize = [self sizeWithString:complainContent fontSize:17 sizewidth:(kScreen_widht - 77) sizeheight:0];
+    
+    NSString *strContent = model.appealReason;
+    // 投诉内容
+    NSString *complainContent = [NSString stringWithFormat:@"%@",strContent];
+    CGSize textSize = [self sizeWithString:complainContent fontSize:17 sizewidth:(kScreen_widht - 77) sizeheight:0];
     int height = textSize.height;
-    return 200;
+    return 100;
 }
 
 
 #pragma mark - 请求接口
 - (void)getFreshData {
-   // self.rows = 5;
+    // self.rows = 5;
     //[self.mainTableView reloadData];
     self.pagenum = 0;
     if(self.evaluationType == 0)
@@ -391,7 +314,6 @@
     }
     [_pullToRefresh tableViewReloadFinishedAnimated:YES];
 }
-
 // 加载更多数据
 - (void)getMoreData {
     //self.rows = self.rows + 5;
@@ -409,7 +331,6 @@
     }
     //    [_pullToMore tableViewReloadFinished];
 }
-
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_pullToRefresh tableViewScrolled];
@@ -422,17 +343,14 @@
     [_pullToRefresh tableViewReleased];
     [_pullToMore tableViewReleased];
 }
-
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
     [self getFreshData];
 }
-
 /* 加载更多 */
 - (void)bottomPullToMoreTriggered:(DSBottomPullToMoreManager *)manager {
     [self getMoreData];
 }
-
 #pragma mark - 按钮方法
 // 评价我的
 - (IBAction)clickForMyEvaluation:(id)sender {
@@ -449,10 +367,9 @@
         [self.evaluationMeBtn setBackgroundColor:[UIColor clearColor]];
     }
     [myDataArr removeAllObjects];
-    //[self GetEvaluationToMy:self.pagenum];
+    [self GetEvaluationToMy:self.pagenum];
     [self.mainTableView reloadData];
 }
-
 // 我的评价
 - (IBAction)clickForEvaluationMe:(id)sender {
     self.evaluationType = 0;
@@ -469,10 +386,9 @@
         
     }
     [myDataArr removeAllObjects];
-    //[self GetMyEvaluation:self.pagenum];
+    [self GetMyEvaluation:self.pagenum];
     [self.mainTableView reloadData];
 }
-
 #pragma mark - 按钮方法
 // 投诉我的
 - (IBAction)clickForComplainMe:(id)sender {
@@ -491,10 +407,9 @@
         [self.evaluationMeBtn setBackgroundColor:[UIColor clearColor]];
     }
     [myDataArr removeAllObjects];
-   // [self getComplaintToMy:self.pagenum];
-     [self.mainTableView reloadData];
+    [self getComplaintToMy:self.pagenum];
+    [self.mainTableView reloadData];
 }
-
 // 显示我的评价学员信息
 - (void)myClickForStudentInfo:(UIButton *)sender {
     NSDictionary * dict = [myDataArr objectAtIndex:sender.tag];
@@ -514,7 +429,7 @@
         if (image != nil) {
             self.studentIconImageView.layer.cornerRadius = self.studentIconImageView.bounds.size.width/2;
             self.studentIconImageView.layer.masksToBounds = YES;
-//            [self updateLogoImage:self.studentIconImageView];//裁切
+            //            [self updateLogoImage:self.studentIconImageView];//裁切
         }
     }];
     
@@ -541,39 +456,103 @@
         if (image != nil) {
             self.studentIconImageView.layer.cornerRadius = self.studentIconImageView.bounds.size.width/2;
             self.studentIconImageView.layer.masksToBounds = YES;
-//            [self updateLogoImage:self.studentIconImageView];//裁切
+            //            [self updateLogoImage:self.studentIconImageView];//裁切
         }
     }];
     
     [self.view addSubview:self.studentInfoView];
 }
-
-
 // 关闭学员信息
 - (IBAction)clickForCancelInfoView:(id)sender {
     [self.studentInfoView removeFromSuperview];
 }
-
 // 电话联系
 - (IBAction)callPhoneBtn:(id)sender {
     NSLog(@"%@",self.phoneNum);
     NSString *phoneNum = [NSString stringWithFormat:@"telprompt://%@",self.phoneNum];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNum]];
 }
-
 #pragma mark - 我的评价接口
 - (void)GetMyEvaluation:(int) pageNum{
-   
+    
+    
 }
+
 
 #pragma mark - 评价我的接口
 - (void)GetEvaluationToMy:(int)pageNum{
-  
+    
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findAppraiseInfo", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    __weak  MyEvaluationViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC ParsingEvaluationForMineData:responseObject];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
 }
-
+//
+- (void)ParsingEvaluationForMineData:(NSDictionary *)data {
+    
+    
+}
 #pragma mark - 投诉我的接口
 - (void)getComplaintToMy:(int)pageNum {
-   
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findOrderAppeal", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    __weak  MyEvaluationViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC ParsingComplaintsForMineData:responseObject];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+}
+//投诉我的数据解析
+- (void)ParsingComplaintsForMineData:(NSDictionary *)data
+{
+    [complainMyDataArr removeAllObjects];
+    NSArray *dataArray =data[@"data"];
+    if (dataArray.count == 0) {
+        [self showAlert:@"暂时还没有订单" time:1.2];
+        return;
+    }
+    
+    for (NSDictionary *modelDic in dataArray) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"EvaluationOrderModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        EvaluationOrderModel *model = [[EvaluationOrderModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        
+        for (NSString *key in modelDic) {
+            [model setValue:modelDic[key] forKey:key];
+        }
+        [complainMyDataArr addObject:model];
+    }
+    NSLog(@"complainMyDataArr%@", complainMyDataArr);
+    [self.mainTableView reloadData];
+    
+    
 }
 
 - (void)backLogin{
