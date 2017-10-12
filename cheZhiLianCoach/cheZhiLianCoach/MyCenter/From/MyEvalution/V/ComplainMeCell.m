@@ -52,17 +52,10 @@
     {
         self.studentIcon = @"";
     }
-//    [self.studentIconImageView sd_setImageWithURL:[NSURL URLWithString:self.studentIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//        if(image != nil){
+
             self.studentIconImageView.image = [UIImage imageNamed:@"icon_portrait_default"];
             self.studentIconImageView.layer.cornerRadius = self.studentIconImageView.bounds.size.width/2;
             self.studentIconImageView.layer.masksToBounds = YES;
-//            [self updateLogoImage:self.studentIconImageView];//裁切头像
-//        }
-//    }];
-    
-    //延时调用是为了等图片显示出来之后再进行裁剪
-    //[self performSelector:@selector(updateLogoImage:) withObject:self.studentIconImageView afterDelay:0];
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:complainContent];
     [str addAttribute:NSForegroundColorAttributeName value:MColor(33, 180, 120) range:NSMakeRange(0,self.complainBecauseLenght)];
@@ -85,7 +78,7 @@
         self.complainContentLabel.attributedText = str;
         CGSize textSize = [self sizeWithString:complainContent fontSize:17 sizewidth:(kScreen_widht - 77) sizeheight:0];
         self.complainContentHeight.constant = textSize.height;
-        self.dealedImageView.hidden = YES;
+        self.dealedImageView.hidden = NO;
         self.portraitY.constant = 17;
         self.studentInfoBtnY.constant = 17;
         self.taskTimeLabel.textColor = MColor(37, 37, 37);
