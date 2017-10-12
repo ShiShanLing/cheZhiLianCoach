@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */; };
+		A10EDD581F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */; };
 		A12A9B701F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */; };
 		A12A9B711F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */; };
 		A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */; };
@@ -19,6 +21,8 @@
 		A141D6981F58FFD20099BA53 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */; };
 		A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */; };
 		A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */; };
+		A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */; };
+		A15967411F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A159673F1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m */; };
 		A173D4561F4FFDF000FBC582 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = A173D4551F4FFDF000FBC582 /* china.plist */; };
 		A191AD891F4E84C90063B9A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A191AD881F4E84C90063B9A7 /* Images.xcassets */; };
 		A191AD8E1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A191AD8B1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m */; };
@@ -201,6 +205,10 @@
 		27A5C879B46D53273282919B /* libPods-cheZhiLianCoach.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cheZhiLianCoach.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A92F4EEE068BD3C96D3454A /* Pods-cheZhiLianCoach.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.debug.xcconfig"; sourceTree = "<group>"; };
 		58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.release.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.release.xcconfig"; sourceTree = "<group>"; };
+		A10EDD531F8E092B00434843 /* TradingRecordModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A10EDD551F8E092B00434843 /* TradingRecordModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachAuditStatusModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -226,6 +234,10 @@
 		A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A159673C1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EvaluationOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EvaluationOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A159673E1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EvaluationOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A159673F1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EvaluationOrderModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A173D4551F4FFDF000FBC582 /* china.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = china.plist; sourceTree = "<group>"; };
 		A191AD881F4E84C90063B9A7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A191AD8A1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserDataModel+CoreDataClass.h"; sourceTree = "<group>"; };
@@ -982,6 +994,10 @@
 		A1AB9D951F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A10EDD531F8E092B00434843 /* TradingRecordModel+CoreDataClass.h */,
+				A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */,
+				A10EDD551F8E092B00434843 /* TradingRecordModel+CoreDataProperties.h */,
+				A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1143,6 +1159,10 @@
 		A1AB9DA51F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A159673C1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.h */,
+				A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */,
+				A159673E1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.h */,
+				A159673F1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1779,6 +1799,7 @@
 				A1AB9E961F4C235E0056AB9D /* DatePickerViewController.m in Sources */,
 				A1AB9D8A1F4C16B10056AB9D /* ScheduleSettingViewController.m in Sources */,
 				A1AB9EEF1F4C2A090056AB9D /* DSBottomPullToMoreManager.m in Sources */,
+				A15967411F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m in Sources */,
 				A1AB9EB71F4C26C00056AB9D /* XBProvince.m in Sources */,
 				A141D6971F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				A1AB9D501F4C113B0056AB9D /* AppDelegate.m in Sources */,
@@ -1787,6 +1808,7 @@
 				A1AB9E2D1F4C1BF10056AB9D /* MyDetailInfoViewController.m in Sources */,
 				A1AB9EFD1F4C330E0056AB9D /* ComplainMeCell.m in Sources */,
 				A1A691CC1F502892009C2B30 /* CoachInfoViewController.m in Sources */,
+				A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */,
 				A1AB9ED61F4C27CB0056AB9D /* CZCroppingScrollView.m in Sources */,
 				A1AB9D911F4C16D70056AB9D /* MyViewController.m in Sources */,
 				A1AB9EA71F4C23E20056AB9D /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -1807,6 +1829,7 @@
 				A1AB9E541F4C1C8D0056AB9D /* CoinRecordListTableViewCell.m in Sources */,
 				A1AB9DD11F4C185D0056AB9D /* AboutUsViewController.m in Sources */,
 				A1CE07C61F6BA60E001CB804 /* SetAddrTVCell.m in Sources */,
+				A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */,
 				A1AB9D641F4C15BF0056AB9D /* RecommendCodeViewController.m in Sources */,
 				A1AB9D621F4C15BF0056AB9D /* LoginViewController.m in Sources */,
 				A1AB9E8D1F4C216C0056AB9D /* CommonUtil+Date.m in Sources */,
@@ -1857,6 +1880,7 @@
 				A1AB9E8F1F4C216C0056AB9D /* UIViewController+Toast.m in Sources */,
 				A1AB9E4A1F4C1C660056AB9D /* MyStudentTableViewCell.m in Sources */,
 				A1AB9E311F4C1BF10056AB9D /* UserInfoViewController.m in Sources */,
+				A10EDD581F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m in Sources */,
 				A1AB9E631F4C1D850056AB9D /* AmountTableViewCell.m in Sources */,
 				A1AB9DD71F4C185D0056AB9D /* SetViewController.m in Sources */,
 				A1CE07C21F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m in Sources */,
