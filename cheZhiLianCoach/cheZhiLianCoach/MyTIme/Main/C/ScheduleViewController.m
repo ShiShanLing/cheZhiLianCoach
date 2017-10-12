@@ -159,6 +159,7 @@ static  BOOL EditTime;
     self.mainTableView.delegate = self;
     self.mainTableView.dataSource = self;
     [self.mainTableView registerClass:[TimeChooseTableViewCell class] forCellReuseIdentifier:@"TimeChooseTableViewCell"];
+    
     [self showTableHeaderView];
     [self compareBeforeDate:self.selectDate nowDate:self.nowDate];
     
