@@ -319,7 +319,9 @@
             }
             if ([key isEqualToString:@"realName"]) {
                 [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
-                
+            }
+            if ([key isEqualToString:@"balance"]) {
+                [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
             [userData setObject:urseDataDic[key] forKey:key];
         }
