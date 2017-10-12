@@ -205,9 +205,7 @@
 @end
 
 @implementation CoachInfoViewController {
-    
-
-
+ 
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -333,6 +331,9 @@
         if ([key isEqualToString:@"realName"]) {
             [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", coachDataDic[key]];
             
+        }
+        if ([key isEqualToString:@"balance"]) {
+            [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", coachDataDic[key]];
         }
         [model setValue:coachDataDic[key] forKey:key];
         
@@ -917,7 +918,6 @@
 }
 // 拍证件照片
 - (IBAction)clickForPhoto:(UIButton *)sender {
-    
     // 身份证正面
     if (sender.tag == 102) {
         NSLog(@"身份证正面");
@@ -961,11 +961,6 @@
             self.clickImageView.contentMode = UIViewContentModeScaleAspectFill;
             self.clickLabel.hidden = YES;
             self.clickDelBtn.hidden = NO;//显示删除按钮
-            
-            
-            
-            
-            
         }
         [self.alertView removeFromSuperview];
     }];
@@ -1105,7 +1100,6 @@
         //相册
         [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
-    
 }
 //删除已经添加的照片
 - (IBAction)clickForDelImage:(id)sender {

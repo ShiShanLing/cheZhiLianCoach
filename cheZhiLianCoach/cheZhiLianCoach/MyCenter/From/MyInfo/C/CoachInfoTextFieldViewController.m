@@ -68,14 +68,8 @@
 }
 
 - (IBAction)clickForCommit:(id)sender {
-    if (self.inputTextfield.text > 0) {
-        if ([self.viewType intValue]==1) {
-            [self updateUserData:@"realname" and:self.inputTextfield.text];
-            
-        }else{
+    if (self.inputTextfield.text.length > 0) {
             [self updateUserData];
-        }
-
     }else{
         [self makeToast:@"不能提交空白资料"];
     }
@@ -84,10 +78,31 @@
 #pragma mark - 接口
 //提交个人资料
 - (void)updateUserData{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *coachId = userInfo[@"coachid"];
-   
-    [DejalBezelActivityView activityViewForView:self.view];
+    [self respondsToSelector:@selector(indeterminateExample)];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setRealName",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"realName"] = self.inputTextfield.text;
+    __weak  CoachInfoTextFieldViewController   *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [VC respondsToSelector:@selector(delayMethod)];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC.navigationController popViewControllerAnimated:YES];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC respondsToSelector:@selector(delayMethod)];
+        [VC showAlert:@"更改姓名请求失败!"time:1.2];
+        NSLog(@"error%@", error);
+    }];
+
 }
 
 //提交个人资料

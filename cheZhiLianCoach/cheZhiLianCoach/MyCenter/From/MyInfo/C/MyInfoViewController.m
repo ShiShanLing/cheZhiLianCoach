@@ -59,24 +59,7 @@
 
 @property (copy, nonatomic) NSString *userState;
 @property (copy, nonatomic) NSString *birthdayChange;
-//- (IBAction)clickToUserInfoView:(id)sender;     // 账号信息
 - (IBAction)clickToCoachInfoView:(id)sender;    // 教练资格信息
-//- (IBAction)clickToMyDetailInfoView:(id)sender; // 个人资料
-//- (IBAction)clickToChangePwdView:(id)sender;    // 修改密码
-//- (IBAction)clickForCancel:(id)sender;
-//- (IBAction)clickForProvePwd:(id)sender;
-
-//@property (strong, nonatomic) IBOutlet UILabel *phoneLabel;
-
-
-//
-////修改默认价格
-//- (IBAction)clickForChangePrice:(id)sender;
-//
-////修改默认教学内容
-//- (IBAction)clickForChangeSubject:(id)sender;
-
-//
 //修改上车地址
 - (IBAction)clickForChangeAddress:(id)sender;
 
@@ -89,13 +72,22 @@
 
 //@property (strong, nonatomic) IBOutlet UILabel *defaultPriceLabel;
 //@property (strong, nonatomic) IBOutlet UILabel *defaultSubjectLabel;
+/**
+ *地址
+ */
 @property (strong, nonatomic) IBOutlet UILabel *defaultAddressLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *portraitImage;//头像
 @property (strong, nonatomic) IBOutlet UILabel *realNameLabel;
-@property (strong, nonatomic) IBOutlet UILabel *sexLabel;//性别
+/**
+ *性别
+ */
+@property (strong, nonatomic) IBOutlet UILabel *sexLabel;//
 @property (strong, nonatomic) IBOutlet UILabel *coachInfoState;//教学信息状态
 @property (strong, nonatomic) IBOutlet UILabel *birthdayLabel;
-@property (strong, nonatomic) IBOutlet UILabel *trainTimeLabel;//驾培教龄
+/**
+ *驾培教龄
+ */
+@property (strong, nonatomic) IBOutlet UILabel *trainTimeLabel;//
 @property (strong, nonatomic) IBOutlet UILabel *selfEvaluationLabel;//个人评价
 
 @property (strong, nonatomic) IBOutlet UIButton *nameButton;
@@ -121,117 +113,35 @@
     
     self.portraitImage.layer.cornerRadius = self.portraitImage.bounds.size.width/2;
     self.portraitImage.layer.masksToBounds = YES;
-
     self.alertDetailView.layer.cornerRadius = 4;
     self.alertDetailView.layer.masksToBounds = YES;
-    
-    
     self.nameButton.tag = 1;
     self.trainTimeButton.tag = 2;
     self.selfEvaluationButton.tag = 3;
-
-    
     [self registerForKeyboardNotifications];
-    
-    
-//    //添加姓名，手机号码，所属驾校，性别
-//    [self addOtherView];
+    //  添加姓名，手机号码，所属驾校，性别
+    //    [self addOtherView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    //重新设置默认价格 默认教学科目  默认地址
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-//    NSString *price = [userInfo[@"price"] description];
-//    NSString *subjectname = [userInfo[@"subjectname"] description];
-    NSString *defauleAddress = [userInfo[@"defaultAddress"] description];
-    
-//    if(![CommonUtil isEmpty:price] && [price doubleValue] != 0){
-//        self.defaultPriceLabel.text = [NSString stringWithFormat:@"%@ 元/小时", price];
-//    }else{
-//        self.defaultPriceLabel.text = @"未设置";
-//    }
-    
-//    if(![CommonUtil isEmpty:subjectname]){
-//        self.defaultSubjectLabel.text = subjectname;
-//    }else{
-//        self.defaultSubjectLabel.text = @"未设置";
-//    }
-    NSString *signstate = [userInfo[@"signstate"] description];//是否为明星教练的标识
-    if ([signstate intValue]==1) {
-        self.remindBackView.hidden = NO;
-        NSString *signexpired = [userInfo[@"signexpired"] description];
-        NSString *str = [signexpired substringToIndex:10];
-        self.remindLabel.text = [NSString stringWithFormat:@"明星教练服务于%@到期",str];
-        self.topConstraint.constant = 32;
-    }else{
-        self.remindBackView.hidden = YES;
-        self.topConstraint.constant = 0 ;
-    }
-    
-    if(![CommonUtil isEmpty:defauleAddress]){
-        self.defaultAddressLabel.text = defauleAddress;
-    }else{
-        self.defaultAddressLabel.text = @"未设置";
-    }
-    
+    self.remindBackView.hidden = YES;
+    self.topConstraint.constant = 0 ;
+    self.defaultAddressLabel.text = @"未设置";
     //姓名
     NSString *realname = [userInfo[@"realname"] description];
     self.realNameLabel.text = realname;
-    //性别
-    NSString *sexStr;
-    NSString *gender = [userInfo[@"gender"] description];
-    if ([gender intValue] == 1) {
-        sexStr = @"男";
-    }else if ([gender intValue] == 2){
-        sexStr = @"女";
-    }else{
-        sexStr = @"请选择";
-    }
-    self.sexLabel.text = sexStr;
-    
-    NSString *birthday = [userInfo[@"birthday"] description];
-    if ([self.birthdayChange intValue]==0) {
-        if (birthday.length == 0) {
-            self.birthdayLabel.text = @"请选择";
-        }else{
-            self.birthdayLabel.text = birthday;
-        }
-    }else{
-        self.birthdayChange = @"0";
-    }
-    NSString *years = [userInfo[@"years"] description];
-    if (years.length == 0) {
-        self.trainTimeLabel.text = @"请选择";
-    }else{
-        self.trainTimeLabel.text = [NSString stringWithFormat:@"%@年",years];
-    }
-    
-    NSString *selfeval = [userInfo[@"selfeval"] description];
-    if (selfeval.length == 0) {
-        self.selfEvaluationLabel.text = @"一句话评价自己";
-    }else{
-        self.selfEvaluationLabel.text = [NSString stringWithFormat:@"%@",selfeval];
-    }
-    
-    //头像
-    NSString *url = userInfo[@"avatarurl"];
-    url = [CommonUtil isEmpty:url]?@"":url;
-
-    //头像
-    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (image != nil) {
-//            [self updateLogoImage:self.portraitImage];
-            self.portraitImage.layer.cornerRadius = self.portraitImage.bounds.size.width/2;
-            self.portraitImage.layer.masksToBounds = YES;
-        }
+    self.sexLabel.text = @"请选择";
+    self.birthdayLabel.text = @"请选择";
+    self.trainTimeLabel.text = @"请选择";
+    self.selfEvaluationLabel.text = @"一句话评价自己";
+  
+    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+      
     }];
-    
     [self getCoachDetail];
-    
-    //电话号码
-//    self.phoneLabel.text = [NSString stringWithFormat:@"手机号码:%@",userInfo[@"phone"]];
 }
 
 - (void)updateLogoImage:(UIImageView *)imageView{
@@ -257,10 +167,10 @@
 
 // 键盘弹出，控件偏移
 - (void) keyboardWillShow:(NSNotification *) notification {
-//    if (!self.commitView.superview) {
-//        return;
-//    }
-//    _oldFrame = self.commitView.frame;
+    //    if (!self.commitView.superview) {
+    //        return;
+    //    }
+    //    _oldFrame = self.commitView.frame;
     
     NSDictionary *userInfo = [notification userInfo];
     
@@ -269,24 +179,24 @@
     // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
     CGRect keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-//    CGFloat keyboardTop = keyboardRect.origin.y;
+    //    CGFloat keyboardTop = keyboardRect.origin.y;
     
-//    CGFloat offset = CGRectGetMaxY(self.commitView.frame) - keyboardTop + 10;
+    //    CGFloat offset = CGRectGetMaxY(self.commitView.frame) - keyboardTop + 10;
     
     NSTimeInterval animationDuration = 0.3f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
     [UIView setAnimationDuration:animationDuration];
-//    self.commitView.frame = CGRectMake(_oldFrame.origin.x, _oldFrame.origin.y - offset, _oldFrame.size.width, _oldFrame.size.height);
+    //    self.commitView.frame = CGRectMake(_oldFrame.origin.x, _oldFrame.origin.y - offset, _oldFrame.size.width, _oldFrame.size.height);
     [UIView commitAnimations];
     
 }
 
 // 键盘收回，控件恢复原位
 - (void) keyboardWillHidden:(NSNotification *) notif {
-//    if (!self.commitView.superview) {
-//        return;
-//    }
-//    self.commitView.frame = _oldFrame;
+    //    if (!self.commitView.superview) {
+    //        return;
+    //    }
+    //    self.commitView.frame = _oldFrame;
 }
 
 // 信息被改变
@@ -431,15 +341,11 @@
 // 数据
 - (void)initSexData {
     self.pickerView.tag = 1;
-    self.selectArray = [NSMutableArray arrayWithObjects:@"男", @"女", nil];
-//    _sexViewArray = [[NSMutableArray alloc] init];
-    
+    self.selectArray = [NSMutableArray arrayWithObjects:@"男", @"女",@"默认", nil];
 }
-
 // 自定义每行的view
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
     UILabel *myView = nil;
-    
     // 性别选择器
     myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 45)];
     myView.textAlignment = NSTextAlignmentCenter;
@@ -537,6 +443,7 @@
 
 #pragma mark - DatePickerViewControllerDelegate
 - (void)datePicker:(DatePickerViewController *)viewController selectedDate:(NSDate *)selectedDate{
+    
     NSString *time = [CommonUtil getStringForDate:selectedDate format:@"yyyy-MM-dd"];
     self.birthdayLabel.text = time;
     [self updateUserDirthday];
@@ -567,42 +474,37 @@
         viewController.view.superview.backgroundColor = [UIColor clearColor];
     }];
 }
-
 // 关闭选择页面
 - (IBAction)clickForCancelSelect:(id)sender {
     [self.selectView removeFromSuperview];
 }
-
 // 完成性别选择
 - (IBAction)clickForSexDone:(id)sender {
-  
-       [self makeToast:@"功能未开通"];
+    [self makeToast:@"功能未开通"];
 }
-
 //提交
 - (IBAction)clickForCommit:(id)sender {
     MyInfoCell *cell = _cells[1];
     NSString *str1 = cell.contentField.text;
-   [self makeToast:@"功能未开通"];
-//    [self updateUserData];
+    [self makeToast:@"功能未开通"];
+    //    [self updateUserData];
 }
-
 #pragma mark - 接口
-
 // 获取所有驾校信息
 - (void)getCarSchool{
-       [DejalBezelActivityView activityViewForView:self.view];
+    [DejalBezelActivityView activityViewForView:self.view];
 }
 
 //提交个人资料
 - (void)updateUserData:(NSString *)key and:(id)value{
-       [self makeToast:@"功能未开通"];
+    [self makeToast:@"功能未开通"];
 }
 
 //提交个人资料
 - (void)updateUserDirthday{
     [self makeToast:@"功能未开通"];
 }
+
 
 - (void)getCoachDetail {
     self.coachInfoState.text = @"【资格审核已提交】";
@@ -622,25 +524,32 @@
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
 
-
 - (IBAction)clickForChangeAvatar:(id)sender {
     self.alertPhotoView.frame = self.view.frame;
+    
     [self.view addSubview:self.alertPhotoView];
+    
 }
-
 //关闭弹框
 - (IBAction)clickForCloseAlert:(id)sender {
     [self.alertPhotoView removeFromSuperview];
 }
 
-- (IBAction)clickForCamera:(id)sender {
-       [self makeToast:@"功能未开通"];
+- (IBAction)clickForCamera:(UIButton *)sender {
+    
+    self.pickPhotoController = [self photoController];
+    self.pickPhotoController.allowsEditing = NO;
+    if (sender.tag == 1 && [CZPhotoPickerController canTakePhoto]) {
+        //拍照
+        [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+    } else {
+        //相册
+        [self.pickPhotoController showImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
     
 }
-
 #pragma mark - 拍照
-- (CZPhotoPickerController *)photoController
-{
+- (CZPhotoPickerController *)photoController {
     typeof(self) weakSelf = self;
     
     return [[CZPhotoPickerController alloc] initWithPresentingViewController:self withCompletionBlock:^(UIImagePickerController *imagePickerController, NSDictionary *imageInfoDict) {
@@ -666,18 +575,78 @@
 
 //上传头像
 - (void)uploadLogo:(UIImage *)image{
-    [DejalBezelActivityView activityViewForView:self.view];
+    [self respondsToSelector:@selector(indeterminateExample)];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/floor/api/fileUpload", kURL_SHY];
+    //carownerapi/ save_carowner
+    AFHTTPSessionManager * managerOne = [AFHTTPSessionManager manager];
     
-    self.changeLogoImage = image;//修改的头像
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    managerOne.requestSerializer.HTTPShouldHandleCookies = YES;
     
+    managerOne.requestSerializer  = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    managerOne.responseSerializer = [AFJSONResponseSerializer serializer];
+    [managerOne.requestSerializer setTimeoutInterval:20.0];
     
+    //把版本号信息传导请求头中
+    [managerOne.requestSerializer setValue:[NSString stringWithFormat:@"iOS-%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] forHTTPHeaderField:@"MM-Version"];
+    
+    [managerOne.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept" ];
+    managerOne.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json",@"text/html", @"text/plain",nil];
+    __weak MyInfoViewController *VC  = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    
+    [managerOne POST:URL_Str parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        NSData *picData = UIImageJPEGRepresentation(image, 0.5);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *fileName = [NSString stringWithFormat:@"%@.png", @"id_card_front"];
+        [formData appendPartWithFileData:picData name:[NSString stringWithFormat:@"file"]
+                                fileName:fileName mimeType:@"image/png"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            NSArray *dataArray = responseObject[@"data"];
+            NSDictionary *dataDic =dataArray[0];
+            NSString *image_URL = dataDic[@"URL"];
+            NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setAvatar", kURL_SHY];
+            NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+            URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;;
+            URL_Dic[@"avatar"] = image_URL;
+            [managerOne POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+                NSLog(@"uploadProgress%@", uploadProgress);
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                NSLog(@"responseObject%@", responseObject);
+                NSString *resultStr1 = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+                if ([resultStr1 isEqualToString:@"1"]) {
+                    [VC showAlert:@"更改成功" time:1.2];
+                }else {
+                    [VC showAlert:responseObject[@"msg"] time:1.2];
+                    
+                }
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [VC showAlert:@"更改头像网络出错!" time:1.2];
+                NSLog(@"error%@", error);
+            }];
+        }else{
+            [VC showAlert:@"图片上传失败" time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSLog(@"error%@", error);
+        [VC showAlert:@"上传图片网络出错!" time:1.2];
+        
+    }];
 }
 
 - (void)savePrice {
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     
-     [DejalBezelActivityView activityViewForView:self.view];
+    [DejalBezelActivityView activityViewForView:self.view];
 }
 
 @end
