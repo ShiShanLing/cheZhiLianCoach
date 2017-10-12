@@ -23,7 +23,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 
-//参数
+//交易记录
 @property (strong, nonatomic) NSMutableArray *amountArray;
 @property (strong, nonatomic) NSString *totalPrice;//总金额
 @property (strong, nonatomic) NSString *fMoney;//冻结金额
@@ -69,6 +69,8 @@
 @end
 
 @implementation AmountDetailViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -129,6 +131,7 @@
 
 }
 
+
 - (void) textFieldDidChange:(UITextField *) TextField{
     if (TextField == self.moneyYuanField) {
         if (self.moneyYuanField.text.length > 0) {
@@ -150,6 +153,55 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self showTableHeaderView];
+}
+
+- (void)requestTradingData {
+    //http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT?coachId=1a0bc1131b7c47fcb2514386674aa051
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findAccountLog", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    __weak  AmountDetailViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [VC.mainTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [VC.pullToRefresh setPullToRefreshViewVisible:YES];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC parsingTradingData:responseObject];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
+}
+- (void)parsingTradingData:(NSDictionary *)dataDic {
+    [self.amountArray removeAllObjects];
+    NSArray *dataArray = dataDic[@"data"];
+    if (dataArray.count  == 0) {
+        [self showAlert:@"暂时没有交易记录!" time:1.2];
+        return;
+    }
+    for (NSDictionary *modelDic in dataArray) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"TradingRecordModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        TradingRecordModel *model = [[TradingRecordModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        for (NSString *key in modelDic) {
+            [model setValue:modelDic[key] forKey:key];
+        }
+        [self.amountArray addObject:model];
+    }
+    NSLog(@"amountArray%@", self.amountArray);
+    [self.mainTableView reloadData];
+    
+}
 
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
@@ -222,75 +274,74 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [self requestTradingData];
     [_pullToRefresh tableViewReleased];
 }
 
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-   // [self getAmountData];
+    
+    [self requestTradingData];
 }
 
 
 - (void)getDataFinish{
+    
     [self.pullToRefresh tableViewReloadFinishedAnimated:YES];
     
 }
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return korderNum;
+    return self.amountArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 //    NSDictionary *dic = [self.amountArray objectAtIndex:indexPath.row];
-    NSString *amount = @"100";//数量
-    NSString *type = @"1";//数量
-    NSString *amount_out1 =@"12";//平台抽成
-    NSString *amount_out2 = @"23";//驾校抽成
+    TradingRecordModel *model =self.amountArray [indexPath.row];
     
-    NSString *str = @"";
-    if ([type intValue] == 1) {
-        if (![CommonUtil isEmpty:amount]) {
-            str = [NSString stringWithFormat:@"(课程总额%@元", amount];
-            
-            if (![CommonUtil isEmpty:amount_out1] && [amount_out1 doubleValue] > 0) {
-                str = [NSString stringWithFormat:@"%@，其中%@元车智联平台抽成", str, amount_out1];
-            }
-            
-            if (![CommonUtil isEmpty:amount_out2] && [amount_out2 doubleValue] > 0) {
-                str = [NSString stringWithFormat:@"%@，其中%@元驾校抽成", str, amount_out2];
-            }
-            
-            str = [NSString stringWithFormat:@"%@)", str];
-        }
-    }
+    NSString *amount = [NSString stringWithFormat:@"%.2f", model.balanceChange];//数量
+    NSString *str = [NSString stringWithFormat:@"(课程总额%@元", amount];
+//    NSString *type = @"1";//数量
+//    NSString *amount_out1 =@"0";//平台抽成
+//    NSString *amount_out2 = @"0";//驾校抽成
+  
     
-    
+//
+//
+//                str = [NSString stringWithFormat:@"%@，其中%@元车智联平台抽成", str, amount_out1];
+//
+//
+//
+//                str = [NSString stringWithFormat:@"%@，其中%@元驾校抽成", str, amount_out2];
+//
+//
+//            str = [NSString stringWithFormat:@"%@)", str];
+ 
     CGFloat height = 60;
-    if (![CommonUtil isEmpty:str]) {
-        CGSize size = [CommonUtil sizeWithString:str fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) - 23 sizeheight:MAXFLOAT];
-        
+    CGSize size = [CommonUtil sizeWithString:str fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) - 23 sizeheight:MAXFLOAT];
         height += ceilf(size.height) + 15;
-    }
+
     
     return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     static NSString *cellident = @"AmountTableViewCell";
     AmountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellident];
+    TradingRecordModel *model =self.amountArray [indexPath.row];
     if (!cell) {
         [tableView registerNib:[UINib nibWithNibName:@"AmountTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
         cell = [tableView dequeueReusableCellWithIdentifier:cellident];
     }
     
-    NSString *time = @"2017-07-28";
+    NSString *time = [CommonUtil getStringForDate:model.createTime];
     NSString *type = @"1";
-    NSString *amount = @"200";
+    NSString *amount = [NSString stringWithFormat:@"%.2f", model.balanceChange];
     cell.width = [NSString stringWithFormat:@"%f", CGRectGetWidth([UIScreen mainScreen].bounds)];
-    
     [cell setType:type time:time amount:amount];
-    [cell setDesDic:nil];
+    [cell setDesDic:model];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -298,7 +349,6 @@
 
 //显示tableHeaderView
 - (void)showTableHeaderView{
-
     //金额
     NSString *money = [NSString stringWithFormat:@"%@元", @"100"];
     NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money];
@@ -426,18 +476,7 @@
     
     NSString *yuan = [self.moneyYuanField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-//    if ([CommonUtil isEmpty:yuan]) {
-//        [self makeToast:@"请输入您要提现的金额"];
-//        [self.moneyYuanField becomeFirstResponder];
-//        return;
-//    }
-//    
-//    if ([yuan intValue] == 0) {
-//        [self makeToast:@"请输入您要提现的金额"];
-//        [self.moneyYuanField becomeFirstResponder];
-//        return;
-//    }
-//    [self.moneyYuanField resignFirstResponder];
+
     
     NSString *price = [NSString stringWithFormat:@"%d", [yuan intValue]];
     

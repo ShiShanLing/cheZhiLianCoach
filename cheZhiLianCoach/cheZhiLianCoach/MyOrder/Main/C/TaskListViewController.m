@@ -178,6 +178,7 @@
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findReservationOrder", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId" ] =[UserDataSingleton mainSingleton].coachId;
+    NSLog(@"URL_Dic%@", URL_Dic);
     __weak  TaskListViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -560,7 +561,7 @@
     MyOrderModel *model = self.taskListArray[sender.indexPath.row];
     NSLog(@"model.trainState%hd sender.trainState%@", model.trainState, sender.trainState);
     UIAlertController *alertV = [UIAlertController alertControllerWithTitle:@"警告!" message:model.trainState == 0 ?@"确定学员上车":@"确定学员下车"  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         [self  respondsToSelector:@selector(indeterminateExample)];
         NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/confirmOnBus", kURL_SHY];
@@ -587,7 +588,7 @@
 
     }];
     
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"点错了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"点错了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         return ;
     }];
     // 3.将“取消”和“确定”按钮加入到弹框控制器中

@@ -26,16 +26,13 @@
  * @param amount    价格
  */
 - (void)setType:(NSString *)type time:(NSString *)time amount:(NSString *)amount{
-    
     //时间
     if (![CommonUtil isEmpty:time]) {
         self.timeLabel.text = time;
     }
-    
     if ([CommonUtil isEmpty:amount]) {
         amount = @"0";
     }
-    
     if ([type intValue] == 0){
         self.titleLabel.text = @"未知";
         self.moneyLabel.text = [NSString stringWithFormat:@"%@元", amount];
@@ -87,28 +84,29 @@
 /**
  * 给描述赋值
  */
-- (void)setDesDic:(NSDictionary *)dic{
-    NSString *amount = @"100";//数量
-    NSString *type = @"1";//数量
-    NSString *amount_out1 = @"12";//平台抽成
-    NSString *amount_out2 = @"23";//驾校抽成
-    
-    NSString *str = @"";
-    if ([type intValue] == 1) {
-        if (![CommonUtil isEmpty:amount]) {
-            str = [NSString stringWithFormat:@"(课程总额%.0f元", [amount floatValue] + [amount_out1 floatValue] + [amount_out2 floatValue]];
-            
-            if (![CommonUtil isEmpty:amount_out1] && [amount_out1 doubleValue] > 0) {
-                str = [NSString stringWithFormat:@"%@，其中%@元车智联平台抽成", str, amount_out1];
-            }
-            
-            if (![CommonUtil isEmpty:amount_out2] && [amount_out2 doubleValue] > 0) {
-                str = [NSString stringWithFormat:@"%@，其中%@元驾校抽成", str, amount_out2];
-            }
-            
-            str = [NSString stringWithFormat:@"%@)", str];
-        }
-    }
+- (void)setDesDic:(TradingRecordModel *)model{
+    NSString *amount = [NSString stringWithFormat:@"%.2f",model.balanceChange];//数量
+    NSString *str = [NSString stringWithFormat:@"(课程总额%@元)", amount];
+//    NSString *type = @"1";//数量
+//    NSString *amount_out1 = @"12";//平台抽成
+//    NSString *amount_out2 = @"23";//驾校抽成
+//
+//    NSString *str = @"";
+//    if ([type intValue] == 1) {
+//        if (![CommonUtil isEmpty:amount]) {
+//            str = [NSString stringWithFormat:@"(课程总额%.0f元", [amount floatValue] + [amount_out1 floatValue] + [amount_out2 floatValue]];
+//
+//            if (![CommonUtil isEmpty:amount_out1] && [amount_out1 doubleValue] > 0) {
+//                str = [NSString stringWithFormat:@"%@，其中%@元车智联平台抽成", str, amount_out1];
+//            }
+//
+//            if (![CommonUtil isEmpty:amount_out2] && [amount_out2 doubleValue] > 0) {
+//                str = [NSString stringWithFormat:@"%@，其中%@元驾校抽成", str, amount_out2];
+//            }
+//
+//            str = [NSString stringWithFormat:@"%@)", str];
+//        }
+//    }
     
     CGFloat height = 0;
     if (![CommonUtil isEmpty:str]) {

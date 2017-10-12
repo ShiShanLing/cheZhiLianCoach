@@ -727,7 +727,19 @@
 
 #pragma mark - 接口
 - (void)getTaskList{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/historyTrainOrder",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    __weak  HistoryViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
     
   }
 

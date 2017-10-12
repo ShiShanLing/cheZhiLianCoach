@@ -111,7 +111,28 @@
 
 - (IBAction)clickForSubmit:(id)sender {
     [DejalBezelActivityView activityViewForView:self.view];
-    [DejalBezelActivityView removeView];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/addCoachAlipay", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"alipay"] = self.accountInputView.text;
+    __weak  AccountManagerViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [DejalBezelActivityView removeView];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC.navigationController popViewControllerAnimated:YES];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [DejalBezelActivityView removeView];
+        NSLog(@"error%@", error);
+    }];
 }
 
 - (IBAction)clickForClearAccount:(id)sender{

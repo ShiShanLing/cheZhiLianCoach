@@ -29,5 +29,5 @@
 /**
  * 给描述赋值
  */
-- (void)setDesDic:(NSDictionary *)dic;
+- (void)setDesDic:(TradingRecordModel *)model;
 @end
