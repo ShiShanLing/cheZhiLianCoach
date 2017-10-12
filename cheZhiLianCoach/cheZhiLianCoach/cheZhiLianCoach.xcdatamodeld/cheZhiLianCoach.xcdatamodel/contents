@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="CoachAuditStatusModel" representedClassName="CoachAuditStatusModel" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="carType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -41,6 +41,15 @@
         <attribute name="timeStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unitPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="EvaluationOrderModel" representedClassName="EvaluationOrderModel" syncable="YES">
+        <attribute name="appealId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appealReason" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appealState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="appealTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="studentId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="studentName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="studentPhone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="MyOrderModel" representedClassName="MyOrderModel" syncable="YES">
         <attribute name="commentState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -59,6 +68,14 @@
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="realName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="TradingRecordModel" representedClassName="TradingRecordModel" syncable="YES">
+        <attribute name="accountType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="balanceChange" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="logId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="UserDataModel" representedClassName="UserDataModel" syncable="YES">
         <attribute name="applyState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -97,8 +114,10 @@
         <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="330"/>
         <element name="CoachDriverAddreModel" positionX="-36" positionY="153" width="128" height="105"/>
         <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="225"/>
+        <element name="EvaluationOrderModel" positionX="-45" positionY="135" width="128" height="150"/>
         <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
+        <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
     </elements>
 </model>
