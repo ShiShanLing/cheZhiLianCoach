@@ -10,9 +10,10 @@
 /**
  *学车地址设置
  */
-@interface SetAddrViewController : GreyTopViewController  //
+@interface SetAddrViewController : GreyTopViewController
 
 @property (nonatomic,strong) NSString *fromSchedule;
 
+@property (nonatomic,strong) NSString *coachId;
 
 @end

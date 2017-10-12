@@ -25,10 +25,7 @@
 @end
 
 @implementation SetAddrViewController {
-    
-
 }
-
 - (NSMutableArray *)addrArray {
     if (!_addrArray) {
         _addrArray = [NSMutableArray array];
@@ -128,8 +125,64 @@
 #pragma mark - action  添加搜索地址
 - (IBAction)clickToSearchAddrView:(id)sender {
     
-    SearchAddrViewController *targetViewController = [[SearchAddrViewController alloc] initWithNibName:@"SearchAddrViewController" bundle:nil];
-    [self.navigationController pushViewController:targetViewController animated:YES];
+    __weak SetAddrViewController *VC = self;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"培训地址" message:@"请填写" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+        textField.placeholder = @"培训地址";
+    }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UITextField *addr = alertController.textFields.firstObject;
+        
+        [VC performSelector:@selector(indeterminateExample)];
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/addTrainAddress", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+        URL_Dic[@"addressName"] =addr.text;
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+                [VC getAddressData];
+            }else {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+            }
+            [VC performSelector:@selector(delayMethod)];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [VC performSelector:@selector(delayMethod)];
+            NSLog(@"error%@", error);
+        }];
+
+        
+    }];
+    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }];
+    okAction.enabled = NO;
+    // 3.将“取消”和“确定”按钮加入到弹框控制器中
+    [alertController addAction:noAction];
+    [alertController addAction:okAction];
+    // 4.控制器 展示弹框控件，完成时不做操作
+    [self presentViewController:alertController animated:YES completion:^{
+        nil;
+    }];
+    
+//    SearchAddrViewController *targetViewController = [[SearchAddrViewController alloc] initWithNibName:@"SearchAddrViewController" bundle:nil];
+//    [self.navigationController pushViewController:targetViewController animated:YES];
+}
+
+- (void)alertTextFieldDidChange:(NSNotification *)notification{
+    UIAlertController *alertController = (UIAlertController *)self.presentedViewController;
+    if (alertController) {
+        UITextField *addr = alertController.textFields.firstObject;
+        UIAlertAction *okAction = alertController.actions.lastObject;
+        okAction.enabled = addr.text.length > 2;
+    }
 }
 
 - (void)clickToDefaultAddr:(id)sender {
@@ -155,13 +208,17 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"responseObject%@", responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [DejalBezelActivityView removeView];
         if ([resultStr isEqualToString:@"1"]) {
-            [VC showAlert:responseObject[@"masg"] time:1.2];
+            [VC showAlert:responseObject[@"msg"] time:1.2];
             [VC.defaultAddrView removeFromSuperview];
+            
         }else {
-            [VC showAlert:responseObject[@"masg"] time:1.2];
+            
+            [VC showAlert:responseObject[@"msg"] time:1.2];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [DejalBezelActivityView removeView];
         NSLog(@"error%@", error);
     }];
 
@@ -175,6 +232,7 @@
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findTrainAddressList", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    NSLog(@"URL_Dic%@", URL_Dic);
     __weak  SetAddrViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.requestSerializer.timeoutInterval = 5;
@@ -191,6 +249,7 @@
 }
 
 - (void)ParsingAddressInfor:(NSArray *)data {
+    [self.addrArray removeAllObjects];
     if (data.count == 0) {
         [self showAlert:@"还没有添加地址" time:1.2];
         return;
@@ -200,18 +259,41 @@
         //根据描述 创建实体对象
         CoachDriverAddreModel *model = [[CoachDriverAddreModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
         for (NSString *key in dic) {
-            [model setValue:dic[key] forUndefinedKey:key];
+            [model setValue:dic[key] forKey:key];
         }
         [self.addrArray addObject:model];
     }
     NSLog(@"self.addrArray%@", self.addrArray);
     [self.mainTableView reloadData];
 }
-
 //删除地址
 - (void)delAddress:(NSString *)addressid{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
+    [DejalBezelActivityView activityViewForView:self.view];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/deleteAddress", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"addressId"] = addressid;
+    __weak  SetAddrViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [DejalBezelActivityView removeView];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC.defaultAddrView removeFromSuperview];
+            [VC getAddressData];
+        }else {
+            
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [DejalBezelActivityView removeView];
+        NSLog(@"error%@", error);
+    }];
+
     
 }
 
