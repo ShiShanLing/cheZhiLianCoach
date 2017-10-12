@@ -19,4 +19,5 @@
 @property (nonatomic, copy)NSString *coachId;
 @property (nonatomic, copy)NSString *userName;
 @property (nonatomic, copy)NSString *URL_SHY;
+@property (nonatomic, copy)NSString *balance;
 @end

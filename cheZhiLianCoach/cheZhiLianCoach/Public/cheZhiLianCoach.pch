@@ -20,6 +20,8 @@
 #import "CoachTimeListModel+CoreDataProperties.h"
 #import "MyOrderModel+CoreDataProperties.h"
 #import "CoachDriverAddreModel+CoreDataProperties.h"//教练的地址
+#import "EvaluationOrderModel+CoreDataProperties.h"//投诉订单
+#import "TradingRecordModel+CoreDataClass.h"
 //第三方
 #import "UIImageView+WebCache.h"
 #import <AFNetworking.h>

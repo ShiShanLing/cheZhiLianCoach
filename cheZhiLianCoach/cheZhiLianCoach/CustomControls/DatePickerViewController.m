@@ -214,6 +214,7 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
     NSString *dateString;
     if(_dicTag == 99){
         dateString = [NSString stringWithFormat:@"%ld-%ld-%ld"

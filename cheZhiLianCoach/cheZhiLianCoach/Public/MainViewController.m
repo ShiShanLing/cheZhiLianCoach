@@ -35,15 +35,12 @@
     self.tasklistVC = [[TaskListViewController alloc] initWithNibName:@"TaskListViewController" bundle:nil];
     self.scheduleVC = [[ScheduleViewController alloc] initWithNibName:@"ScheduleViewController" bundle:nil];
     self.myVC = [[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil];
-    
     _tasklistVC.hidesBottomBarWhenPushed = true;
     _scheduleVC.hidesBottomBarWhenPushed = true;
     _myVC.hidesBottomBarWhenPushed = true;
-    
     self.viewControllers = @[_tasklistVC, _scheduleVC, _myVC];
     [self.tabBar setClipsToBounds:YES];
-//    self.tabBar.hidden = YES;
-    
+    //self.tabBar.hidden = YES;
     self.customTabBar.tag = 100;
     self.customTabBar.frame = CGRectMake(0, self.view.frame.size.height - 49, kScreen_widht, 49);
     [self.view addSubview:self.customTabBar];
