@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */; };
 		A10EDD581F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */; };
+		A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */; };
+		A11004741F8F8C170078533F /* CouponsModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */; };
 		A12A9B701F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */; };
 		A12A9B711F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */; };
 		A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */; };
@@ -209,6 +211,10 @@
 		A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A10EDD551F8E092B00434843 /* TradingRecordModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A110046F1F8F8C170078533F /* CouponsModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A11004711F8F8C170078533F /* CouponsModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachAuditStatusModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -1122,6 +1128,10 @@
 		A1AB9DA11F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A110046F1F8F8C170078533F /* CouponsModel+CoreDataClass.h */,
+				A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */,
+				A11004711F8F8C170078533F /* CouponsModel+CoreDataProperties.h */,
+				A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1810,12 +1820,14 @@
 				A1A691CC1F502892009C2B30 /* CoachInfoViewController.m in Sources */,
 				A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */,
 				A1AB9ED61F4C27CB0056AB9D /* CZCroppingScrollView.m in Sources */,
+				A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */,
 				A1AB9D911F4C16D70056AB9D /* MyViewController.m in Sources */,
 				A1AB9EA71F4C23E20056AB9D /* TPKeyboardAvoidingScrollView.m in Sources */,
 				A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */,
 				A1AB9E0E1F4C1B5F0056AB9D /* SchoolSelectTableViewCell.m in Sources */,
 				A1AB9EDF1F4C297F0056AB9D /* DSButton.m in Sources */,
 				A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */,
+				A11004741F8F8C170078533F /* CouponsModel+CoreDataProperties.m in Sources */,
 				A1AB9D6E1F4C15F00056AB9D /* TaskListTableViewCell.m in Sources */,
 				A1AB9EC41F4C27200056AB9D /* TQStarRatingView.m in Sources */,
 				A1AB9DFF1F4C1B290056AB9D /* MyInfoViewController.m in Sources */,

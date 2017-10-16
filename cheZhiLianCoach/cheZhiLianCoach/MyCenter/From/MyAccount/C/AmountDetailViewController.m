@@ -200,9 +200,7 @@
     }
     NSLog(@"amountArray%@", self.amountArray);
     [self.mainTableView reloadData];
-    
 }
-
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -337,34 +335,26 @@
     }
     
     NSString *time = [CommonUtil getStringForDate:model.createTime];
-    NSString *type = @"1";
+    NSString *type = [NSString stringWithFormat:@"%d", model.accountType];
     NSString *amount = [NSString stringWithFormat:@"%.2f", model.balanceChange];
     cell.width = [NSString stringWithFormat:@"%f", CGRectGetWidth([UIScreen mainScreen].bounds)];
     [cell setType:type time:time amount:amount];
     [cell setDesDic:model];
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
 //显示tableHeaderView
 - (void)showTableHeaderView{
     //金额
-    NSString *money = [NSString stringWithFormat:@"%@元", @"100"];
+    NSString *money =[UserDataSingleton mainSingleton].balance;
     NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money];
     [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(0,self.totalPrice.length)];
     self.headAlertMoneyLabel.attributedText = str1;
-    
     //可提现金额 已冻结金额
-    float totalPricef=[self.totalPrice floatValue];
-    float fMoney =[self.fMoney floatValue];
-    float gmoney= [self.gmoney floatValue];
-    float v= totalPricef-gmoney;
-    if(v < 0){
-        v = 0;
-    }
-    self.canBeCashLabel.text = [NSString stringWithFormat:@"%.0f",80.0];;
-    self.frozenMoneyLabel.text = [NSString stringWithFormat:@"%.0f" ,20.0];;
+    self.canBeCashLabel.text = [NSString stringWithFormat:@"%@",money];;
+    self.frozenMoneyLabel.text = [NSString stringWithFormat:@"%.0f" ,0.0];;
     
 }
 
@@ -455,71 +445,31 @@
 
 // 提交取钱
 - (IBAction)clickForApplyCommit:(id)sender {
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *aliaccount = userInfo[@"alipay_account"];
-    if([CommonUtil isEmpty:aliaccount]){
-        [self makeToast:@"您还未设置支付宝账户,请先去账户管理页面设置您的支付宝账户"];
-        return;
-    }
-    
-    //可提现金额 已冻结金额
-    float totalPricef=[self.totalPrice floatValue];
-    float gmoney= [self.gmoney floatValue];
-    float v= totalPricef-gmoney;
-    if(v < 0){
-        v = 0;
-    }
-    self.moneyYuanField.text = [NSString stringWithFormat:@"%f",v];
-    
-    //    self.commitView.hidden = YES;
-    //    self.successAlertView.hidden = NO;
-    
-    NSString *yuan = [self.moneyYuanField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
 
-    
-    NSString *price = [NSString stringWithFormat:@"%d", [yuan intValue]];
-    
-    //设置价格
-    NSString *money = [userInfo[@"money"] description];//余额
-    NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
-    NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
-    
-    if ([CommonUtil isEmpty:money]) {
-        money = @"0";
-    }
-    
-    // 保证金及冻结金额
-    if ([CommonUtil isEmpty:gMoney]){
-        gMoney = @"0";
-    }
-    if ([CommonUtil isEmpty:moneyFrozen]) {
-        moneyFrozen = @"0";
-    }
-    
-    if ([price doubleValue] <50) {
-        //提现金额不得小于50
-        [self makeToast:@"可提现金额大于50元才可以提现哦"];
-        return;
-    }
-    
-    //判断是否有这么多金额可以取
-    if ([price doubleValue] <= [money doubleValue] - [gMoney doubleValue]) {
-        //提现金额足够
-       // [self getMoney:price];
-        self.moneyTitleLabel.text = @"提交成功";
-        self.moneyDetailLabel.text = [NSString stringWithFormat:@"您申请的%@元金额已提交成功，请等待审核，我们会在3个工作日内联系您！", price];
-        
-    }else{
-        //提现金额不足
-        [self makeToast:@"您的可提现金额不足，请重新输入"];
-        [self.moneyYuanField becomeFirstResponder];
-        return;
-    }
-    
-    self.commitView.hidden = YES;
-    //    self.successAlertView.hidden = YES;
-    [self.view addSubview:self.getMoneyView];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/withdraw",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"amount"] = [UserDataSingleton mainSingleton].balance;
+    __weak  AmountDetailViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [UserDataSingleton mainSingleton].balance = @"0";
+            [VC showTableHeaderView];
+            [VC requestTradingData];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
+ 
     
 }
 

@@ -27,11 +27,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTabBar" owner:self options:nil];
     self.customTabBar = [nib objectAtIndex:0];
     self.customTabBar.delegate = self;
-    
     self.tasklistVC = [[TaskListViewController alloc] initWithNibName:@"TaskListViewController" bundle:nil];
     self.scheduleVC = [[ScheduleViewController alloc] initWithNibName:@"ScheduleViewController" bundle:nil];
     self.myVC = [[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil];

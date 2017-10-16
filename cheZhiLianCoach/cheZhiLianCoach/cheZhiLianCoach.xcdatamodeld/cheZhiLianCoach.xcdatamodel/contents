@@ -41,6 +41,34 @@
         <attribute name="timeStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unitPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="CouponsModel" representedClassName="CouponsModel" syncable="YES">
+        <attribute name="couponAllowState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponClassId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponGoodsClassId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponIock" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponIsUsed" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponLimit" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponMemberId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponPic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponPrice" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponPrintStyle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponstorage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponusage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="createTimeStr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="endTimeStr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="startTimeStr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="storeId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="storeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="EvaluationOrderModel" representedClassName="EvaluationOrderModel" syncable="YES">
         <attribute name="appealId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="appealReason" optional="YES" attributeType="String" syncable="YES"/>
@@ -117,7 +145,8 @@
         <element name="EvaluationOrderModel" positionX="-45" positionY="135" width="128" height="150"/>
         <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
-        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
         <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
+        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
+        <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="435"/>
     </elements>
 </model>

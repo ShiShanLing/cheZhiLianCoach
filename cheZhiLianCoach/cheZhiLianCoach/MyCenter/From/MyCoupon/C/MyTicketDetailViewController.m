@@ -8,7 +8,7 @@
 
 #import "MyTicketDetailViewController.h"
 #import "MyTicketDetailTableViewCell.h"
-
+#import "CouponsModel+CoreDataProperties.h"
 #define kCellNum 20
 
 @interface MyTicketDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -29,6 +29,10 @@
 @property (strong, nonatomic) NSMutableArray *arrayList2;
 
 @property (strong, nonatomic) IBOutlet UIView *ruleBackView;
+/**
+ *可变数组
+ */
+@property (nonatomic, strong)NSMutableArray * couponsListAray;
 @end
 
 @implementation MyTicketDetailViewController
@@ -37,6 +41,17 @@
     NSString *requsetTag;
     NSString *recordids;
     UIView *view;
+}
+- (NSMutableArray *)couponsListAray {
+    if (!_couponsListAray) {
+        _couponsListAray = [NSMutableArray array];
+    }
+    return _couponsListAray;
+}
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,6 +89,49 @@
     self.ruleBackView.layer.cornerRadius = 3;
     self.ruleBackView.layer.masksToBounds = YES;
 }
+#pragma mark - 网络请求
+- (void) requestData{
+    //  http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coupon/api/couponMemberList?memberId=083ed50cb97d418db29110ff12ab93ed&couponIsUsed=0
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coupon/api/couponMemberList",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"memberId"] = @"083ed50cb97d418db29110ff12ab93ed";
+    URL_Dic[@"couponIsUsed"] = @"0";
+    __weak  MyTicketDetailViewController  *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC parsingData:responseObject];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+}
+
+- (void)parsingData:(NSDictionary *)dataDic {
+    [self.couponsListAray removeAllObjects];
+    NSArray *dataArray =dataDic[@"data"];
+    if (dataArray.count == 0) {
+        return;
+    }
+    
+    for (NSDictionary *modelDic in dataArray) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CouponsModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        CouponsModel *model = [[CouponsModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        for (NSString *key in modelDic) {
+            NSLog(@"key%@ value%@", key,modelDic[key]);
+            [model setValue:modelDic[key] forKey:key];
+        }
+        [self.couponsListAray addObject:model];
+    }
+    [self.mainTableView reloadData];
+}
 
 //ticketArray处理
 - (void)handleTicketArray
@@ -101,8 +159,9 @@
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    int a = self.couponsListAray.count%2;
+    return self.couponsListAray.count/2 + a;
 
-    return kCellNum/2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -124,12 +183,17 @@
     [cell.clickButton1 addTarget:self action:@selector(selectTicket:) forControlEvents:UIControlEventTouchUpInside];
     [cell.clickButton2 addTarget:self action:@selector(selectTicket:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    
     if (indexPath.row < kCellNum/2) {
-        NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
+        CouponsModel *modelOne = self.couponsListAray[indexPath.row *2];
+        CouponsModel *modelTwo = self.couponsListAray[indexPath.row * 2 +1];
+
+        NSString *str1 = modelOne.couponTitle;
         NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-        cell.ticketFrom1.text = [self getFromString:@"0"];
-        cell.ticketTime1.text = @"2017-07-28";
-        NSString *state1 = @"2";
+        cell.ticketFrom1.text = [self getFromString:@"1"];
+        cell.ticketTime1.text = modelOne.createTimeStr;
+        NSString *state1 = @"1";
         if (state1.intValue == 2) {
             [string1 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str1.length)];
             cell.clickButton1.enabled = NO;
@@ -141,12 +205,11 @@
         }
         cell.ticketName1.attributedText = string1;
         
-        
-        NSString *str2 = [NSString stringWithFormat:@"%@小时学车券", @"4"];
+        NSString *str2 = modelTwo.couponTitle;
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
         cell.ticketFrom2.text = [self getFromString:@"1"];
-        cell.ticketTime2.text = @"2017-07-27";
-        NSString *state2 = @"2";
+        cell.ticketTime2.text = modelTwo.createTimeStr;
+        NSString *state2 = @"1";
         if (state2.intValue == 2) {
             [string2 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str2.length)];
             cell.clickButton2.enabled = NO;
@@ -157,14 +220,15 @@
             cell.applyLabel2.hidden = YES;
         }
         cell.ticketName2.attributedText = string2;
+        
     }else{
-        if (kCellNum%2 != 0) {
-            
-            NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
+        if (kCellNum%2 != /* DISABLES CODE */ (0)) {
+            CouponsModel *modelOne = self.couponsListAray[indexPath.row *2];
+            NSString *str1 = modelOne.couponTitle;
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-            cell.ticketFrom1.text = [self getFromString:@"0"];
-            cell.ticketTime1.text = @"2017-07-28";
-            NSString *state1 = @"2";
+            cell.ticketFrom1.text = [self getFromString:@"1"];
+            cell.ticketTime1.text = modelOne.createTimeStr;
+            NSString *state1 = @"1";
             if (state1.intValue == 2) {
                 [string1 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str1.length)];
                 cell.clickButton1.enabled = NO;
@@ -177,12 +241,13 @@
             cell.ticketName1.attributedText = string1;
             cell.backView2.hidden = YES;
         }else{
-            
-            NSString *str1 = [NSString stringWithFormat:@"%@小时学车券", @"3"];
+            CouponsModel *modelOne = self.couponsListAray[indexPath.row *2];
+            CouponsModel *modelTwo = self.couponsListAray[indexPath.row * 2 +1];
+            NSString *str1 = modelOne.couponTitle;
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-            cell.ticketFrom1.text = [self getFromString:@"0"];
-            cell.ticketTime1.text = @"2017-07-28";
-            NSString *state1 = @"2";
+            cell.ticketFrom1.text = [self getFromString:@"1"];
+            cell.ticketTime1.text = modelOne.createTimeStr;
+            NSString *state1 = @"1";
             if (state1.intValue == 2) {
                 [string1 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str1.length)];
                 cell.clickButton1.enabled = NO;
@@ -194,11 +259,11 @@
             }
             cell.ticketName1.attributedText = string1;
             
-            NSString *str2 = [NSString stringWithFormat:@"%@小时学车券", @"4"];
+            NSString *str2 = modelTwo.couponTitle;
             NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
             cell.ticketFrom2.text = [self getFromString:@"1"];
-            cell.ticketTime2.text = @"2017-07-27";
-            NSString *state2 = @"2";
+            cell.ticketTime2.text = modelTwo.createTimeStr;
+            NSString *state2 = @"1";
             if (state2.intValue == 2) {
                 [string2 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str2.length)];
                 cell.clickButton2.enabled = NO;

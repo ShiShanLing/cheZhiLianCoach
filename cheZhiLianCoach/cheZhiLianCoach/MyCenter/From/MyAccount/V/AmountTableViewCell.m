@@ -34,15 +34,12 @@
         amount = @"0";
     }
     if ([type intValue] == 0){
-        self.titleLabel.text = @"未知";
-        self.moneyLabel.text = [NSString stringWithFormat:@"%@元", amount];
-    }else if ([type intValue] == 1){
         //学员支付
         self.titleLabel.text = @"收入";
         self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
         self.moneyLabel.textColor = MColor(32, 180, 120);
         
-    }else if ([type intValue] == 2){
+    }else if ([type intValue] == 1){
         //提现
         self.titleLabel.text = @"提现";
         self.moneyLabel.text = [NSString stringWithFormat:@"- %@元", amount];
