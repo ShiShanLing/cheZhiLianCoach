@@ -36,6 +36,7 @@
 		A19BA5D91F4BC4B100CC4A3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A19BA5D71F4BC4B100CC4A3E /* LaunchScreen.storyboard */; };
 		A19BA5E41F4BC4B100CC4A3E /* cheZhiLianCoachTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A19BA5E31F4BC4B100CC4A3E /* cheZhiLianCoachTests.m */; };
 		A19BA5EF1F4BC4B100CC4A3E /* cheZhiLianCoachUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A19BA5EE1F4BC4B100CC4A3E /* cheZhiLianCoachUITests.m */; };
+		A1A62FBD1F9849E000786A4B /* OrderTimeList.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A62FBC1F9849E000786A4B /* OrderTimeList.m */; };
 		A1A691CC1F502892009C2B30 /* CoachInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A691CB1F502892009C2B30 /* CoachInfoViewController.m */; };
 		A1AB9D501F4C113B0056AB9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AB9D4E1F4C113B0056AB9D /* AppDelegate.m */; };
 		A1AB9D5A1F4C159B0056AB9D /* RelatedDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AB9D571F4C159B0056AB9D /* RelatedDataTableViewCell.m */; };
@@ -264,6 +265,8 @@
 		A19BA5EA1F4BC4B100CC4A3E /* cheZhiLianCoachUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cheZhiLianCoachUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A19BA5EE1F4BC4B100CC4A3E /* cheZhiLianCoachUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cheZhiLianCoachUITests.m; sourceTree = "<group>"; };
 		A19BA5F01F4BC4B100CC4A3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1A62FBB1F9849E000786A4B /* OrderTimeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderTimeList.h; sourceTree = "<group>"; };
+		A1A62FBC1F9849E000786A4B /* OrderTimeList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderTimeList.m; sourceTree = "<group>"; };
 		A1A691CA1F502892009C2B30 /* CoachInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoachInfoViewController.h; sourceTree = "<group>"; };
 		A1A691CB1F502892009C2B30 /* CoachInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoachInfoViewController.m; sourceTree = "<group>"; };
 		A1AB9D4D1F4C113B0056AB9D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -916,6 +919,8 @@
 				A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */,
 				A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */,
 				A1AB9D4F1F4C113B0056AB9D /* cheZhiLianCoach.pch */,
+				A1A62FBB1F9849E000786A4B /* OrderTimeList.h */,
+				A1A62FBC1F9849E000786A4B /* OrderTimeList.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -1874,6 +1879,7 @@
 				A1AB9E9B1F4C239A0056AB9D /* LocationViewController.m in Sources */,
 				A1AB9E4F1F4C1C760056AB9D /* MyStudentViewController.m in Sources */,
 				A1AB9E771F4C1DE60056AB9D /* CustomTabBar.m in Sources */,
+				A1A62FBD1F9849E000786A4B /* OrderTimeList.m in Sources */,
 				A1AB9E071F4C1B4B0056AB9D /* MyInfoCell.m in Sources */,
 				A1AB9E6E1F4C1D9A0056AB9D /* AccountManagerViewController.m in Sources */,
 				A1AB9E831F4C20820056AB9D /* JKCountDownButton.m in Sources */,

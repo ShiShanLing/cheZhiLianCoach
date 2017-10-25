@@ -323,6 +323,9 @@
             if ([key isEqualToString:@"balance"]) {
                 [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", urseDataDic[key]];
             }
+            if ([key isEqualToString:@"carTypeId"]) {
+                [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
             [userData setObject:urseDataDic[key] forKey:key];
         }
         //获取应用程序沙盒的Documents目录

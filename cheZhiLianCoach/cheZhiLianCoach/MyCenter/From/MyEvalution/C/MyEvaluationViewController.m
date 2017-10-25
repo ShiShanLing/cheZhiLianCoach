@@ -185,7 +185,6 @@
         // 加载数据
         cell.evaluationContent = @"是个好学员,一教就会"; // 评价详情
         cell.studentIcon = @"logo.jpg"; // 学员头像
-        
         cell.coachIcon = @"logo.jpg";
         cell.studentName = @"张二毛";          // 学员名字
         cell.score = 5.0;  // 评分
@@ -481,8 +480,7 @@
 
 #pragma mark - 评价我的接口
 - (void)GetEvaluationToMy:(int)pageNum{
-    
-    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findAppraiseInfo", kURL_SHY];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findComment", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
     __weak  MyEvaluationViewController *VC = self;

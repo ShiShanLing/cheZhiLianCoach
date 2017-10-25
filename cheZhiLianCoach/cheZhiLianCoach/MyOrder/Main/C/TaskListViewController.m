@@ -166,17 +166,17 @@
     [self.pullToMore tableViewReloadFinished];
     
     if (self.taskListArray.count == 0) {
-        //  self.noDataViewBtn.hidden = NO;
+        
     }else{
         self.noDataViewBtn.hidden = YES;
     }
-    
 }
 #pragma mark - 接口
 - (void)getTaskList{
    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findReservationOrder", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    //http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/findReservationOrder?coachId=a019d62109674cff8f7fcd7b5bc2cefd
     URL_Dic[@"coachId" ] =[UserDataSingleton mainSingleton].coachId;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  TaskListViewController *VC = self;
@@ -434,6 +434,7 @@
             //关闭
             cell.finishView.hidden = YES;
             [self showDetailsCell:cell];
+            
         }
     }
 #warning 这个地方还要更改 因为目前就一个数组
@@ -469,9 +470,7 @@
         //这一行不是打开状态,打开这一行
         self.closeIndexPath = self.openIndexPath;
         self.openIndexPath = indexPath;
-
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.closeIndexPath, self.openIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-        
     }
     [tableView reloadData];
     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]
@@ -566,8 +565,7 @@
         [self  respondsToSelector:@selector(indeterminateExample)];
         NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/confirmOnBus", kURL_SHY];
         NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-        URL_Dic[@"id"] = model.orderId;
-        URL_Dic[@"flag"] = [NSString stringWithFormat:@"%d", sender.trainState.intValue + 1];
+        URL_Dic[@"timeId"] = model.orderId;
         AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
         [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
             NSLog(@"uploadProgress%@", uploadProgress);

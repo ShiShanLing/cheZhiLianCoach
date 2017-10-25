@@ -198,7 +198,6 @@
         }
         [self.amountArray addObject:model];
     }
-    NSLog(@"amountArray%@", self.amountArray);
     [self.mainTableView reloadData];
 }
 // 监听键盘弹出通知
@@ -272,8 +271,8 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [self requestTradingData];
-    [_pullToRefresh tableViewReleased];
+    //[self requestTradingData];
+    //[_pullToRefresh tableViewReleased];
 }
 
 /* 刷新处理 */

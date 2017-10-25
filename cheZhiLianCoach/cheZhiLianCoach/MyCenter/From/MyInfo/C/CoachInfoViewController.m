@@ -335,6 +335,9 @@
         if ([key isEqualToString:@"balance"]) {
             [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", coachDataDic[key]];
         }
+        if ([key isEqualToString:@"carTypeId"]) {
+            [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", coachDataDic[key]];
+        }
         [model setValue:coachDataDic[key] forKey:key];
         
         
@@ -639,7 +642,6 @@
 }
 //提交按钮
 - (IBAction)clickForCommit:(id)sender {
-
     if (self.cityNameLabel.text.length == 0) {
         [self makeToast:@"城市不能为空"];
         return;
@@ -672,7 +674,6 @@
         [self  mutableSetValueForKey:@"请提交车辆驾驶证"];
         return;
     }
-    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/apply", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;

@@ -332,24 +332,10 @@
 #pragma mark - 页面特性
 // 开始编辑，铅笔变蓝
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-//    [textField performSelector:@selector(selectAll:) withObject:textField afterDelay:0.f];
     if ([textField isEqual:self.priceTextField] || [textField isEqual:self.carRent]) {
         self.pricePencilBtn.selected = YES;
         self.comfirmBtn.selected = YES;
-//        CGRect frame1 = self.priceTextField.frame;
-//        UIView *view1 = self.priceTextField.superview;
-//        CGRect frame2 = view1.frame;
-//        UIView *view2 = view1.superview;
-//        CGRect frame3 = view2.frame;
-//        CGFloat offset = (frame1.origin.y + frame2.origin.y + frame3.origin.y) + 32 - (self.view.frame.size.height - 216.0) + 64;
-//        //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
-//        if (offset>0){
-//            NSTimeInterval animationDuration = 0.30;
-//            [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-//            [UIView setAnimationDuration:animationDuration];
-//            [self.view setFrame:CGRectMake(0, -offset, self.viewRect.size.width, self.viewRect.size.height)];
-//            [UIView commitAnimations];
-//        }
+
     }
 }
 

@@ -30,7 +30,6 @@
     <entity name="CoachTimeListModel" representedClassName="CoachTimeListModel" syncable="YES">
         <attribute name="coachId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="openCourse" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="payState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="periodStr" optional="YES" attributeType="String" syncable="YES"/>
@@ -38,6 +37,7 @@
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="studentId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timeId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unitPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
@@ -142,11 +142,11 @@
         <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="330"/>
         <element name="CoachDriverAddreModel" positionX="-36" positionY="153" width="128" height="105"/>
         <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="225"/>
+        <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="435"/>
         <element name="EvaluationOrderModel" positionX="-45" positionY="135" width="128" height="150"/>
         <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
-        <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="435"/>
     </elements>
 </model>

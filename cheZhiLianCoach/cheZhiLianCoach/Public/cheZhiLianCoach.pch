@@ -63,9 +63,9 @@
 #define MColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0f]
 //张玉霄  http://192.168.0.250
 //沈会阳  http://192.168.100.101
-//线上      http://106.14.158.95
-//http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/login
-#define kURL_SHY @"http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"
+//线上      http://www.jxchezhilian.com
+//http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
+#define kURL_SHY @"http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"
 
 #define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
 

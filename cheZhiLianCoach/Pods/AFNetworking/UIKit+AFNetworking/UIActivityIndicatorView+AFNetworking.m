@@ -88,9 +88,7 @@
         }
     }
 }
-
 #pragma mark -
-
 - (void)af_startAnimating {
     dispatch_async(dispatch_get_main_queue(), ^{
 #pragma clang diagnostic push

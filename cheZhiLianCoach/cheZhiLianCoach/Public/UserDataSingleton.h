@@ -20,4 +20,5 @@
 @property (nonatomic, copy)NSString *userName;
 @property (nonatomic, copy)NSString *URL_SHY;
 @property (nonatomic, copy)NSString *balance;
+@property (nonatomic,copy)NSString *carTypeId;
 @end

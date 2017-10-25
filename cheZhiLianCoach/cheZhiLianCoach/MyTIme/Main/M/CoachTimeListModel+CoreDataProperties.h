@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, copy) NSString *coachId;
 @property (nullable, nonatomic, copy) NSDate *endTime;
-@property (nullable, nonatomic, copy) NSString * id;
+@property (nullable, nonatomic, copy) NSString * timeId;
 @property (nonatomic) int16_t payState;
 @property (nullable, nonatomic, copy) NSString *periodStr;
 @property (nullable, nonatomic, copy) NSDate *startTime;

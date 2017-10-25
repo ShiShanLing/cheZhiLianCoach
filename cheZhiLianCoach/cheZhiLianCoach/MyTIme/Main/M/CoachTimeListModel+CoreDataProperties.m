@@ -16,7 +16,7 @@
 
 @dynamic coachId;
 @dynamic endTime;
-@dynamic id;
+@dynamic timeId;
 @dynamic payState;
 @dynamic periodStr;
 @dynamic startTime;
@@ -39,7 +39,9 @@
         NSTimeInterval time=[str doubleValue]/1000;//因为时差问题要加8小时 == 28800 sec
         NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
         self.endTime = detaildate;
-    }else {
+    }else if([key isEqualToString:@"id"]){
+        self.timeId = value;
+    }else{
         [super setValue:value forKey:key];
     }
 }

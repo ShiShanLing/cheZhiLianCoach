@@ -231,6 +231,7 @@ static  BOOL EditTime;
     if(needRefresh){
         [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];//手动下拉
         [self.refreshManager tableViewReloadStart:[NSDate date] Animated:YES];
+        [self requestCoursePrice];
         [self requestData:currentTime];
         self.openOrCloseClassView.hidden = YES;
     }
@@ -245,8 +246,36 @@ static  BOOL EditTime;
     return (([comp1 day] == [comp2 day]) && ([comp1 month] == [comp2 month]) && ([comp1 year] == [comp2 year]));
 }
 
+
+- (void)requestCoursePrice {
+    
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findClassPrice", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"dateTime"] = @"2017-10-22";
+    URL_Dic[@"carTypeId"] = [UserDataSingleton mainSingleton].carTypeId?[UserDataSingleton mainSingleton].carTypeId:@"1";
+    __weak  ScheduleViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
+    
+    
+}
+
 #pragma mark 请求数据
 - (void)requestData:(NSDate *)date {
+    self.allSelectButton.selected = NO;
     needRefresh = NO;
     NSDate *nowDate;
     if (date ==nil ||  [self isSameDay:date date2:[NSDate date] ]) {
@@ -259,7 +288,6 @@ static  BOOL EditTime;
         nowDate = date;
         EditTime = YES;
     }
- 
     NSTimeInterval timeIn = [nowDate timeIntervalSince1970];
     NSDate *detaildate = [NSDate dateWithTimeIntervalSince1970:timeIn];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -356,10 +384,8 @@ static  BOOL EditTime;
     needRefresh = NO;
 }
 - (void)initViews{
-    
     //星期几frame
     int weekWidth = kScreen_widht / 7;
-    
     //星期
     for (int i = 0; i < 7; i++) {
         UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(i*weekWidth, 0, weekWidth, 25)];
@@ -367,7 +393,6 @@ static  BOOL EditTime;
         weekLabel.textColor = MColor(136, 136, 136);
         weekLabel.font = [UIFont systemFontOfSize:12];
         [self.weekView addSubview:weekLabel];
-        
         if (i == 0) {
             //日
             weekLabel.text = @"日";
@@ -390,14 +415,13 @@ static  BOOL EditTime;
             //六
             weekLabel.text = @"六";
         }
-        
     }
-    
     self.openBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.openBtn setBackgroundColor:[UIColor blackColor]];
     [self.openBtn setImage:[UIImage imageNamed:@"arrow_up"] forState:UIControlStateNormal];
     [self.openBtn setImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateSelected];
     [self.openBtn addTarget:self action:@selector(clickForOpenClose:) forControlEvents:UIControlEventTouchUpInside];
+ 
 }
 
 #pragma mark - tableView代理
@@ -458,18 +482,13 @@ static  BOOL EditTime;
         long weekday = [CommonUtil getWeekdayOfDate:self.selectDate];//今天是星期几
         NSDate *beginDate = [CommonUtil addDate2:self.selectDate year:0 month:0 day:0-(weekday-1)];//获取选中日期的星期天的日期
         beginDate = [CommonUtil getDateForString:[CommonUtil getStringForDate:beginDate format:@"yyyy-MM-dd HH:mm:ss"] format:@"yyyy-MM-dd 00:00:00"];//格式化日期
-        
         //星期几frame
         int weekHeight = weekWidth;
-        
         /*******  月份view ******/
         self.monthDayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, weekCount*weekHeight)];
         [self.dateView addSubview:self.monthDayView];
-        
         CGFloat dayY = 0;
-        
         for (int i = 0; i < weekCount*7; i++) {
-            
             int index = -1;
             NSString *beginTime = [CommonUtil getStringForDate:beginDate format:@"yyyy-MM-dd"];
             //获取该日期在数据的第几个位置
@@ -1241,6 +1260,7 @@ static  BOOL EditTime;
 }
 //处理选中日期的数据
 - (void)handelSelectDateDetail{
+    
     [self updateSelectTimeDesc];
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -1292,6 +1312,7 @@ static  BOOL EditTime;
     [self testOpenOrCloseView];
 }
 //打开或者关闭日历
+
 - (void)clickForOpenClose:(id)sender{
     
     UIButton *button = (UIButton *)sender;
@@ -1309,13 +1330,47 @@ static  BOOL EditTime;
         //关闭日期栏
         [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 1)*weekHeight) animated:YES];
     }
-    
     button.selected = !button.selected;
     [self showTableFooterView];
     
 }
 //停课
 - (IBAction)clickForStop:(id)sender{
+    NSString *timeIdStr;
+    for (NSArray * timeArray in self.dateArray) {
+        for (CoachTimeListModel *model in timeArray) {
+            if (model.state == 4) {
+                if (timeIdStr.length == 0) {
+                    timeIdStr = model.timeId;
+                }else {
+                timeIdStr = [NSString stringWithFormat:@"%@,%@", timeIdStr,model.timeId];
+                }
+            }
+        }
+    }
+//    ?timeId=0e6087aa34a34f1c8f7816f4af1cb7aa,131b11c1271a4175b30b42f663272501
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/cancleClass",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"timeId"] = timeIdStr;
+    NSLog(@"URL_Dic%@",URL_Dic);
+    __weak  ScheduleViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC requestData:currentTime];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
+    
     
 }
 //开课
