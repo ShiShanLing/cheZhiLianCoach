@@ -21,6 +21,8 @@
 		A141D6901F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D68E1F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m */; };
 		A141D6971F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6941F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m */; };
 		A141D6981F58FFD20099BA53 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */; };
+		A142C5FB1FA30C5C00BAB721 /* TaskHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */; };
+		A142C5FF1FA30C7800BAB721 /* TaskHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */; };
 		A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */; };
 		A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */; };
 		A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */; };
@@ -237,6 +239,9 @@
 		A141D6941F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
 		A141D6951F58FFD20099BA53 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
 		A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
+		A142C5F91FA30C5C00BAB721 /* TaskHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskHeadView.h; sourceTree = "<group>"; };
+		A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskHeadView.m; sourceTree = "<group>"; };
+		A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskHeadView.xib; sourceTree = "<group>"; };
 		A1498F181F624334007A1B28 /* MyOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -783,6 +788,9 @@
 				A1AB9D691F4C15F00056AB9D /* TaskListTableViewCell.h */,
 				A1AB9D6A1F4C15F00056AB9D /* TaskListTableViewCell.m */,
 				A1AB9D6B1F4C15F00056AB9D /* TaskListTableViewCell.xib */,
+				A142C5F91FA30C5C00BAB721 /* TaskHeadView.h */,
+				A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */,
+				A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -1694,6 +1702,7 @@
 				A1AB9E371F4C1C210056AB9D /* SetTeachViewController.xib in Resources */,
 				A1AB9D6F1F4C15F00056AB9D /* TaskListTableViewCell.xib in Resources */,
 				A1CE07C71F6BA60E001CB804 /* SetAddrTVCell.xib in Resources */,
+				A142C5FF1FA30C7800BAB721 /* TaskHeadView.xib in Resources */,
 				A1AB9DBE1F4C182F0056AB9D /* SearchAddrViewController.xib in Resources */,
 				A1AB9E2E1F4C1BF10056AB9D /* MyDetailInfoViewController.xib in Resources */,
 				A1AB9E001F4C1B290056AB9D /* MyInfoViewController.xib in Resources */,
@@ -1851,6 +1860,7 @@
 				A1AB9D621F4C15BF0056AB9D /* LoginViewController.m in Sources */,
 				A1AB9E8D1F4C216C0056AB9D /* CommonUtil+Date.m in Sources */,
 				A1AB9DEB1F4C1A4F0056AB9D /* MyEvaluationCell.m in Sources */,
+				A142C5FB1FA30C5C00BAB721 /* TaskHeadView.m in Sources */,
 				A1AB9D8C1F4C16B10056AB9D /* ScheduleViewController.m in Sources */,
 				A1AB9D5A1F4C159B0056AB9D /* RelatedDataTableViewCell.m in Sources */,
 				A1AB9ED81F4C27CB0056AB9D /* CZPhotoPickerController.m in Sources */,

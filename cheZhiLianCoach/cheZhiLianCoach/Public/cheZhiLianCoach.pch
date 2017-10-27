@@ -43,7 +43,6 @@
 //不要问有的地方为什么同样的结果用两个宏 因为他喵的代码不是我写的 我懒的替换
 #define  kScreen_heigth [UIScreen mainScreen].bounds.size.height//屏幕高度
 #define  kScreen_widht  [UIScreen mainScreen].bounds.size.width//屏幕宽度
-
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width//宽度
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height//屏幕高度
 #define  kOrange_Color  MColor(255, 143, 0)// 通用的橙色
@@ -65,7 +64,7 @@
 //沈会阳  http://192.168.100.101
 //线上      http://www.jxchezhilian.com
 //http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
-#define kURL_SHY @"http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"
+#define kURL_SHY @"http://www.jxchezhilian.com"
 
 #define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
 
