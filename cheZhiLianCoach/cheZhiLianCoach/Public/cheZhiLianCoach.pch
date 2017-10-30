@@ -22,6 +22,8 @@
 #import "CoachDriverAddreModel+CoreDataProperties.h"//教练的地址
 #import "EvaluationOrderModel+CoreDataProperties.h"//投诉订单
 #import "TradingRecordModel+CoreDataClass.h"
+#import "OrderTimeModel+CoreDataProperties.h"
+#import "MyOrderModel+CoreDataProperties.h"
 //第三方
 #import "UIImageView+WebCache.h"
 #import <AFNetworking.h>
@@ -39,6 +41,7 @@
 #import "XBArea.h"//时间model 不是我写的
 #import "XBCity.h"//时间model 不是我写的
 #import "XBProvince.h"//时间model 不是我写的
+#import "DSButton.h"
 #import "UserDataSingleton.h"//单例
 //不要问有的地方为什么同样的结果用两个宏 因为他喵的代码不是我写的 我懒的替换
 #define  kScreen_heigth [UIScreen mainScreen].bounds.size.height//屏幕高度

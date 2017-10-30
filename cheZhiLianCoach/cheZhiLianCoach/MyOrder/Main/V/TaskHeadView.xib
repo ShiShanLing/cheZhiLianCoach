@@ -16,6 +16,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background1" translatesAutoresizingMaskIntoConstraints="NO" id="AId-MX-s3E">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="erha" translatesAutoresizingMaskIntoConstraints="NO" id="H4T-Qa-vXj">
                     <rect key="frame" x="13" y="8" width="30" height="30"/>
                     <constraints>
@@ -42,23 +45,124 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cu-0p-XVu" customClass="DSButton">
+                    <rect key="frame" x="60" y="41" width="72" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="NXC-SQ-9WZ"/>
+                        <constraint firstAttribute="width" constant="72" id="VkL-01-C0y"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="短信" image="SMS">
+                        <color key="titleColor" red="0.32153481245040894" green="0.32159307599067688" blue="0.32152238488197327" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="handleTexting:" destination="iN0-l3-epB" eventType="touchUpInside" id="XL7-IG-yqQ"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlR-cx-hVC">
+                    <rect key="frame" x="159" y="49" width="2" height="10"/>
+                    <color key="backgroundColor" red="0.32671114802360535" green="0.71018856763839722" blue="0.47429919242858887" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="2" id="bOP-5v-CZu"/>
+                        <constraint firstAttribute="height" constant="10" id="lud-db-H5k"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGf-jy-qWf" customClass="DSButton" customModule="cheZhiLianCoach">
+                    <rect key="frame" x="196" y="43" width="72" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="Pkr-Df-rV3"/>
+                        <constraint firstAttribute="width" constant="72" id="aQZ-jt-ZL0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="电话" image="phone">
+                        <color key="titleColor" red="0.32153481249999999" green="0.32159307599999998" blue="0.32152238490000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="handleMakePhone:" destination="iN0-l3-epB" eventType="touchUpInside" id="twc-Q7-f1l"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学员姓名:石山岭" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kSN-Zn-KH9">
+                    <rect key="frame" x="0.0" y="70" width="320" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="12" id="HkN-lJ-IzM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系电话:137****2075" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7C4-3N-kDS">
+                    <rect key="frame" x="0.0" y="90" width="320" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14.5" id="12s-q8-nfa"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学员证号:123456789" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NqF-H0-Gio">
+                    <rect key="frame" x="0.0" y="115" width="320" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14.5" id="ByX-nC-FaE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.86266267299999999" green="0.86280471089999999" blue="0.86263245340000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="7C4-3N-kDS" firstAttribute="top" secondItem="kSN-Zn-KH9" secondAttribute="bottom" constant="8" id="3G9-qG-hyl"/>
+                <constraint firstItem="LGf-jy-qWf" firstAttribute="top" secondItem="dGf-YN-mf7" secondAttribute="bottom" constant="9" id="3qc-dm-xd5"/>
+                <constraint firstItem="NqF-H0-Gio" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="4xA-M8-HWk"/>
+                <constraint firstItem="AId-MX-s3E" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="73z-i2-lZM"/>
                 <constraint firstItem="H4T-Qa-vXj" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="9Vw-Rx-WL3"/>
+                <constraint firstItem="LGf-jy-qWf" firstAttribute="leading" secondItem="qlR-cx-hVC" secondAttribute="trailing" constant="35" id="AVt-hx-1XZ"/>
+                <constraint firstItem="qlR-cx-hVC" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="B5Z-xs-E1F"/>
+                <constraint firstItem="kSN-Zn-KH9" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="F2w-G6-4fF"/>
                 <constraint firstItem="dGf-YN-mf7" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="13" id="Fb7-Bq-hAT"/>
                 <constraint firstItem="VJR-PL-9gy" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="Ilg-T4-Iq0"/>
                 <constraint firstItem="dGf-YN-mf7" firstAttribute="leading" secondItem="VJR-PL-9gy" secondAttribute="trailing" constant="15" id="JPu-ps-VWq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="AId-MX-s3E" secondAttribute="trailing" id="JwL-BT-FNH"/>
+                <constraint firstItem="qlR-cx-hVC" firstAttribute="leading" secondItem="7cu-0p-XVu" secondAttribute="trailing" constant="27" id="NFC-zu-IsP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="NqF-H0-Gio" secondAttribute="trailing" id="RgS-vW-sVX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7C4-3N-kDS" secondAttribute="trailing" id="T3O-ra-r0M"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="AId-MX-s3E" secondAttribute="bottom" id="UWI-bS-Spg"/>
+                <constraint firstItem="qlR-cx-hVC" firstAttribute="top" secondItem="VJR-PL-9gy" secondAttribute="bottom" constant="16" id="X6H-Ae-6Mz"/>
                 <constraint firstItem="VJR-PL-9gy" firstAttribute="leading" secondItem="H4T-Qa-vXj" secondAttribute="trailing" constant="14" id="bGh-aj-XYV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kSN-Zn-KH9" secondAttribute="trailing" id="eKu-yd-gFt"/>
+                <constraint firstItem="NqF-H0-Gio" firstAttribute="top" secondItem="7C4-3N-kDS" secondAttribute="bottom" constant="10" id="ile-of-FBz"/>
                 <constraint firstItem="H4T-Qa-vXj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="13" id="kKj-R1-oK9"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="dGf-YN-mf7" secondAttribute="trailing" constant="8" id="laq-RH-j93"/>
+                <constraint firstItem="AId-MX-s3E" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pZd-Nu-MxV"/>
+                <constraint firstItem="7cu-0p-XVu" firstAttribute="top" secondItem="VJR-PL-9gy" secondAttribute="bottom" constant="8" id="qTp-e3-jSP"/>
+                <constraint firstItem="kSN-Zn-KH9" firstAttribute="top" secondItem="qlR-cx-hVC" secondAttribute="bottom" constant="11" id="wRs-Rq-87Q"/>
+                <constraint firstItem="7C4-3N-kDS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="yvz-Bx-xVb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="backgroundImageView" destination="AId-MX-s3E" id="lq9-kN-beP"/>
+                <outlet property="dateLabel" destination="dGf-YN-mf7" id="ldY-EM-n8V"/>
+                <outlet property="studentCardNumLabel" destination="NqF-H0-Gio" id="03b-L7-uQ8"/>
+                <outlet property="studentNameLabel" destination="kSN-Zn-KH9" id="hgP-tl-nq5"/>
+                <outlet property="studentPhoneLabel" destination="7C4-3N-kDS" id="8pN-HN-JCG"/>
+                <outlet property="userHeadImage" destination="H4T-Qa-vXj" id="Jmh-B5-YCo"/>
+                <outlet property="usetNameLabel" destination="VJR-PL-9gy" id="BLC-Yl-3F6"/>
+            </connections>
             <point key="canvasLocation" x="-5" y="275"/>
         </view>
     </objects>
     <resources>
+        <image name="SMS" width="18" height="16"/>
+        <image name="background1" width="665" height="256"/>
         <image name="erha" width="168" height="153"/>
+        <image name="phone" width="18" height="16"/>
     </resources>
 </document>

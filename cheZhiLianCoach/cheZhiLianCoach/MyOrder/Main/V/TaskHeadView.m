@@ -8,14 +8,49 @@
 
 #import "TaskHeadView.h"
 
-@implementation TaskHeadView
+@interface TaskHeadView ()
+/**
+ 背景
+ */
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+/**
+ 用户头像
+ */
+@property (weak, nonatomic) IBOutlet UIImageView *userHeadImage;
+/**
+ 用户名字
+ */
+@property (weak, nonatomic) IBOutlet UILabel *usetNameLabel;
+/**
+ 时间
+ */
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+/**
+ 学员名字
+ */
+@property (weak, nonatomic) IBOutlet UILabel *studentNameLabel;
+/**
+ 学员电话
+ */
+@property (weak, nonatomic) IBOutlet UILabel *studentPhoneLabel;
+/**
+ 学员证号
+ */
+@property (weak, nonatomic) IBOutlet UILabel *studentCardNumLabel;
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+
+@end
+//首先 需要手动切割一下 背景色的圆角 然后需要调整 上间距
+@implementation TaskHeadView
+//打短信
+- (IBAction)handleTexting:(DSButton *)sender {
+    
+    
 }
-*/
+//打电话
+- (IBAction)handleMakePhone:(DSButton *)sender {
+    
+}
+
 
 @end

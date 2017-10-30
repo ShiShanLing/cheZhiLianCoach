@@ -1,5 +1,5 @@
 //
-//  MyOrderModel+CoreDataClass.h
+//  OrderTimeModel+CoreDataClass.h
 //  cheZhiLianCoach
 //
 //  Created by 石山岭 on 2017/10/30.
@@ -10,14 +10,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class NSObject;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MyOrderModel : NSManagedObject
+@interface OrderTimeModel : NSManagedObject
 
 @end
 
 NS_ASSUME_NONNULL_END
 
-#import "MyOrderModel+CoreDataProperties.h"
+#import "OrderTimeModel+CoreDataProperties.h"

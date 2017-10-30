@@ -328,6 +328,11 @@ static CommonUtil *defaultUtil = nil;
     return currentDateStr;
 }
 
++(NSDate *)getDataForSJCString:(NSString *)string {
+    NSTimeInterval time=[string doubleValue]/1000;//因为时差问题要加8小时 == 28800 sec
+    NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
+    return detaildate;
+}
 // NSString 转换 Date (默认格式：自定义)
 + (NSDate *)getDateForString:(NSString *)string format:(NSString *)format; {
     if (format == nil) format = @"yyyy-MM-dd HH:mm:ss";

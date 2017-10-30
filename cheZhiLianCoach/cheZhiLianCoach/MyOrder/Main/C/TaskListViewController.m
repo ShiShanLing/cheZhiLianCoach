@@ -17,7 +17,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
-
+#import "TaskTimeDetailsTVCell.h"
 @interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate, TaskListTableViewCellDelgate>{
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
@@ -119,7 +119,7 @@
     //隐藏加载更多
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
-    
+    [self.tableView registerNib:[UINib nibWithNibName:@"TaskTimeDetailsTVCell" bundle:nil] forCellReuseIdentifier:@"TaskTimeDetailsTVCell"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     //设置默认分数
     [self.scoreDic setObject:@"5" forKey:@"score1"];
@@ -176,7 +176,7 @@
    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findReservationOrder", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-    //http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/findReservationOrder?coachId=a019d62109674cff8f7fcd7b5bc2cefd
+    //http://www.jxchezhilian.com/coach/api/findReservationOrder?coachId=a019d62109674cff8f7fcd7b5bc2cefd
     URL_Dic[@"coachId" ] =[UserDataSingleton mainSingleton].coachId;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  TaskListViewController *VC = self;
@@ -219,11 +219,27 @@
         MyOrderModel *model = [[MyOrderModel   alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
         
         for (NSString *key in modelData) {
-            [model setValue:modelData[key] forKey:key];
+            
+            if ([key isEqualToString:@"orderTimes"]) {
+                NSMutableArray *timeModelArray  = [NSMutableArray array];
+                NSArray *timeArray = modelData[key];
+                for (NSDictionary *timeDic in timeArray) {
+                    NSEntityDescription *timeDes = [NSEntityDescription entityForName:@"OrderTimeModel" inManagedObjectContext:self.managedContext];
+                    //根据描述 创建实体对象
+                    OrderTimeModel *timeModel = [[OrderTimeModel alloc] initWithEntity:timeDes insertIntoManagedObjectContext:self.managedContext];
+                    for (NSString *timeKey in timeDic) {
+                        [timeModel setValue:timeDic[@"timeKey"] forKey:timeKey];
+                    }
+                    [timeModelArray addObject:timeModel];
+                }
+                [model setValue:timeModelArray forKey:key];
+            }else {
+                [model setValue:modelData[key] forKey:key];
+            }
         }
         [self.taskListArray  addObject:model];
-          NSLog(@"self.taskListArray%@model%@",self.taskListArray, model);
     }
+    NSLog(@"self.taskListArray%@",self.taskListArray);
     [self.tableView reloadData];
 }
 #pragma mark - UITableView
@@ -231,251 +247,32 @@
 
 #pragma mark tableViewCell
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.taskListArray.count;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    MyOrderModel *orderModel = self.taskListArray[section];
+    NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
+    return timeModelArray.count;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 300;
-    //return 76;
+    MyOrderModel *orderModel = self.taskListArray[indexPath.section];
+    NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
+    return 123 * timeModelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellident = @"taskCell";
-    TaskListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellident];
-  //  cell.delegate = self;
-    MyOrderModel *model = self.taskListArray[indexPath.row];
-   // NSLog(@"model%@", model);
-    if (!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"TaskListTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
-        cell = [tableView dequeueReusableCellWithIdentifier:cellident];
-    }
-    //获取数据
-    {
-        
-    if (9) {
-        if (indexPath.row == 2) {
-            cell.blackLine.hidden = YES;
-        }else{
-            cell.blackLine.hidden = NO;
-        }
-    }
+    TaskTimeDetailsTVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskTimeDetailsTVCell" forIndexPath:indexPath];;
     
-    NSString *agreecancel = @"1"; //判断订单是否需要取消
-    cell.sureCancelBtn.indexPath = indexPath;
-    cell.noCancelBtn.indexPath = indexPath;
-    [cell.sureCancelBtn addTarget:self action:@selector(sureCancelClick:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.noCancelBtn addTarget:self action:@selector(noCancelClick:) forControlEvents:UIControlEventTouchUpInside];
-    if (!agreecancel.boolValue) {
-        cell.backgroundColor = MColor(253, 243, 144);
-        cell.cancelView.hidden = NO;
-        cell.getCarClick.hidden = YES;
-        cell.cancelLabel.hidden = NO;
-    }else{
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.cancelView.hidden = YES;
-        cell.getCarClick.hidden = NO;
-        cell.cancelLabel.hidden = YES;
-    }
-    NSString *startTime = [CommonUtil InDataForString:model.startTime];//开始时间
-    NSString *endTime = [CommonUtil InDataForString:model.endTime];//结束时间
-    NSString *address = @"";//地址
-    NSString *total = [NSString stringWithFormat:@"%d", model.price] ; //订单总价
-    /**
-     state =
-     0：
-     接口相关:coachstate为0,且距离开始时间超过一个小时.
-     前端处理:无
-     1:
-     接口相关:coachstate为0,且距离开始时间少于一个小时.且教练当前没有其它的进行中任务.
-     前端处理:任务的时间显示为红色.可以确认上车.
-     2:
-     接口相关:coachstate为0,且距离开始时间少于一个小时.但教练当前还有其它的进行中任务.
-     前端处理:任务的时间显示为红色.不可以确认上车.
-     3:
-     接口相关:coachstate为1
-     前端处理:显示练车中,且可以确认下车."
-     
-     以上纯属瞎扯  这才是真的 
-     0 未上车 可以上车
-     1 上车了 可以下车
-     2 下车了 可以投诉
-     
-     */
-    int state = model.trainState;
-        NSLog(@"model.trainState%d",model.trainState);
-    if (state != 0) {
-        //红色日期 （开始时间1小时内到结束时间为止）
-        cell.timeLabel.textColor = MColor(246, 102, 93);
-    }else{
-        cell.timeLabel.textColor = MColor(28, 28, 28);
-    }
-    //支付方式   1：现金 2：小巴券 3：小巴币
-     int paytype = arc4random()%3 + 1;
-    if (paytype  == 1) {
-        cell.payerType.hidden = NO;
-        cell.payerType.text = @"¥";
-        cell.payerType.hidden = NO;
-        cell.payerType2.hidden = YES;
-    }else if (paytype== 2) {
-        cell.payerType.hidden = NO;
-        cell.payerType.text =  @"券";
-        cell.payerType.hidden = NO;
-        cell.payerType2.hidden = YES;
-    }else if (paytype == 3) {
-        cell.payerType.hidden = NO;
-        cell.payerType.text = @"币";
-        cell.payerType.hidden = NO;
-        cell.payerType2.hidden = YES;
-    }else if (paytype== 4) {
-        cell.payerType.hidden = NO;
-        cell.payerType.text = @"币";
-        cell.payerType.hidden = NO;
-        cell.payerType.text = @"￥";
-        cell.payerType2.hidden = NO;
-    }else{
-        cell.payerType.hidden = YES;
-        cell.payerType2.hidden = YES;
-    }
-    NSString *subjectname = @"";
-    if (subjectname.length == 0 || !subjectname) {
-        cell.accompanyDriveBtn.hidden = YES;
-    }else{
-        cell.accompanyDriveBtn.hidden = NO;
-        //陪驾是否需要教练带车
-        NSString *attachcar = @"1";
-        if ([attachcar boolValue]) {
-            [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_教练带车"] forState:UIControlStateNormal];
-        }else{
-            [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
-        }
-    }
-    NSString *coursetype = @"1";
-    if ([coursetype intValue] == 5) {
-        cell.accompanyDriveBtn.hidden = NO;
-        [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_not_attach_car"] forState:UIControlStateNormal];
-    }
+    MyOrderModel *orderModel = self.taskListArray[indexPath.section];
+    NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
+    OrderTimeModel *timeModel  =timeModelArray[indexPath.row];
     
-    //头像
-    NSString *logo = @"";
-    int studentState = arc4random()%2+1;//0.未认证 1.认证.studentState
-    if (studentState == 1) {
-        //已认证
-        cell.logoImageView.layer.cornerRadius = cell.logoImageView.bounds.size.width/2;
-        cell.logoImageView.layer.masksToBounds = YES;
-        cell.logoImageView.image = [UIImage imageNamed:@"logo_default"];
-        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
-    }else{
-        cell.logoImageView.image = [UIImage imageNamed:@"logo_default_nopass"];
-        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
-    }
-    //任务时间
-    NSString *time = [NSString stringWithFormat:@"%@ - %@", startTime, endTime];
-        cell.timeLabel.font = MFont(kFit(12));
-    cell.timeLabel.text = time;
-    cell.getCarClick.indexPath = indexPath;
-    cell.finishView.hidden = YES;
-    //订单总价
-    cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",total];
-    //地址
-    cell.addressLabel.text = address;
-    // 投诉
-    NSString *phone =@"136467120175";
-    cell.complaintBtn.phone = phone;
-    [cell.complaintBtn addTarget:self action:@selector(complaintClick:) forControlEvents:UIControlEventTouchUpInside];
-    // 联系
-    cell.contactBtn.phone = phone;
-    [cell.contactBtn addTarget:self action:@selector(contactClick:) forControlEvents:UIControlEventTouchUpInside];
-    //姓名
-    NSString *name = @"测试数据";
-    name = [NSString stringWithFormat:@"学员姓名 %@", name];
-    cell.nameLabel.text = name;
-    //联系电话
-    phone = [NSString stringWithFormat:@"联系电话 %@", phone];
-    cell.phoneLabel.text = phone;
-    //学员证号
-    NSString *num = @"123456789";
-    num = [NSString stringWithFormat:@"学员证号 %@", num];
-    cell.studentNumLabel.text = num;
-    // 判断按钮状态
-    /**
-     state =
-     0:
-     接口相关:coachstate为0,且距离开始时间超过一个小时.
-     前端处理:无
-     1:
-     接口相关:coachstate为0,且距离开始时间少于一个小时.且教练当前没有其它的进行中任务.
-     前端处理:任务的时间显示为红色.可以确认上车.
-     2:
-     接口相关:coachstate为0,且距离开始时间少于一个小时.但教练当前还有其它的进行中任务.
-     前端处理:任务的时间显示为红色.不可以确认上车.
-     3:
-     接口相关:coachstate为1
-     前端处理:显示练车中,且可以确认下车."
-     */
-    NSString *key = [NSString stringWithFormat:@"row%@", @"123455677"];
-    NSString *rowState = [self.rowDic objectForKey:key];
-        
-    if ([rowState intValue] == 2) {
-        //完成状态
-        cell.finishView.hidden = NO;
-        [self showDetailsCell:cell];
-    }else {
-        if ([_openOrderId isEqualToString:@"1"]) {//判断打开或者关闭 cell
-            //打开
-            cell.finishView.hidden = YES; //打开情况下隐藏黑线
-            cell.blackLine.hidden = YES;
-            [self showDetailsCell:cell];
-        }else{
-            //关闭
-            cell.finishView.hidden = YES;
-            [self showDetailsCell:cell];
-            
-        }
-    }
-#warning 这个地方还要更改 因为目前就一个数组
-    cell.getCarClick.tag = indexPath.row;
-    cell.getCarClick.trainState = [NSString stringWithFormat:@"%d", model.trainState];
-    [cell.getCarClick addTarget:self action:@selector(handlerUpDownCar:) forControlEvents:(UIControlEventTouchUpInside)];
-    if (state == 0) {
-        //可以确认上车
-        [cell.getCarClick setTitle:@"确认上车" forState:(UIControlStateNormal)];
-    }else if (state  == 1){
-        //可以确认下车
-        [cell.getCarClick setTitle:@"确认下车" forState:(UIControlStateNormal)];
-    }else{
-     //   [self checkUpCarBtn:cell.getCarClick];//确认上车
-    }
-    }
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //获取数据
-    if ([_openOrderId isEqualToString:@"1"]) {
-        _openOrderId = @"0";
-    }else{
-        self.openOrderId = @"0";
-    }
-    
-    if (self.openIndexPath == nil || [self.openIndexPath isEqual:indexPath]) {
-        //本来这一行就是打开状态或者所有行都处于关闭状态
-//        self.closeIndexPath = indexPath;//关闭这一行
-        self.openIndexPath = indexPath;
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }else{
-        //这一行不是打开状态,打开这一行
-        self.closeIndexPath = self.openIndexPath;
-        self.openIndexPath = indexPath;
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.closeIndexPath, self.openIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    [tableView reloadData];
-    [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]
-                                animated:YES
-                          scrollPosition:UITableViewScrollPositionMiddle];
+
 }
 //更新用户头像，显示六边形
 - (void)updateUserLogo:(UIImageView *)imageView{

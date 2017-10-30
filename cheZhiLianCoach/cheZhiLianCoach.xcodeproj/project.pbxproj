@@ -23,8 +23,12 @@
 		A141D6981F58FFD20099BA53 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6961F58FFD20099BA53 /* UIView+SDAutoLayout.m */; };
 		A142C5FB1FA30C5C00BAB721 /* TaskHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */; };
 		A142C5FF1FA30C7800BAB721 /* TaskHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */; };
-		A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */; };
-		A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */; };
+		A142C6481FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C6461FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m */; };
+		A142C6491FA6F50A00BAB721 /* TaskTimeDetailsTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A142C6471FA6F50A00BAB721 /* TaskTimeDetailsTVCell.xib */; };
+		A142C6551FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C64E1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m */; };
+		A142C6561FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C6501FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m */; };
+		A142C6571FA722D300BAB721 /* MyOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C6521FA722D300BAB721 /* MyOrderModel+CoreDataClass.m */; };
+		A142C6581FA722D300BAB721 /* MyOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A142C6541FA722D300BAB721 /* MyOrderModel+CoreDataProperties.m */; };
 		A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */; };
 		A15967411F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A159673F1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m */; };
 		A173D4561F4FFDF000FBC582 /* china.plist in Resources */ = {isa = PBXBuildFile; fileRef = A173D4551F4FFDF000FBC582 /* china.plist */; };
@@ -242,10 +246,17 @@
 		A142C5F91FA30C5C00BAB721 /* TaskHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskHeadView.h; sourceTree = "<group>"; };
 		A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskHeadView.m; sourceTree = "<group>"; };
 		A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskHeadView.xib; sourceTree = "<group>"; };
-		A1498F181F624334007A1B28 /* MyOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
-		A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
-		A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
-		A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A142C6451FA6F50A00BAB721 /* TaskTimeDetailsTVCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskTimeDetailsTVCell.h; sourceTree = "<group>"; };
+		A142C6461FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskTimeDetailsTVCell.m; sourceTree = "<group>"; };
+		A142C6471FA6F50A00BAB721 /* TaskTimeDetailsTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTimeDetailsTVCell.xib; sourceTree = "<group>"; };
+		A142C64D1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OrderTimeModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A142C64E1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "OrderTimeModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A142C64F1FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OrderTimeModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A142C6501FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "OrderTimeModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A142C6511FA722D300BAB721 /* MyOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A142C6521FA722D300BAB721 /* MyOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A142C6531FA722D300BAB721 /* MyOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A142C6541FA722D300BAB721 /* MyOrderModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MyOrderModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A159673C1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EvaluationOrderModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A159673D1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EvaluationOrderModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A159673E1F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EvaluationOrderModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -771,10 +782,14 @@
 		A1AB9D391F4C0F4B0056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
-				A1498F181F624334007A1B28 /* MyOrderModel+CoreDataClass.h */,
-				A1498F191F624334007A1B28 /* MyOrderModel+CoreDataClass.m */,
-				A1498F1A1F624334007A1B28 /* MyOrderModel+CoreDataProperties.h */,
-				A1498F1B1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m */,
+				A142C64D1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.h */,
+				A142C64E1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m */,
+				A142C64F1FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.h */,
+				A142C6501FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m */,
+				A142C6511FA722D300BAB721 /* MyOrderModel+CoreDataClass.h */,
+				A142C6521FA722D300BAB721 /* MyOrderModel+CoreDataClass.m */,
+				A142C6531FA722D300BAB721 /* MyOrderModel+CoreDataProperties.h */,
+				A142C6541FA722D300BAB721 /* MyOrderModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -791,6 +806,9 @@
 				A142C5F91FA30C5C00BAB721 /* TaskHeadView.h */,
 				A142C5FA1FA30C5C00BAB721 /* TaskHeadView.m */,
 				A142C5FE1FA30C7800BAB721 /* TaskHeadView.xib */,
+				A142C6451FA6F50A00BAB721 /* TaskTimeDetailsTVCell.h */,
+				A142C6461FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m */,
+				A142C6471FA6F50A00BAB721 /* TaskTimeDetailsTVCell.xib */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -1716,6 +1734,7 @@
 				A1AB9E4B1F4C1C660056AB9D /* MyStudentTableViewCell.xib in Resources */,
 				A1AB9DEA1F4C1A4F0056AB9D /* EvaluationMeCell.xib in Resources */,
 				A1AB9E261F4C1BF10056AB9D /* CarModelViewController.xib in Resources */,
+				A142C6491FA6F50A00BAB721 /* TaskTimeDetailsTVCell.xib in Resources */,
 				A1AB9EF11F4C2A090056AB9D /* DSPullToRefreshIcon@2x.png in Resources */,
 				A1AB9DF61F4C1A8E0056AB9D /* MyMessageCell.xib in Resources */,
 				A1AB9D831F4C165B0056AB9D /* UploadPhotoViewController.xib in Resources */,
@@ -1826,6 +1845,7 @@
 				A15967411F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataProperties.m in Sources */,
 				A1AB9EB71F4C26C00056AB9D /* XBProvince.m in Sources */,
 				A141D6971F58FFD20099BA53 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
+				A142C6581FA722D300BAB721 /* MyOrderModel+CoreDataProperties.m in Sources */,
 				A1AB9D501F4C113B0056AB9D /* AppDelegate.m in Sources */,
 				A1AB9E7D1F4C1E760056AB9D /* BaseViewController.m in Sources */,
 				A1AB9EAD1F4C24560056AB9D /* CPTextViewPlaceholder.m in Sources */,
@@ -1835,17 +1855,17 @@
 				A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */,
 				A1AB9ED61F4C27CB0056AB9D /* CZCroppingScrollView.m in Sources */,
 				A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */,
+				A142C6481FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m in Sources */,
 				A1AB9D911F4C16D70056AB9D /* MyViewController.m in Sources */,
 				A1AB9EA71F4C23E20056AB9D /* TPKeyboardAvoidingScrollView.m in Sources */,
-				A1498F1C1F624334007A1B28 /* MyOrderModel+CoreDataClass.m in Sources */,
 				A1AB9E0E1F4C1B5F0056AB9D /* SchoolSelectTableViewCell.m in Sources */,
+				A142C6561FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m in Sources */,
 				A1AB9EDF1F4C297F0056AB9D /* DSButton.m in Sources */,
 				A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */,
 				A11004741F8F8C170078533F /* CouponsModel+CoreDataProperties.m in Sources */,
 				A1AB9D6E1F4C15F00056AB9D /* TaskListTableViewCell.m in Sources */,
 				A1AB9EC41F4C27200056AB9D /* TQStarRatingView.m in Sources */,
 				A1AB9DFF1F4C1B290056AB9D /* MyInfoViewController.m in Sources */,
-				A1498F1D1F624334007A1B28 /* MyOrderModel+CoreDataProperties.m in Sources */,
 				A1AB9EF61F4C2CFE0056AB9D /* MainViewController.m in Sources */,
 				A1AB9EE21F4C29CA0056AB9D /* UIPlaceHolderTextView.m in Sources */,
 				A1AB9D731F4C16160056AB9D /* TaskListViewController.m in Sources */,
@@ -1855,6 +1875,7 @@
 				A1AB9E541F4C1C8D0056AB9D /* CoinRecordListTableViewCell.m in Sources */,
 				A1AB9DD11F4C185D0056AB9D /* AboutUsViewController.m in Sources */,
 				A1CE07C61F6BA60E001CB804 /* SetAddrTVCell.m in Sources */,
+				A142C6571FA722D300BAB721 /* MyOrderModel+CoreDataClass.m in Sources */,
 				A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */,
 				A1AB9D641F4C15BF0056AB9D /* RecommendCodeViewController.m in Sources */,
 				A1AB9D621F4C15BF0056AB9D /* LoginViewController.m in Sources */,
@@ -1888,6 +1909,7 @@
 				A1AB9E5E1F4C1C9A0056AB9D /* ConvertCoinViewController.m in Sources */,
 				A1AB9E9B1F4C239A0056AB9D /* LocationViewController.m in Sources */,
 				A1AB9E4F1F4C1C760056AB9D /* MyStudentViewController.m in Sources */,
+				A142C6551FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m in Sources */,
 				A1AB9E771F4C1DE60056AB9D /* CustomTabBar.m in Sources */,
 				A1A62FBD1F9849E000786A4B /* OrderTimeList.m in Sources */,
 				A1AB9E071F4C1B4B0056AB9D /* MyInfoCell.m in Sources */,

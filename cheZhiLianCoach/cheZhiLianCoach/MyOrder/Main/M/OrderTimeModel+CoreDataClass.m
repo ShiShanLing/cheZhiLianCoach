@@ -1,5 +1,5 @@
 //
-//  MyOrderModel+CoreDataClass.m
+//  OrderTimeModel+CoreDataClass.m
 //  cheZhiLianCoach
 //
 //  Created by 石山岭 on 2017/10/30.
@@ -7,8 +7,8 @@
 //
 //
 
-#import "MyOrderModel+CoreDataClass.h"
+#import "OrderTimeModel+CoreDataClass.h"
 
-@implementation MyOrderModel
+@implementation OrderTimeModel
 
 @end
