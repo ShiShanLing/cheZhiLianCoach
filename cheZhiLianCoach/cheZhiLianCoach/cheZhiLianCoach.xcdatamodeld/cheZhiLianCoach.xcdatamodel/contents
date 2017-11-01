@@ -36,6 +36,8 @@
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="studentId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sub2Price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sub3Price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="subType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timeId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStr" optional="YES" attributeType="String" syncable="YES"/>
@@ -69,6 +71,17 @@
         <attribute name="storeName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="CoursePriceModel" representedClassName="CoursePriceModel" syncable="YES">
+        <attribute name="carTypeId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carTypeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="classPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="subId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="subName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="EvaluationOrderModel" representedClassName="EvaluationOrderModel" syncable="YES">
         <attribute name="appealId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="appealReason" optional="YES" attributeType="String" syncable="YES"/>
@@ -84,14 +97,18 @@
         <attribute name="couponMemberId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="orderAmount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="orderDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="orderId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="orderSn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="orderTimes" optional="YES" attributeType="Transformable" valueTransformerName="OrderTimeList" syncable="YES"/>
+        <attribute name="orderTotalPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="payState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="schoolName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="studentId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="trainState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="studentName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="studentPhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trainState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="MyStudentListModel" representedClassName="MyStudentListModel" syncable="YES">
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -156,13 +173,14 @@
     <elements>
         <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="330"/>
         <element name="CoachDriverAddreModel" positionX="-36" positionY="153" width="128" height="105"/>
-        <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="225"/>
+        <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="255"/>
         <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="435"/>
         <element name="EvaluationOrderModel" positionX="-45" positionY="135" width="128" height="150"/>
-        <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="240"/>
+        <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="300"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
+        <element name="OrderTimeModel" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
-        <element name="OrderTimeModel" positionX="-45" positionY="135" width="128" height="210"/>
+        <element name="CoursePriceModel" positionX="-45" positionY="135" width="128" height="180"/>
     </elements>
 </model>

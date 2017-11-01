@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int16_t subType;
 @property (nullable, nonatomic, copy) NSString *timeStr;
 @property (nonatomic) float unitPrice;
+@property (nonatomic) float sub2Price;
+@property (nonatomic) float sub3Price;
 -(void)setValue:(id)value forKey:(NSString *)key;
 @end
 

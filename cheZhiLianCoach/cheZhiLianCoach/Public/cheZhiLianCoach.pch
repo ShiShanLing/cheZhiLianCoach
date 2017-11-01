@@ -24,6 +24,7 @@
 #import "TradingRecordModel+CoreDataClass.h"
 #import "OrderTimeModel+CoreDataProperties.h"
 #import "MyOrderModel+CoreDataProperties.h"
+#import "CoursePriceModel+CoreDataProperties.h"
 //第三方
 #import "UIImageView+WebCache.h"
 #import <AFNetworking.h>
@@ -66,10 +67,10 @@
 //张玉霄  http://192.168.0.250
 //沈会阳  http://192.168.100.101
 //线上      http://www.jxchezhilian.com
-//http://192.168.100.101:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
+//              http://192.168.100.101:8080/seller
 #define kURL_SHY @"http://www.jxchezhilian.com"
 
 #define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
-
+#define kSchoolId @"1"
 //[UserDataSingleton mainSingleton].URL_SHY [NSString stringWithFormat:@"http://%@%@", [UserDataSingleton mainSingleton].URL_SHY,@"/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"]
 #endif /* cheZhiLianCoach_pch */

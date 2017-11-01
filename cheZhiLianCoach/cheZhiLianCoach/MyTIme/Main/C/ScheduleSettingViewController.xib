@@ -22,11 +22,9 @@
                 <outlet property="detailView" destination="2HH-xz-DXC" id="l6S-WQ-cYg"/>
                 <outlet property="isRentConstraint" destination="jVt-2V-wCo" id="CBL-Uj-rug"/>
                 <outlet property="mainScrollView" destination="guo-Im-hwy" id="igA-ca-Thh"/>
-                <outlet property="pricePencil" destination="LHK-Gg-9MN" id="lhC-b1-W24"/>
                 <outlet property="pricePickerView" destination="kYC-IM-I3c" id="txa-Ak-dHr"/>
                 <outlet property="priceTextField" destination="PaD-mM-vnA" id="PG9-pB-D47"/>
                 <outlet property="rentBackView" destination="VTh-JF-Wck" id="cJr-zE-N93"/>
-                <outlet property="rentPricePencil" destination="9ln-f0-DuW" id="spW-c2-abS"/>
                 <outlet property="rentTitleLabel" destination="Tud-B8-hV6" id="pgS-qm-tYb"/>
                 <outlet property="selectPickerView" destination="rtU-Tb-n1O" id="eod-zP-Kfy"/>
                 <outlet property="selectView" destination="FlP-Z5-Qf6" id="cFj-MQ-43a"/>
@@ -243,38 +241,23 @@
                                 </mask>
                             </variation>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入时间单价（元/小时）" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PaD-mM-vnA">
-                            <rect key="frame" x="10" y="38" width="555" height="30"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请先选择课程" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PaD-mM-vnA">
+                            <rect key="frame" x="10" y="38" width="582" height="30"/>
+                            <color key="textColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="aaq-22-RQQ"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHK-Gg-9MN">
-                            <rect key="frame" x="565" y="38" width="35" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="35" id="POY-hF-hYI"/>
-                                <constraint firstAttribute="height" constant="30" id="S6f-La-5Zg"/>
-                            </constraints>
-                            <state key="normal" image="icon_pencil_black">
-                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <state key="selected" image="icon_pencil_blue"/>
-                            <connections>
-                                <action selector="clickForPrice:" destination="-1" eventType="touchUpInside" id="8PQ-tq-624"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="LHK-Gg-9MN" firstAttribute="leading" secondItem="PaD-mM-vnA" secondAttribute="trailing" id="63J-5o-DNE"/>
-                        <constraint firstAttribute="trailing" secondItem="LHK-Gg-9MN" secondAttribute="trailing" id="D56-Qt-m5h"/>
-                        <constraint firstItem="PaD-mM-vnA" firstAttribute="centerY" secondItem="LHK-Gg-9MN" secondAttribute="centerY" id="JBs-8S-hUm"/>
                         <constraint firstAttribute="bottom" secondItem="qm0-C6-aFG" secondAttribute="bottom" id="JGx-7t-Y7F"/>
                         <constraint firstAttribute="trailing" secondItem="oco-RO-9tE" secondAttribute="trailing" constant="10" id="JSS-Ms-3OC"/>
                         <constraint firstAttribute="trailing" secondItem="qm0-C6-aFG" secondAttribute="trailing" id="Mkw-pt-vWE"/>
                         <constraint firstItem="PaD-mM-vnA" firstAttribute="top" secondItem="oco-RO-9tE" secondAttribute="bottom" id="VxG-hw-4PE"/>
+                        <constraint firstAttribute="trailing" secondItem="PaD-mM-vnA" secondAttribute="trailing" constant="8" id="W4p-TU-21e"/>
                         <constraint firstItem="oco-RO-9tE" firstAttribute="leading" secondItem="Ham-i8-FRu" secondAttribute="leading" constant="10" id="faL-Is-wpN"/>
                         <constraint firstItem="qm0-C6-aFG" firstAttribute="leading" secondItem="Ham-i8-FRu" secondAttribute="leading" id="gn4-cj-Hfb"/>
                         <constraint firstAttribute="height" constant="81" id="hTO-BC-RJR"/>
@@ -302,8 +285,8 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入租用金单价（元/小时）" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1dn-D2-O81">
-                            <rect key="frame" x="10" y="38" width="555" height="30"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="请先选择课程" placeholder="请输入租用金单价（元/小时）" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1dn-D2-O81">
+                            <rect key="frame" x="10" y="38" width="572" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="AaI-YH-mEz"/>
                             </constraints>
@@ -313,26 +296,11 @@
                                 <outlet property="delegate" destination="-1" id="dbj-N9-jQb"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ln-f0-DuW">
-                            <rect key="frame" x="565" y="38" width="35" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="Osg-pc-WGY"/>
-                                <constraint firstAttribute="width" constant="35" id="VeV-hN-8lS"/>
-                            </constraints>
-                            <state key="normal" image="icon_pencil_black">
-                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <state key="selected" image="icon_pencil_blue"/>
-                            <connections>
-                                <action selector="clickForPrice:" destination="-1" eventType="touchUpInside" id="tVv-dB-zo2"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Tud-B8-hV6" firstAttribute="top" secondItem="VTh-JF-Wck" secondAttribute="top" id="22z-qr-saS"/>
                         <constraint firstItem="Tud-B8-hV6" firstAttribute="leading" secondItem="VTh-JF-Wck" secondAttribute="leading" constant="10" id="3q5-Xo-z7d"/>
-                        <constraint firstAttribute="trailing" secondItem="9ln-f0-DuW" secondAttribute="trailing" id="8aR-Ji-PSG"/>
                         <constraint firstItem="1dn-D2-O81" firstAttribute="leading" secondItem="VTh-JF-Wck" secondAttribute="leading" constant="10" id="Pmq-vo-6pG"/>
                         <constraint firstAttribute="height" constant="81" id="Qm6-kF-KgT"/>
                         <constraint firstItem="1dn-D2-O81" firstAttribute="top" secondItem="Tud-B8-hV6" secondAttribute="bottom" id="WDp-7a-hGh"/>
@@ -340,8 +308,7 @@
                         <constraint firstItem="qNy-d0-adW" firstAttribute="leading" secondItem="VTh-JF-Wck" secondAttribute="leading" id="Yah-IE-eNq"/>
                         <constraint firstAttribute="bottom" secondItem="qNy-d0-adW" secondAttribute="bottom" id="Zuw-DW-YrB"/>
                         <constraint firstAttribute="trailing" secondItem="qNy-d0-adW" secondAttribute="trailing" id="b36-my-zyV"/>
-                        <constraint firstItem="qNy-d0-adW" firstAttribute="top" secondItem="9ln-f0-DuW" secondAttribute="bottom" constant="12" id="lpK-C1-H5h"/>
-                        <constraint firstItem="9ln-f0-DuW" firstAttribute="leading" secondItem="1dn-D2-O81" secondAttribute="trailing" id="rlJ-zU-l3A"/>
+                        <constraint firstAttribute="trailing" secondItem="1dn-D2-O81" secondAttribute="trailing" constant="18" id="jF5-hJ-HFw"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hxG-32-jki" userLabel="上车地点">

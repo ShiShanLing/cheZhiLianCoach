@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *couponMemberId;
 @property (nullable, nonatomic, copy) NSString *schoolName;
 @property (nullable, nonatomic, copy) NSDate *createTime;
+@property (nullable, nonatomic, copy) NSDate *orderDate;
 @property (nonatomic) int16_t orderAmount;
 @property (nonatomic) int16_t commentState;
 @property (nullable, nonatomic, copy) NSString *studentId;
@@ -28,7 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *orderSn;
 @property (nullable, nonatomic, copy) NSString *orderId;
 @property (nonatomic) int16_t state;
-@property (nullable, nonatomic, copy) NSString *trainState;
+@property (nonatomic) float orderTotalPrice;
+@property (nonatomic) int16_t  trainState;
+@property (nullable,nonatomic,copy) NSString *studentPhone;
+@property (nullable,nonatomic,copy) NSString *studentName;
 -(void)setValue:(id)value forKey:(NSString *)key;
 
 @end

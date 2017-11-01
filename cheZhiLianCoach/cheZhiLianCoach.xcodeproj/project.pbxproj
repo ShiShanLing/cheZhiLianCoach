@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A103CD901FA95B5300473230 /* CoursePriceModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A103CD8D1FA95B5300473230 /* CoursePriceModel+CoreDataClass.m */; };
+		A103CD911FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A103CD8F1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m */; };
 		A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */; };
 		A10EDD581F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */; };
 		A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */; };
@@ -214,6 +216,10 @@
 		27A5C879B46D53273282919B /* libPods-cheZhiLianCoach.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cheZhiLianCoach.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A92F4EEE068BD3C96D3454A /* Pods-cheZhiLianCoach.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.debug.xcconfig"; sourceTree = "<group>"; };
 		58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cheZhiLianCoach.release.xcconfig"; path = "Pods/Target Support Files/Pods-cheZhiLianCoach/Pods-cheZhiLianCoach.release.xcconfig"; sourceTree = "<group>"; };
+		A103CD8C1FA95B5300473230 /* CoursePriceModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoursePriceModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A103CD8D1FA95B5300473230 /* CoursePriceModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CoursePriceModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A103CD8E1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoursePriceModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A103CD8F1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CoursePriceModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A10EDD531F8E092B00434843 /* TradingRecordModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A10EDD551F8E092B00434843 /* TradingRecordModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -782,6 +788,10 @@
 		A1AB9D391F4C0F4B0056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A103CD8C1FA95B5300473230 /* CoursePriceModel+CoreDataClass.h */,
+				A103CD8D1FA95B5300473230 /* CoursePriceModel+CoreDataClass.m */,
+				A103CD8E1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.h */,
+				A103CD8F1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m */,
 				A142C64D1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.h */,
 				A142C64E1FA722D300BAB721 /* OrderTimeModel+CoreDataClass.m */,
 				A142C64F1FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.h */,
@@ -1901,6 +1911,7 @@
 				A1AB9E3B1F4C1C3B0056AB9D /* MyTicketDetailTableViewCell.m in Sources */,
 				A19BA5C81F4BC4B100CC4A3E /* main.m in Sources */,
 				A1AB9EDA1F4C27CB0056AB9D /* CZPhotoPreviewViewController.m in Sources */,
+				A103CD901FA95B5300473230 /* CoursePriceModel+CoreDataClass.m in Sources */,
 				A141D6901F58FCAD0099BA53 /* CoachTimeListModel+CoreDataProperties.m in Sources */,
 				A1AB9E8C1F4C216C0056AB9D /* CommonUtil.m in Sources */,
 				A1AB9DBD1F4C182F0056AB9D /* SearchAddrViewController.m in Sources */,
@@ -1941,6 +1952,7 @@
 				A1AB9DF51F4C1A8E0056AB9D /* MyMessageCell.m in Sources */,
 				A1AB9EA61F4C23E20056AB9D /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				A1AB9DFA1F4C1A9F0056AB9D /* MyMessageViewController.m in Sources */,
+				A103CD911FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m in Sources */,
 				A1AB9E921F4C22560056AB9D /* DejalActivityView.m in Sources */,
 				A1AB9D821F4C165B0056AB9D /* UploadPhotoViewController.m in Sources */,
 				A1AB9E701F4C1D9A0056AB9D /* AmountDetailViewController.m in Sources */,

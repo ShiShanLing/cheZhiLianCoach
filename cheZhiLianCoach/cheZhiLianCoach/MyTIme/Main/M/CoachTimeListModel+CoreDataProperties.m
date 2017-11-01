@@ -26,6 +26,8 @@
 @dynamic unitPrice;
 @dynamic openCourse;
 @dynamic subType;
+@dynamic sub2Price;
+@dynamic sub3Price;
 -(void)setValue:(id)value forKey:(NSString *)key {
     
     if ([key isEqualToString:@"startTime"]) {

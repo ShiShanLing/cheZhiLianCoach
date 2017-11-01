@@ -10,33 +10,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 @interface ScheduleSettingViewController ()<UITextFieldDelegate,UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
-{
-    NSArray *array100;
-    NSArray *array10;
-    NSArray *array1;
-    UILabel *myView1;
-    UILabel *myView2;
-    UILabel *myView3;
-    NSString *minPrice;
-    NSString *maxPrice;
-    
-    NSString *signstate;   //签约状态 ： 0 未签约，1 已签约 ，2 签约过期
-    NSString *signexpired; //签约到期日期
-    NSString *subject2min; //科目二范围最小值。
-    NSString *subject2max; //科目二范围最大值。
-    NSString *subject3min; //科目三范围最小值。
-    NSString *subject3max; //科目三范围最大值。
-    NSString *trainingmax; //考场训练最大值。
-    NSString *trainingmin; //考场训练最小值。
-    NSString *accompanymin; //陪驾范围最小值。
-    NSString *accompanymax; //陪驾范围最大值。
-    NSString *hirecarmax; //租车范围最大值。
-    NSString *hirecarmin; //租车范围最小值。
-    NSString *tastesubject2min; //体验课科目二范围最小值
-    NSString *tastesubject2max; //体验课科目二范围最大值
-    NSString *tastesubject3min; //体验课科目三范围最小值
-    NSString *tastesubject3max; //体验课科目三范围最大值
-}
+
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -82,7 +56,17 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *experienceClass;
 @end
-@implementation ScheduleSettingViewController
+@implementation ScheduleSettingViewController{
+    //选中的科目
+    NSInteger index;
+}
+
+- (NSMutableArray *)allDayArray {
+    if (!_allDayArray) {
+        _allDayArray = [NSMutableArray array];
+    }
+    return _allDayArray;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,14 +76,10 @@
     self.addressArray = [NSMutableArray array];
     self.subjectArray = [NSMutableArray array];
     self.rentBackView.hidden = YES;
-    //将价格输入框变成选择框
-    self.pricePickerView.delegate = self;
-    self.pricePickerView.dataSource = self;
+
     self.priceTextField.text = @"180";
     self.priceTextField.userInteractionEnabled = NO;
-    array100 = @[@"0",@"1",@"2",@"3",@"4",@"5"];                     //百位 十位 个位   已弃用
-    array10 = @[@"5",@"6",@"7",@"8",@"9"];
-    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+
 //    self.priceTextField.enabled = NO;
     // 点击背景退出键盘
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
@@ -107,14 +87,7 @@
     [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    //获取教练价格设置表
-    [self getCoachPriceRange];
-    //获取地址信息
-    [self getAddressData];
-    //获取教学内容
-    [self getContentData];
-    [self initView];
-    
+    [self  initView];
     [self.experienceClass setTitleColor:MColor(28, 28, 28) forState:UIControlStateNormal];
     [self.experienceClass setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [self.experienceClass setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
@@ -160,206 +133,81 @@
     self.timeLabel.text = self.time;
     [self.timeScrollView addSubview:self.timeLabel];
     self.timeScrollView.contentSize = CGSizeMake(maxWidth, CGRectGetHeight(self.timeScrollView.frame));
-    
+    NSString *price;
     //价格
-    NSString *price = [self.timeDic[@"price"] description];
-    price = [CommonUtil isEmpty:price]?@"":price;
-    price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
-    
+    if (_bai2 == _hei2) {
+       price  = [NSString stringWithFormat:@"%.2f",self.bai2];
+    }else {
+        price = [NSString stringWithFormat:@"白天%.2f一个小时,夜里%.2f一个小时",_bai2,_hei2];
+    }
     //地址
-    NSString *address = [CommonUtil isEmpty:self.timeDic[@"addressdetail"]]?@"":self.timeDic[@"addressdetail"];
-    self.addressTextField.text = address;
-    
+    self.addressTextField.text = @"暂无数据";
     //教学内容
-    NSString *subject = [CommonUtil isEmpty:self.timeDic[@"subject"]]?@"":self.timeDic[@"subject"];
-    self.contentTextField.text = subject;
-    
+    self.contentTextField.text = @"科目二";
+    index = 0;
     //价格
-    NSString *rentPrice = [self.timeDic[@"cuseraddtionalprice"] description];
-    self.carRent.text = rentPrice;
-    
-    self.addressId = self.timeDic[@"addressid"];
-    self.subjectId = self.timeDic[@"subjectid"];
-
-    if ([self.subjectId intValue] == 4) {
-        self.rentBackView.hidden = NO;
-        self.isRentConstraint.constant = 81;
-    }else{
+    self.priceTextField.text = price;
+    {//这里面的东西不要动,,目前就这样
         self.rentBackView.hidden = YES;
         self.isRentConstraint.constant = 0;
-    }
-    
-    NSString *isfreecourse = [self.timeDic[@"isfreecourse"] description];
-    if ([isfreecourse boolValue]) {
-        self.experienceClass.selected = YES;
-    }else{
         self.experienceClass.selected = NO;
     }
         //打开状态
         self.timeStateLabel.text = @"开课状态，若关闭，以上时间点屏蔽任何 学员选课！";
-        
         //时间单价状态
         self.priceTitleLabel.textColor = MColor(37, 37, 37);
         self.priceTextField.textColor = MColor(37, 37, 37);
         self.pricePencilBtn.hidden = NO;
-        
         //上车地址状态
         self.addressTitleLabel.textColor = MColor(37, 37, 37);
         self.addressTextField.textColor = MColor(37, 37, 37);
         self.addressPencilBtn.hidden = NO;
-        
         //教学内容状态
         self.contentPencilBtn.hidden = NO;
         self.contentTextField.textColor = MColor(37, 37, 37);
         self.contentTitleLabel.textColor = MColor(37, 37, 37);
-    
+        self.comfirmBtn.selected = YES;
 }
 
 #pragma mark - PickerVIew
 // 行高
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
-    
     return 45.0;
-    
 }
-
 // 组数
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    if (pickerView == self.pricePickerView) {
-        return 3;
-    }
     return 1;
 }
-
 // 每组行数
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (pickerView == self.pricePickerView) {
-        if (component == 0) {
-            return array100.count;
-        }
-        if (component == 1) {
-            return array10.count;
-        }
-        if (component == 2) {
-            return array1.count;
-        }
-    }
     return self.selectArray.count;
 }
-
 // 自定义每行的view
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
-    if (pickerView == self.pricePickerView) {
-        if (component == 0) {
-            myView1 = nil;
-            myView1 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
-            myView1.textAlignment = NSTextAlignmentCenter;
-            myView1.text = [array100 objectAtIndex:row];
-            myView1.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-            myView1.textColor = [UIColor whiteColor];
-            myView1.backgroundColor = [UIColor clearColor];
-            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
-            return myView1;
-        }
-        if (component == 1) {
-            myView2 = nil;
-            myView2 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
-            myView2.textAlignment = NSTextAlignmentCenter;
-                myView2.text = [array10 objectAtIndex:row];
-            myView2.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-            myView2.textColor = [UIColor whiteColor];
-            myView2.backgroundColor = [UIColor clearColor];
-            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
-            return myView2;
-        }
-        if (component == 2) {
-            myView3 = nil;
-            myView3 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
-            myView3.textAlignment = NSTextAlignmentCenter;
-            myView3.text = [array1 objectAtIndex:row];
-            myView3.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-            myView3.textColor = [UIColor whiteColor];
-            myView3.backgroundColor = [UIColor clearColor];
-            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
-            return myView3;
-        }
-        return nil;
-    }
     UILabel *myView = nil;
     myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
     myView.textAlignment = NSTextAlignmentCenter;
     NSDictionary *dic = [self.selectArray objectAtIndex:row];
     myView.text = dic[@"name"];
     myView.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-    
     myView.textColor = [UIColor whiteColor];
-    
     myView.backgroundColor = [UIColor clearColor];
-    
     return myView;
 }
-
 // 返回选中的行
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (pickerView == self.pricePickerView) {
-        //限制价格的区间，在50~500之间
-        if (component == 0) {
-            if ([array100[row] isEqualToString:@"5"]) {
-                array10 = @[@"0"];
-                array1 = @[@"0"];
-                [self.pricePickerView reloadComponent:1];
-                [self.pricePickerView reloadComponent:2];
-                
-            }else{
-                if ([array100[row] isEqualToString:@"0"]) {
-                    array10 = @[@"5",@"6",@"7",@"8",@"9"];
-                    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
-                    [self.pricePickerView reloadComponent:1];
-                    [self.pricePickerView reloadComponent:2];
-                }else{
-                    array10 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
-                    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
-                    [self.pricePickerView reloadComponent:1];
-                    [self.pricePickerView reloadComponent:2];
-                }
-            }
-        }
-        [self.pricePickerView reloadAllComponents];
-    }
-    
+    index = row;
 }
-
 #pragma mark - 页面特性
 // 开始编辑，铅笔变蓝
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if ([textField isEqual:self.priceTextField] || [textField isEqual:self.carRent]) {
         self.pricePencilBtn.selected = YES;
         self.comfirmBtn.selected = YES;
-
     }
 }
-
 // 结束编辑，铅笔变灰
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if ([textField isEqual:self.priceTextField]) {
-        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue]) {
-            self.pricePencilBtn.selected = NO;
-//            self.view.frame = self.viewRect;
-        }else{
-            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",minPrice,maxPrice]];
-//            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
-        }
-    }
-    
-    if ([textField isEqual:self.carRent]) {
-        if ([self.carRent.text intValue] <= [hirecarmax intValue] && [self.carRent.text intValue] >=[hirecarmin intValue]) {
-            self.pricePencilBtn.selected = NO;
-            //            self.view.frame = self.viewRect;
-        }else{
-            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",hirecarmin,hirecarmax]];
-            //            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
-        }
-    }
     
 }
 #pragma mark - private
@@ -369,36 +217,30 @@
 }
 #pragma mark - action
 - (void)clickForChoose:(id)sender {
-    
-  
+
 
 }
-
+//
 - (IBAction)clickForChangeState:(id)sender {
     UISwitch *swi = (UISwitch *)sender;
     if (swi.isOn) {
         //打开状态
         self.timeStateLabel.text = @"开课状态，若关闭，以上时间点屏蔽任何 学员选课！";
-        
         //时间单价状态
         self.priceTitleLabel.textColor = MColor(37, 37, 37);
         self.priceTextField.textColor = MColor(37, 37, 37);
         self.pricePencilBtn.hidden = NO;
-        
         //上车地址状态
         self.addressTitleLabel.textColor = MColor(37, 37, 37);
         self.addressTextField.textColor = MColor(37, 37, 37);
         self.addressPencilBtn.hidden = NO;
-        
         //教学内容状态
         self.contentPencilBtn.hidden = NO;
         self.contentTextField.textColor = MColor(37, 37, 37);
         self.contentTitleLabel.textColor = MColor(37, 37, 37);
-        
     }else{
         //关闭状态
         self.timeStateLabel.text = @"未开课，以上时间点屏蔽任何学员选课！";
-        
         //时间单价状态
         self.priceTitleLabel.textColor = MColor(210, 210, 210);
         self.priceTextField.textColor = MColor(210, 210, 210);
@@ -457,124 +299,34 @@
 - (IBAction)clickForRemoveSelect:(id)sender {
     self.selectPickerTag = @"0";
     [self.selectView removeFromSuperview];
-    [self.selectView2 removeFromSuperview];
 }
 
 - (IBAction)clickForSelect:(id)sender {
-    if ([self.selectPickerTag intValue] == 1) {
-        self.selectPickerTag = @"0";
-        NSString *str = [self.price substringToIndex:1];
-        if ([str isEqualToString:@"0"]) {
-            self.price = [self.price substringFromIndex:1];
+    NSString *price;
+    //价格
+   
+   //如果是科目二
+    if (index == 0) {
+        //教学内容
+        self.contentTextField.text = @"科目二";
+        if (_bai2 == _hei2) {
+            price  = [NSString stringWithFormat:@"%.2f",self.bai2];
+        }else {
+            price = [NSString stringWithFormat:@"白天%.2f一个小时,夜里%.2f一个小时",_bai2,_hei2];
         }
-        self.comfirmBtn.selected = YES;
-
-        [self.selectView2 removeFromSuperview];
-    }else{
-        NSInteger row = [self.selectPickerView selectedRowInComponent:0];
-        NSDictionary *dic = [self.selectArray objectAtIndex:row];
-        
-        if (self.selectPickerView.tag == 0) {
-            //地址
-            self.addressId = dic[@"id"];
-            self.addressTextField.text = dic[@"name"];
-        }else if (self.selectPickerView.tag == 1){
-            self.pricePencilBtn.hidden = NO;
-            //教学内容
-            self.subjectId = dic[@"id"];
-            self.contentTextField.text = dic[@"name"];
-            if ([self.subjectId intValue]==4) {
-                self.rentBackView.hidden = NO;
-                self.isRentConstraint.constant = 81;
-            }else{
-                self.rentBackView.hidden = YES;
-                self.isRentConstraint.constant = 0;
-            }
-            if ([self.subjectId intValue] == 1||[self.subjectId intValue] == 2) {
-                self.experienceClass.hidden = NO;
-                self.experienceClass.selected = NO;
-                if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
-                    maxPrice = subject2max;
-                    minPrice = subject2min;
-                }else if ([self.subjectId intValue]==2){
-                    maxPrice = subject3max;
-                    minPrice = subject3min;
-                }
-                if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
-                    self.priceTextField.enabled = NO;
-                    self.pricePencilBtn.hidden = YES;
-                }else{
-                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
-                    self.priceTextField.enabled = YES;
-                    self.pricePencilBtn.hidden = NO;
-                }
-            }else{
-                self.experienceClass.hidden = YES;
-                self.experienceClass.selected = NO;
-                if ([self.subjectId intValue]==3){
-                    maxPrice = trainingmax;
-                    minPrice = trainingmin;
-                }else if ([self.subjectId intValue]==4){
-                    maxPrice = accompanymax;
-                    minPrice = accompanymin;
-                }
-                if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
-                    
-                    self.priceTextField.enabled = NO;
-                    self.pricePencilBtn.hidden = YES;
-                }else{
-                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
-                    self.priceTextField.enabled = YES;
-                    self.pricePencilBtn.hidden = NO;
-                }
-                if ([self.priceTextField.text intValue]==0) {
-                    //价格
-                    NSString *price = [self.timeDic[@"price"] description];
-                    price = [CommonUtil isEmpty:price]?@"":price;
-                    price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
-                    
-                    self.priceTextField.enabled = YES;
-                    if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
-                        maxPrice = subject2max;
-                        minPrice = subject2min;
-                    }else if ([self.subjectId intValue]==2){
-                        maxPrice = subject3max;
-                        minPrice = subject3min;
-                    }
-                    if (maxPrice == minPrice) {
-                        self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
-                        
-                        self.pricePencilBtn.hidden = YES;
-                        self.priceTextField.enabled = NO;
-                    }else{
-                        self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
-                        
-                        self.priceTextField.enabled = YES;
-                        self.pricePencilBtn.hidden = NO;
-                    }
-                    self.priceTextField.enabled = NO;
-                    [self.priceTextField becomeFirstResponder];
-                }
-            }
-            
+        //价格
+        self.priceTextField.text = price;
+    }else {//否者就是科目三
+        self.contentTextField.text = @"科目三";
+        if (_bai3 == _hei3) {
+            price  = [NSString stringWithFormat:@"%.2f",self.bai3];
+        }else {
+            price = [NSString stringWithFormat:@"白天%.2f一个小时,夜里%.2f一个小时",_bai3,_hei3];
         }
-        [self.selectView removeFromSuperview];
-        self.comfirmBtn.selected = YES;
-        self.selectPickerTag = @"0";
-        [self.selectView2 removeFromSuperview];
-        if ([self.priceTextField.text intValue] > [maxPrice intValue]) {
-            
-        }else if ([self.priceTextField.text intValue] < [minPrice intValue]){
-            
-        }
-        if ([self.carRent.text intValue] > [hirecarmax intValue]) {
-            self.carRent.text = hirecarmax;
-        }else if ([self.carRent.text intValue] < [hirecarmin intValue]){
-            self.carRent.text = hirecarmin;
-        }
+        //价格
+        self.priceTextField.text = price;
     }
+    [self.selectView removeFromSuperview];
 }
 
 - (IBAction)clickForConfirm:(id)sender {
@@ -584,20 +336,51 @@
 }
 
 - (void)checkOpenClass {
+    NSMutableArray *selectedTimeArray = [NSMutableArray array];
+    NSString *priceStr ;
+    NSString *coachNameStr;
+    for (NSArray * timeArray in self.allDayArray) {
+        for (CoachTimeListModel *model in timeArray) {
+            if (model.state == 4) {
+                priceStr = [NSString stringWithFormat:@"%.0f", model.unitPrice];;
+                [selectedTimeArray addObject:[NSString stringWithFormat:@"%ld%@", (long)[model.startTime timeIntervalSince1970], @"000"]];
+                [selectedTimeArray addObject:[NSString stringWithFormat:@"%ld%@", (long)[model.endTime timeIntervalSince1970], @"000"]];
+            }
+        }
+    }
+    [self performSelector:@selector(indeterminateExample)];
+    NSString *timeArraayStr = [selectedTimeArray componentsJoinedByString:@","];
+    timeArraayStr = [timeArraayStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    timeArraayStr =[timeArraayStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    timeArraayStr =[timeArraayStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/openClass", kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"]= [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"price"]= priceStr;
+    URL_Dic[@"time"]= timeArraayStr;
+    URL_Dic[@"subType"]= [NSString stringWithFormat:@"%ld", index];
+    URL_Dic[@"coachName"] = [UserDataSingleton mainSingleton].userName;
+    NSLog(@"URL_Dic%@", URL_Dic);
+    __weak  ScheduleSettingViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [VC performSelector:@selector(delayMethod)];
+        //    NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC makeToast:@"提交成功"];
+            [VC.navigationController popViewControllerAnimated:YES];
+        }else {
+            [VC makeToast:@"提交失败"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC performSelector:@selector(delayMethod)];
+        NSLog(@"error%@", error);
+    }];
     
     
-}
-#pragma mark - 接口
-//获取地址信息
-- (void)getAddressData{
-   }
-//获取教学内容
-- (void)getContentData{
-   
-}
-//获取教练的价格区间
-- (void)getCoachPriceRange{
-   
 }
 //提交修改信息
 - (void)comfirmMsg{
@@ -606,76 +389,6 @@
     NSString *state = [self.timeDic[@"state"] description];
     NSString *subject = [self.contentTextField.text description];
     NSString *addressdetail = [self.addressTextField.text description];
-    if ([CommonUtil isEmpty:state]) {
-        state = @"";
-    }
-    NSString *cancelstate = [self.timeDic[@"cancelstate"] description];
-    if ([CommonUtil isEmpty:cancelstate]) {
-        cancelstate = @"";
-    }
-    NSArray *timeArray = [self.time componentsSeparatedByString:@"、"];
-    
-    NSMutableArray *msgArray = [NSMutableArray array];
-    for (NSString *str in timeArray) {
-        NSDate *strDate = [CommonUtil getDateForString:str format:@"HH:00"];
-        NSString *hourStr = [CommonUtil getStringForDate:strDate format:@"H"];
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject:[hourStr description] forKey:@"hour"];
-        [dic setObject:[state description] forKey:@"state"];
-        [dic setObject:[cancelstate description] forKey:@"cancelstate"];
-        [dic setObject:[price description] forKey:@"price"];
-        if (!self.carRent.hidden) {
-            [dic setObject:rentPrice forKey:@"cuseraddtionalprice"];
-            [dic setObject:rentPrice forKeyedSubscript:@"addtionalprice"];
-        }else{
-            [dic setObject:@"0" forKey:@"cuseraddtionalprice"];
-            [dic setObject:@"0" forKeyedSubscript:@"addtionalprice"];
-        }
-        [dic setObject:@"1" forKey:@"isrest"];
-        [dic setObject:[self.addressId description] forKey:@"addressid"];
-        [dic setObject:[self.subjectId description] forKey:@"subjectid"];
-        [msgArray addObject:dic];
-    }
-    
-    [DejalBezelActivityView activityViewForView:self.view withLabel:@"正在保存..."];
-    
-    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:self.timeDic];
-    [mutableDic setObject:price forKey:@"price"];
-    if (self.experienceClass.selected) {
-        NSString *isfreecourse = @"1";
-        [mutableDic setObject:isfreecourse forKey:@"isfreecourse"];
-    }else{
-        NSString *isfreecourse = @"0";
-        [mutableDic setObject:isfreecourse forKey:@"isfreecourse"];
-    }
-    [mutableDic setObject:[self.subjectId description] forKey:@"subjectid"];
-    [mutableDic setObject:subject forKey:@"subject"];
-    [mutableDic setObject:[self.addressId description] forKey:@"addressid"];
-    [mutableDic setObject:addressdetail forKey:@"addressdetail"];
-    self.timeDic = mutableDic;
-    
-    NSMutableArray *testArray = [NSMutableArray arrayWithArray:self.allDayArray];
-    for (int i=0; i<testArray.count; i++) {
-        NSDictionary *timeDic = testArray[i];
-        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
-        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-        
-        for (int j=0; j<timeArray.count; j++) {
-            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
-            if (!self.carRent.hidden) {
-                [dic2 setObject:rentPrice forKey:@"cuseraddtionalprice"];
-                [dic2 setObject:rentPrice forKeyedSubscript:@"addtionalprice"];
-            }
-            if ([timeArray[j] isEqualToString:str]) {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
-                [dic setObject:[timeDic[@"hour"] description] forKey:@"hour"];
-                [testArray replaceObjectAtIndex:i withObject:dic];
-            }
-        }
-    }
-    
-    self.allDayArray = testArray;
-    
 }
 
 // 将字典或者数组转化为JSON串
@@ -692,20 +405,12 @@
     }
 }
 
-- (void)backLogin{
-    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
-        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }
-}
-
 - (IBAction)clickForback:(id)sender {
     if (self.comfirmBtn.selected == YES) {   //添加一个退出的提示，防止教练在不经意的情况下退出了。
         [self.priceTextField resignFirstResponder];
         [self.carRent resignFirstResponder];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请点击保存让您的修改生效" delegate:self cancelButtonTitle:@"保存" otherButtonTitles:@"放弃", nil];
         [alert show];
-        
     }else{
         NSMutableArray *array = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
@@ -718,26 +423,9 @@
         [self checkOpenClass];
     }else if(buttonIndex == 1){
         [self.priceTextField resignFirstResponder];
-        [self.carRent resignFirstResponder];
-        NSMutableArray *array = [NSMutableArray array];
         
-        NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if (!self.carRent.hidden) {
-            NSMutableArray *mutableArray1 = [NSMutableArray arrayWithArray:self.allDayArray];
-            for (int i=0; i<self.allDayArray.count; i++) {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.allDayArray[i]];
-                [dic setValue:rentPrice forKey:@"addtionalprice"];
-                [dic setValue:rentPrice forKey:@"cuseraddtionalprice"];
-                [mutableArray1 replaceObjectAtIndex:i withObject:dic];
-            }
-            self.allDayArray  = mutableArray1;
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
 }
-
 
 @end

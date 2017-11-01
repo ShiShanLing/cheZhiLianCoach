@@ -16,11 +16,9 @@
 @property (strong, nonatomic) NSArray *timeArray;
 @property (strong, nonatomic) NSDictionary *timeDic;//对应的日期
 @property (strong, nonatomic) NSString *date;//修改的日期<2015-03-01>
-@property (strong, nonatomic) NSArray *allDayArray;
-
+@property (strong, nonatomic) NSMutableArray *allDayArray;
 @property (strong, nonatomic) IBOutlet UIButton *pricePencil;
 @property (strong, nonatomic) IBOutlet UIButton *rentPricePencil;
-
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *isRentConstraint;
 /**
  *选择时间数组
@@ -30,5 +28,10 @@
  *一节课的价钱
  */
 @property (nonatomic, strong)NSString *CoursePrice;
+
+@property (nonatomic, assign)CGFloat bai2;
+@property (nonatomic, assign)CGFloat bai3;
+@property (nonatomic, assign)CGFloat hei2;
+@property (nonatomic, assign)CGFloat hei3;
 
 @end

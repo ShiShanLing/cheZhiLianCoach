@@ -27,11 +27,16 @@
 @dynamic orderSn;
 @dynamic orderId;
 @dynamic state;
+@dynamic orderDate;
 @dynamic trainState;
+@dynamic orderTotalPrice;
 -(void)setValue:(id)value forKey:(NSString *)key {
     if ([key isEqualToString:@"createTime"]) {
         NSString *str=[NSString stringWithFormat:@"%@", value];
         self.createTime = [CommonUtil  getDataForSJCString:str];
+    }else if([key isEqualToString:@"orderDate"]){
+        NSString *str=[NSString stringWithFormat:@"%@", value];
+        self.orderDate = [CommonUtil  getDataForSJCString:str];
     }else {
         [super setValue:value forKey:key];
     }

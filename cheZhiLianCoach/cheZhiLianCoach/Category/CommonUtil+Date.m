@@ -456,7 +456,7 @@
     NSDate *detaildate=date;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     //设定时间格式,这里可以设置成自己需要的格式
-    [dateFormatter setDateFormat:@"MM-dd HH:mm"];
+    [dateFormatter setDateFormat:@"HH:mm"];
     NSString *currentDateStr = [dateFormatter stringFromDate: detaildate];
     return currentDateStr;
 }

@@ -18,7 +18,9 @@
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
 #import "TaskTimeDetailsTVCell.h"
-@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate, TaskListTableViewCellDelgate>{
+#import "TaskHeadView.h"//页眉视图
+
+@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate, TaskListTableViewCellDelgate,TaskTimeDetailsTVCellDeleagte>{
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
     BOOL isRefresh;//是否刷新
@@ -120,6 +122,7 @@
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
     [self.tableView registerNib:[UINib nibWithNibName:@"TaskTimeDetailsTVCell" bundle:nil] forCellReuseIdentifier:@"TaskTimeDetailsTVCell"];
+    self.tableView.backgroundColor = MColor(239, 239, 244);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     //设置默认分数
     [self.scoreDic setObject:@"5" forKey:@"score1"];
@@ -228,7 +231,13 @@
                     //根据描述 创建实体对象
                     OrderTimeModel *timeModel = [[OrderTimeModel alloc] initWithEntity:timeDes insertIntoManagedObjectContext:self.managedContext];
                     for (NSString *timeKey in timeDic) {
-                        [timeModel setValue:timeDic[@"timeKey"] forKey:timeKey];
+                        if ([timeKey isEqualToString:@"startTime"]) {
+                            [model setValue:timeDic[timeKey] forKey:@"orderDate"];
+                        }
+                        if ([timeKey isEqualToString:@"trainState"]) {
+                            [model setValue:timeDic[timeKey] forKey:@"trainState"];
+                        }
+                        [timeModel setValue:timeDic[timeKey] forKey:timeKey];
                     }
                     [timeModelArray addObject:timeModel];
                 }
@@ -256,24 +265,208 @@
     return timeModelArray.count;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
-    return 123 * timeModelArray.count;
+    if (orderModel.state == 3) {
+        if (indexPath.row == timeModelArray.count -1) {
+            return 179;
+        }else {
+            return 128;
+        }
+    }else {
+        return 128;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TaskTimeDetailsTVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskTimeDetailsTVCell" forIndexPath:indexPath];;
-    
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
-    OrderTimeModel *timeModel  =timeModelArray[indexPath.row];
+    //这个判断是判断是否显示 拒绝和同意
+    if (orderModel.state == 3) {
+        if (indexPath.row == timeModelArray.count -1) {
+            cell.AgreedBtn.hidden = NO;
+            cell.RefusedBtn.hidden = NO;
+        }else {
+            cell.AgreedBtn.hidden = YES;
+            cell.RefusedBtn.hidden = YES;
+        }
+    }else {
+        cell.AgreedBtn.hidden = YES;
+        cell.RefusedBtn.hidden = YES;
+    }
     
+    OrderTimeModel *timeModel  =timeModelArray[indexPath.row];
+    if (indexPath.row == timeModelArray.count-1) {
+        cell.backgroundImageView.image = [UIImage imageNamed:@"background4"];
+    }else {
+        cell.backgroundImageView.image = [UIImage imageNamed:@"background2"];
+    }
+    cell.model = timeModel;
+    cell.indexPath = indexPath;
+    cell.delegate  = self;
+    NSString *btnState;
+    switch (timeModel.trainState) {
+        case 0:
+            btnState = @"确认上车";
+            cell.timeEditorBtn.backgroundColor = MColor(0, 190, 122);
+            break;
+        case 1:
+            btnState = @"确认下车";
+            cell.timeEditorBtn.backgroundColor = MColor(0, 190, 122);
+            break;
+        case 2:
+            btnState = @"已结束";
+            cell.timeEditorBtn.backgroundColor = MColor(149, 149, 149);
+            break;
+        default:
+            break;
+    }
+    [cell.timeEditorBtn setTitle:btnState forState:(UIControlStateNormal)];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    MyOrderModel *orderModel = self.taskListArray[section];
+    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TaskHeadView" owner:nil options:nil];
+    TaskHeadView *headView = [nibContents lastObject];
+    headView.frame = CGRectMake(0, 0, kScreen_widht, 162);
+    headView.model = orderModel;
+    
+    return headView;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 175;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_widht, 0.01)];
+    return view;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.01;
+    
+}
+#pragma make TaskTimeDetailsTVCell
+/**
+ *确认上下车
+ *@param sender DSButton
+ */
+- (void)TimeStateEditor:(DSButton *)sender  {
+    __weak TaskListViewController *VC =self;
+
+    MyOrderModel *orderModel = self.taskListArray[sender.indexPath.section];
+    NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
+    OrderTimeModel *timeModel  =timeModelArray[sender.indexPath.row];
+    NSString *btnState;
+    switch (timeModel.trainState) {
+        case 0:
+            btnState = @"确认学员上车";
+            break;
+        case 1:
+            btnState = @"确认学员下车";
+            break;
+        case 2:
+            return;
+            break;
+        default:
+            break;
+    }
+    UIAlertController *alertV = [UIAlertController alertControllerWithTitle:@"警告!" message:btnState  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self  respondsToSelector:@selector(indeterminateExample)];
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/confirmOnBus", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"timeId"] = timeModel.timeId;
+        NSLog(@"URL_Dic%@", URL_Dic);
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            [self  respondsToSelector:@selector(delayMethod)];
+            if ([resultStr isEqualToString:@"1"]) {
+                [VC makeToast:@"编辑成功!"];
+                [VC getTaskList];
+            }else {
+                [VC makeToast:responseObject[@"msg"]];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [self  respondsToSelector:@selector(delayMethod)];
+            NSLog(@"error%@", error);
+        }];
+        
+    }];
+    
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"点错了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        return ;
+    }];
+    // 3.将“取消”和“确定”按钮加入到弹框控制器中
+    [alertV addAction:cancle];
+    [alertV addAction:confirm];
+    // 4.控制器 展示弹框控件，完成时不做操作
+    [self presentViewController:alertV animated:YES completion:^{
+        nil;
+    }];
+    
+}
+/**
+ *同意或者拒绝取消订单   tag值 拒绝 0 同意 1
+ * sender sender description
+ */
+- (void)AgreeOrRefuseCancelOrder:(DSButton *)sender {
+    MyOrderModel *orderModel = self.taskListArray[sender.indexPath.section];
+
+__weak  TaskListViewController *VC = self;
+    if (sender.tag == 0) {
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/reject",kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"orderId"] = orderModel.orderId;
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+                [VC getTaskList];
+            }else {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"error%@", error);
+        }];
+    }else {
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/approve",kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"orderId"] = orderModel.orderId;
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+                [VC getTaskList];
+            }else {
+                [VC showAlert:responseObject[@"msg"] time:1.2];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"error%@", error);
+        }];
+
+    }
+}
+
 //更新用户头像，显示六边形
 - (void)updateUserLogo:(UIImageView *)imageView{
     if (imageView == nil) {
@@ -340,7 +533,6 @@
         [self makeToast:@"该学员还未设置电话号码"];
     }
 }
-
 #pragma mark 练车中
 - (void)practicingCarBtn:(DSButton *)button {
     UIImage *image = [UIImage imageNamed:@"background_practice"];
@@ -349,188 +541,13 @@
     [button setTitle:@"练车中" forState:UIControlStateNormal];
     button.enabled = NO;
 }
-
-- (void)handlerUpDownCar:(DSButton *)sender {
-    
-    __weak TaskListViewController *VC =self;
-    
-    MyOrderModel *model = self.taskListArray[sender.indexPath.row];
-    NSLog(@"model.trainState%hd sender.trainState%@", model.trainState, sender.trainState);
-    UIAlertController *alertV = [UIAlertController alertControllerWithTitle:@"警告!" message:model.trainState == 0 ?@"确定学员上车":@"确定学员下车"  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        [self  respondsToSelector:@selector(indeterminateExample)];
-        NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/confirmOnBus", kURL_SHY];
-        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-        URL_Dic[@"timeId"] = model.orderId;
-        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
-            NSLog(@"uploadProgress%@", uploadProgress);
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"responseObject%@", responseObject);
-            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
-            [self  respondsToSelector:@selector(delayMethod)];
-            if ([resultStr isEqualToString:@"1"]) {
-                [VC makeToast:@"编辑成功!"];
-                [VC getTaskList];
-            }else {
-                [VC makeToast:responseObject[@"msg"]];
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [self  respondsToSelector:@selector(delayMethod)];
-            NSLog(@"error%@", error);
-        }];
-
-    }];
-    
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"点错了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        return ;
-    }];
-    // 3.将“取消”和“确定”按钮加入到弹框控制器中
-    [alertV addAction:cancle];
-    [alertV addAction:confirm];
-    // 4.控制器 展示弹框控件，完成时不做操作
-    [self presentViewController:alertV animated:YES completion:^{
-        nil;
-    }];
-
-    
- }
-
-#pragma mark 点击确认上车弹框
-- (void)getUpCarClick:(id)sender {
-
-
-    
-}
-#pragma mark 点击确认下车弹框确认
-- (void)getOffCarClick:(id)sender {
-    
-}
-#pragma mark 点击同意取消订单
-- (void)sureCancelClick:(DSButton *)button {
-  
-}
-#pragma mark 点击不同意取消订单
-- (void)noCancelClick:(DSButton *)button {
-   
-}
-
-#pragma mark - 定位 BMKLocationServiceDelegate
-#pragma mark details收起
-- (void)hideDetailsCell:(TaskListTableViewCell *)cell {
-    cell.studentDetailsView.hidden = YES;
-    [cell.jiantouImageView setImage:[UIImage imageNamed:@"icon_button_right"] forState:UIControlStateNormal];
-}
-#pragma mark details展开
-- (void)showDetailsCell:(TaskListTableViewCell *)cell {
-    cell.studentDetailsView.hidden = NO;
-    [cell.jiantouImageView setImage:[UIImage imageNamed:@"icon_button_down"] forState:UIControlStateNormal];
-}
-#pragma mark 完成任务删除cell
-- (void)deleteCell {
-
-    // 删除数据
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.taskListArray objectAtIndex:self.selectIndexPath.section]];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:dic[@"list"]];
-    NSDictionary *rowDic = [array objectAtIndex:self.selectIndexPath.row];
-    [array removeObject:rowDic];
-    [dic setObject:array forKey:@"list"];
-    
-    if (array.count == 0) {
-        //该日期下已经没有数据，移除
-        [self.taskListArray replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
-        [self.tableView deleteRowsAtIndexPaths:@[self.selectIndexPath] withRowAnimation:UITableViewRowAnimationRight];
-        
-        [self.rowDic removeAllObjects];
-        [self.taskListArray removeObject:dic];
-        [self.tableView reloadData];
-//        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:self.selectIndexPath.section] withRowAnimation:UITableViewRowAnimationRight];
-    }else{
-        //该日期下还有数据，替换
-        [self.taskListArray replaceObjectAtIndex:self.selectIndexPath.section withObject:dic];
-        [self.tableView deleteRowsAtIndexPaths:@[self.selectIndexPath] withRowAnimation:UITableViewRowAnimationRight];
-        
-    }
-    
-    //行状态重置
-    self.closeIndexPath = nil;
-    self.openIndexPath = nil;
-    
-//    [self getTaskList];//刷新数据
-    
-    [self performSelector:@selector(addCommentView) withObject:nil afterDelay:0.3f];
-}
-#pragma mark 添加评论
-- (void)addCommentView {
-    
-    
-    self.commentView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    [self.view addSubview:self.commentView];
-
-    if (self.taskListArray.count == 0) {
-        //没有数据
-       // self.noDataViewBtn.hidden = NO;
-    }else{
-        self.noDataViewBtn.hidden = YES;
-    }
-    
-    pageNum = 0;
-    [self performSelector:@selector(getTaskList) withObject:nil afterDelay:0.3f];
-    
-}
 #pragma mark 取消评论
 - (IBAction)cancelComment:(id)sender {
     [self.commentView removeFromSuperview];
 }
 #pragma mark 提交评论
 - (IBAction)sureComment:(id)sender {
-    NSString *str = [self.commentTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//    if (str.length == 0) {
-//        [self makeToast:@"请说点什么吧。。"];
-//        return;
-//    }
     
-    
-//    if (self.selectIndexPath.section >= self.taskList.count) {
-//        return;//数组越界判断
-//    }
-//    //判断该学员是否填写过资料
-//    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-//    NSArray *array = dic[@"list"];
-//    
-//    if (self.selectIndexPath.row >= array.count) {
-//        return;//数组越界判断
-//    }
-//    
-//    dic = [array objectAtIndex:self.selectIndexPath.row];
-    
-    if ([self.commentOrderId intValue] !=0) {
-        [self ComfirmComment:str orderId:self.commentOrderId];
-    }
-    
-    
-    
-}
-#pragma mark - StarRatingViewDelegate
--(void)starRatingView:(TQStarRatingView *)view score:(float)score{
-    NSString *scoreStr = [NSString stringWithFormat:@"%.f", score*5];
-    if ([view isEqual:self.starRatingView1]) {
-        
-        self.scoreLabel1.text = [NSString stringWithFormat:@"学习态度%@分", scoreStr];
-        [self.scoreDic setObject:scoreStr forKey:@"score1"];
-        
-    }else if ([view isEqual:self.starRatingView2]){
-        
-        self.scoreLabel2.text = [NSString stringWithFormat:@"技能掌握%@分", scoreStr];
-        [self.scoreDic setObject:scoreStr forKey:@"score2"];
-    }else if ([view isEqual:self.starRatingView3]){
-        
-        self.scoreLabel3.text = [NSString stringWithFormat:@"遵章守时%@分", scoreStr];
-        [self.scoreDic setObject:scoreStr forKey:@"score3"];
-    }
-    
-//    self.gouBtn.enabled = YES;
 }
 #pragma mark - 键盘监听
 //当键盘出现或改变时调用
@@ -623,41 +640,6 @@
     [_pullToMore tableViewReleased];
 }
 
-
-#pragma mark 确认上车接口
-- (void)ComfirmTask:(NSString *)orderId{
-    [self makeToast:@"该功能未开通"];
-}
-#pragma mark 确认下车接口
-- (void)getOffCarTask:(NSString *)orderId{
-   [self makeToast:@"该功能未开通"];
-}
-#pragma mark 提交评论
-- (void)ComfirmComment:(NSString *)comment orderId:(NSString *)orderId{
-   [self makeToast:@"该功能未开通"];
-
-}
-#pragma mark 确认取消课程
-- (void)sureCancle:(NSString *)orderId {
-   [self makeToast:@"该功能未开通"];
-}
-#pragma mark 不同意取消课程
-- (void)noCancle:(NSString *)orderId {
-   [self makeToast:@"该功能未开通"];
-    
-}
-#pragma mark - 广告位接口
-- (void)getAdvertisement{
-   [self makeToast:@"该功能未开通"];
-}
-#pragma mark 回调
-- (void) backLogin{
-    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
-        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }
-}
-
 #pragma mark - private
 /** 整理数据， 根据日期存放list
  *格式 [{date: "yyyy-MM-dd", list:[....]}，{date: "yyyy-MM-dd", list:[....]},...]
@@ -668,7 +650,6 @@
         NSString *str1 = dic1[@"date"];
         NSString *str2 = dic2[@"date"];
         return [str1 compare:str2];
-        
     }];
     
     NSMutableArray *taskArray = [NSMutableArray array];
@@ -709,18 +690,5 @@
     return taskArray;
 }
 
-//清空评价信息
-- (void)clearEvaluate{
-    [self.starRatingView1 changeStarForegroundViewWithPoint:CGPointMake(CGRectGetWidth(self.starRatingView1.frame), 0)];
-    [self.starRatingView2 changeStarForegroundViewWithPoint:CGPointMake(CGRectGetWidth(self.starRatingView2.frame), 0)];
-    [self.starRatingView3 changeStarForegroundViewWithPoint:CGPointMake(CGRectGetWidth(self.starRatingView3.frame), 0)];
-    
-    self.scoreLabel1.text = @"学习态度5分";
-    self.scoreLabel2.text = @"技能掌握5分";
-    self.scoreLabel3.text = @"遵章守时5分";
-    
-    self.commentTextView.text = @"";
-    self.commentOrderId = @"0";
-}
 
 @end

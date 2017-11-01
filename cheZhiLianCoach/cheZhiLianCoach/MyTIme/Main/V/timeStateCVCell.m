@@ -68,7 +68,7 @@
                 case 0:
                     self.backgroundImage.image = [UIImage imageNamed:@"time_point_bg_grey"];
                     _timeLabel.textColor = [UIColor colorWithRed:68 green:68 blue:68 alpha:1.0];
-                    _priceLabel.text = @"¥:0:00";
+                    _priceLabel.text = [NSString stringWithFormat:@"%.2f", model.sub2Price];
                     break;
                 case 4:
                     self.backgroundImage.image = [UIImage imageNamed:@"time_point_bg_green"];

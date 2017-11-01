@@ -42,7 +42,10 @@
     }else if ([key isEqualToString:@"endTime"]) {
         NSString *str=[NSString stringWithFormat:@"%@", value];
         self.endTime = [CommonUtil  getDataForSJCString:str];
-    }else {
+    }else if([key isEqualToString:@"id"]){
+        
+        self.timeId = value;
+    }else{
         [super setValue:value forKey:key];
     }
 }

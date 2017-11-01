@@ -19,7 +19,7 @@
 #define TIME_BLOCKWEITH SCREEN_WIDTH/320*66 // 时间块的宽度
 #define TIME_BLOCKHIGTH SCREEN_WIDTH/320*70 // 时间块的高度
 
-
+//如果是当天就不让编辑
 static  BOOL EditTime;
 
 @interface ScheduleViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, CustomTabBarDelegate, TimeChooseTableViewCellDelegate,UIAlertViewDelegate>{
@@ -67,7 +67,7 @@ static  BOOL EditTime;
 @property (strong, nonatomic) NSMutableArray *eveningAllTimeArray;//晚上
 @property (strong, nonatomic) NSString *cancelPermission;
 @property (strong, nonatomic) NSString *nowHour;//现在时间点
-
+@property (strong,nonatomic)NSMutableArray *CoursePriceArray;
 @property (strong, nonatomic) IBOutlet UIButton *setDefaultButton;
 
 - (IBAction)clickForSetDefaultCheck:(id)sender;
@@ -77,7 +77,6 @@ static  BOOL EditTime;
  // 取消上拉回弹
  [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - self.mainTableView.hidden)];
  }
-
  calenderDic 格式
  date: 日期
  list: 时间点数组
@@ -116,8 +115,16 @@ static  BOOL EditTime;
 @implementation ScheduleViewController {
     NSInteger  openCourse;//当点击的第一个时间段是未开课的 那么就不让点击别的开课的选项
     NSDate   *currentTime;//如果是空的或者 是当天就不让操作
-    
-    
+    CGFloat bai2;//白天科二
+    CGFloat bai3;//白天科三
+    CGFloat hei2;//黑夜科二
+    CGFloat hei3;//黑夜科三
+}
+- (NSMutableArray *)CoursePriceArray {
+    if (!_CoursePriceArray) {
+        _CoursePriceArray  = [NSMutableArray array];
+    }
+    return _CoursePriceArray;
 }
 - (NSMutableArray *)coachTimeArray {
     if (!_coachTimeArray) {
@@ -231,8 +238,8 @@ static  BOOL EditTime;
     if(needRefresh){
         [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];//手动下拉
         [self.refreshManager tableViewReloadStart:[NSDate date] Animated:YES];
-        [self requestCoursePrice];
-        [self requestData:currentTime];
+        [self requestCoursePrice:currentTime];
+
         self.openOrCloseClassView.hidden = YES;
     }
 }
@@ -246,31 +253,60 @@ static  BOOL EditTime;
     return (([comp1 day] == [comp2 day]) && ([comp1 month] == [comp2 month]) && ([comp1 year] == [comp2 year]));
 }
 
-
-- (void)requestCoursePrice {
-    
+/**
+ 获取当天时间段价钱
+ */
+- (void)requestCoursePrice:(NSDate *)date  {
+    NSDate *nowDate;
+    if (date ==nil ||  [self isSameDay:date date2:[NSDate date] ]) {
+        nowDate = [NSDate date];
+        NSLog(@"nowDate%@ date%@", nowDate, date);
+        currentTime =  nowDate;
+        EditTime = NO;
+    }else {
+        currentTime = date;
+        nowDate = date;
+        EditTime = YES;
+    }
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findClassPrice", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-    URL_Dic[@"dateTime"] = @"2017-10-22";
+    URL_Dic[@"schoolId"] = kSchoolId;
+    URL_Dic[@"dateTime"] = [CommonUtil getStringForDate:nowDate format:@"yyyy-MM-dd"];
     URL_Dic[@"carTypeId"] = [UserDataSingleton mainSingleton].carTypeId?[UserDataSingleton mainSingleton].carTypeId:@"1";
+    NSLog(@"URL_Dic%@", URL_Dic);
     __weak  ScheduleViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"uploadProgress%@", uploadProgress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject%@", responseObject);
+        NSLog(@"获取当天价钱responseObject%@", responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
-            
+            [VC parsingTodayCoursePrice:responseObject[@"data"]];
         }else {
             [VC showAlert:responseObject[@"msg"] time:1.2];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error%@", error);
     }];
-
-    
-    
+}
+- (void)parsingTodayCoursePrice:(NSArray *)CoursePrice {
+    if (CoursePrice.count ==0) {
+        [self showAlert:@"课程信息数据为空,请联系管理员!" time:1.0];
+        return;
+    }
+    [self.CoursePriceArray removeAllObjects];
+    for (NSDictionary *PriceDic in CoursePrice) {
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CoursePriceModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        CoursePriceModel *model = [[CoursePriceModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        for (NSString *key in PriceDic) {
+            [model setValue:PriceDic[key] forKey:key];
+        }
+        [self.CoursePriceArray addObject:model];
+    }
+    [self requestData:currentTime];
+ //   NSLog(@"self.CoursePriceArray%@", self.CoursePriceArray);
 }
 
 #pragma mark 请求数据
@@ -325,6 +361,7 @@ static  BOOL EditTime;
 
 - (void)parsingCoachTimeData:(NSDictionary *)dic {
     [self.coachTimeArray removeAllObjects];
+    NSLog(@"self.CoursePriceArray%@", self.CoursePriceArray);
     self.openOrCloseClassView.hidden = YES;
     NSArray *tempArray = dic[@"data"];
     NSDictionary *tempDic = tempArray[0];
@@ -336,8 +373,8 @@ static  BOOL EditTime;
         //根据描述 创建实体对象
         CoachTimeListModel *CTLModel = [[CoachTimeListModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
         [CTLModel setValue:tempDic[@"unitPrice"] forKey:@"unitPrice"];
+
         for (NSString *key in dateDic) {
-          //  NSLog(@"key%@", key);
             [CTLModel setValue:dateDic[key] forKey:key];
         }
         [self.coachTimeArray addObject:CTLModel];
@@ -350,6 +387,38 @@ static  BOOL EditTime;
     [self.dateArray[0] removeAllObjects];
     [self.dateArray[1] removeAllObjects];
     [self.dateArray[2] removeAllObjects];
+    for (CoursePriceModel *priceModel in self.CoursePriceArray) {
+        //如果是休息天(3) - 否者就是工作日(1白天和2夜晚)
+        if (priceModel.dateId==3) {
+            //如果是 休息日只需要判断是科二还是科三
+            if (priceModel.subId==2) {
+                bai2 = priceModel.classPrice;
+                hei2 = priceModel.classPrice;
+            }else if(priceModel.subId == 3) {
+                bai3 = priceModel.classPrice;
+                hei3 = priceModel.classPrice;
+            }
+        }else {
+            //如果是工作日需要判断是 白天还是夜晚
+            //如果是白天 //否者如果是晚上
+            if (priceModel.dateId == 1) {
+                //如果是科二//否者如果是科三
+                if (priceModel.subId==2) {
+                    bai2 = priceModel.classPrice;
+                }else if(priceModel.subId == 3) {
+                    bai3 = priceModel.classPrice;
+                }
+            }else if (priceModel.dateId == 2) {
+                //如果是科二//否者如果是科三
+                if (priceModel.subId==2) {
+                    hei2 = priceModel.classPrice;
+                }else if(priceModel.subId == 3) {
+                    hei3 = priceModel.classPrice;
+                }
+            }
+        }
+    }
+    
     for (CoachTimeListModel *model in self.coachTimeArray) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         //设定时间格式,这里可以设置成自己需要的格式
@@ -357,16 +426,20 @@ static  BOOL EditTime;
         NSString *currentDateStr = [dateFormatter stringFromDate: model.endTime];
         int temeHH = currentDateStr.intValue;
        // NSLog(@"<><><><><><><><><>%d", temeHH);
+        
         if (temeHH <=12) {
             [dateFormatter setDateFormat:@"HH:mm"];
             model.timeStr = [dateFormatter stringFromDate: model.startTime];
             model.periodStr = @"上午";
+            model.sub2Price = bai2;
+            model.sub3Price = bai3;
             [self.dateArray[0] addObject:model];
         }else if (temeHH <=18 && (temeHH > 12)) {
-            
             [dateFormatter setDateFormat:@"HH:mm"];
             model.timeStr = [dateFormatter stringFromDate: model.startTime];
             model.periodStr = @"下午";
+            model.sub2Price = hei2;
+            model.sub3Price = hei3;
             [self.dateArray[1] addObject:model];
         }else {
             [dateFormatter setDateFormat:@"HH:mm"];
@@ -965,7 +1038,11 @@ static  BOOL EditTime;
 
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
-    [self requestData:currentTime];
+    
+    [self requestCoursePrice:currentTime];
+    if (self.CoursePriceArray.count != 0) {
+        [self requestData:currentTime];
+    }
 }
 
 - (void)getDataFinish{
@@ -1206,13 +1283,17 @@ static  BOOL EditTime;
     
     NSString *date = button.date;
     self.selectDate = [CommonUtil getDateForString:date format:@"yyyy-MM-dd"];
+    currentTime = self.selectDate;
     NSLog(@"self.selectDate%@", self.selectDate);
     //处理选中日期的数据
     [self handelSelectDateDetail];
     [self showTableHeaderView];
     [self showTableFooterView];
     [self testOpenOrCloseView];
-    [self  requestData:self.selectDate];
+    [self requestCoursePrice:currentTime];
+    if (self.CoursePriceArray.count != 0) {
+        [self requestData:currentTime];
+    }
 }
 - (void)clickCoachInfo {
     CoachInfoViewController *nextViewController = [[CoachInfoViewController alloc]initWithNibName:@"CoachInfoViewController" bundle:nil];
@@ -1436,12 +1517,16 @@ static  BOOL EditTime;
 #pragma mark 批量设置
 - (IBAction)clickForUpdateTime:(id)sender{
     //获取选中的日期
-    NSString *time = @"2015-08-30";
+    NSString *time = [CommonUtil getStringForDate:currentTime format:@"yyyy-MM-dd"];
     ScheduleSettingViewController *nextController = [[ScheduleSettingViewController alloc] initWithNibName:@"ScheduleSettingViewController" bundle:nil];
     nextController.time = time;
+    nextController.bai2 = bai2;
+    nextController.bai3 = bai3;
+    nextController.hei2 = hei2;
+    nextController.hei3 = hei3;
     nextController.timeDic = nil;
     nextController.date = nil;
-    nextController.allDayArray = nil;
+    nextController.allDayArray = self.dateArray;
     [self.navigationController pushViewController:nextController animated:YES];
 }
 //提交时间

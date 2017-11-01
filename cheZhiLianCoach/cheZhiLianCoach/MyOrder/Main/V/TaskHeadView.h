@@ -10,4 +10,6 @@
 
 @interface TaskHeadView : UIView
 
+@property (nonatomic, strong)MyOrderModel *model;
+
 @end
