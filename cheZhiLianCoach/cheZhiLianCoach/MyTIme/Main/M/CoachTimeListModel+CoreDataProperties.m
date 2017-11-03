@@ -29,7 +29,6 @@
 @dynamic sub2Price;
 @dynamic sub3Price;
 -(void)setValue:(id)value forKey:(NSString *)key {
-    
     if ([key isEqualToString:@"startTime"]) {
         NSString *str=[NSString stringWithFormat:@"%@", value];
         NSTimeInterval time=[str doubleValue]/1000;//因为时差问题要加8小时 == 28800 sec
@@ -43,6 +42,8 @@
         self.endTime = detaildate;
     }else if([key isEqualToString:@"id"]){
         self.timeId = value;
+    }else if([key isEqualToString:@"price"]){
+        self.unitPrice = [NSString stringWithFormat:@"%@", value].floatValue;
     }else{
         [super setValue:value forKey:key];
     }

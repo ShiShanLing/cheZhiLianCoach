@@ -10,11 +10,9 @@
  */
 #import "CoachAuditStatusModel+CoreDataClass.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CoachAuditStatusModel (CoreDataProperties)
-
 + (NSFetchRequest<CoachAuditStatusModel *> *)fetchRequest;
 
 @property (nonatomic) float longitude;

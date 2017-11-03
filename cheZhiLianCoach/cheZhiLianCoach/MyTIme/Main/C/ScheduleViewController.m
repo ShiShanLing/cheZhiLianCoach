@@ -343,7 +343,7 @@ static  BOOL EditTime;
     [manager POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-           NSLog(@"responseObject%@",responseObject);
+        //   NSLog(@"responseObject%@",responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"0"]) {
             [VC showAlert:responseObject[@"msg"] time:1.2];
@@ -438,17 +438,19 @@ static  BOOL EditTime;
             [dateFormatter setDateFormat:@"HH:mm"];
             model.timeStr = [dateFormatter stringFromDate: model.startTime];
             model.periodStr = @"下午";
-            model.sub2Price = hei2;
-            model.sub3Price = hei3;
+            model.sub2Price = bai2;
+            model.sub3Price = bai2;
             [self.dateArray[1] addObject:model];
         }else {
             [dateFormatter setDateFormat:@"HH:mm"];
             model.timeStr = [dateFormatter stringFromDate: model.startTime];
             model.periodStr = @"晚上";
+            model.sub2Price = hei2;
+            model.sub3Price = hei3;
             [self.dateArray[2] addObject:model];
         }
     }
-//    NSLog(@"self.dateArray%@", self.dateArray);
+    NSLog(@"self.dateArray%@", self.dateArray);
     [self.mainTableView reloadData];
     
 }
@@ -1545,6 +1547,7 @@ static  BOOL EditTime;
             }
         }
     }
+    //http://www.jxchezhilian.com/coach/api/openClass?coachId=0d885d2fd73e47798290b2f415f25a78&time=1509926400000,1509930000000&subType=1
     [self performSelector:@selector(indeterminateExample)];
     NSString *timeArraayStr = [selectedTimeArray componentsJoinedByString:@","];
     timeArraayStr = [timeArraayStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -1553,10 +1556,8 @@ static  BOOL EditTime;
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/openClass", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"]= [UserDataSingleton mainSingleton].coachId;
-    URL_Dic[@"price"]= priceStr;
     URL_Dic[@"time"]= timeArraayStr;
-    URL_Dic[@"subType"]= @"0";
-    URL_Dic[@"coachName"] = [UserDataSingleton mainSingleton].userName;
+    URL_Dic[@"subType"]= @"2";
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  ScheduleViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];

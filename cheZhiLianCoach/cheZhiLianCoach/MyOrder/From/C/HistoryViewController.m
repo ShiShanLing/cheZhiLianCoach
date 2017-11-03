@@ -730,6 +730,7 @@
     
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/historyTrainOrder",kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
     __weak  HistoryViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -739,9 +740,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error%@", error);
     }];
-
-    
-  }
+}
 
 #pragma mark 提交评论
 - (void)ComfirmComment:(NSString *)comment orderId:(NSString *)orderId{

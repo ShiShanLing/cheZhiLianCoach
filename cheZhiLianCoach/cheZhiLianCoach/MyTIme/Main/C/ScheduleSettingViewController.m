@@ -124,7 +124,6 @@
     CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds);
     self.detailView.frame = CGRectMake(0, 0, width, CGRectGetHeight(self.detailView.frame));
     [self.mainScrollView addSubview:self.detailView];
-    
     //------------------赋值-------------------
     //时间
     CGSize size = [CommonUtil sizeWithString:self.time fontSize:18 sizewidth:MAXFLOAT sizeheight:CGRectGetHeight(self.timeLabel.frame)];
@@ -167,6 +166,7 @@
         self.contentTextField.textColor = MColor(37, 37, 37);
         self.contentTitleLabel.textColor = MColor(37, 37, 37);
         self.comfirmBtn.selected = YES;
+    
 }
 
 #pragma mark - PickerVIew
@@ -356,10 +356,8 @@
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/openClass", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"]= [UserDataSingleton mainSingleton].coachId;
-    URL_Dic[@"price"]= priceStr;
     URL_Dic[@"time"]= timeArraayStr;
-    URL_Dic[@"subType"]= [NSString stringWithFormat:@"%ld", index];
-    URL_Dic[@"coachName"] = [UserDataSingleton mainSingleton].userName;
+    URL_Dic[@"subType"]= [NSString stringWithFormat:@"%ld", index==0?2:3];
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  ScheduleSettingViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];

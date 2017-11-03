@@ -85,12 +85,11 @@
                     self.backgroundImage.image = [UIImage imageNamed:@"time_point_bg_blue"];
                     _timeLabel.textColor = [UIColor whiteColor];
                     _SubjectName.text = nil;
-                    if (model.subType== 0) {
+                    if (model.subType== 2) {
                     _SubjectName.text = @"科目二";
                     }else {
                     _SubjectName.text = @"科目三";
                     }
-                    
                     _SubjectName.textColor = [UIColor whiteColor];
                     _priceLabel.numberOfLines = 0;
                     _priceLabel.textColor = MColor(52, 136, 153);

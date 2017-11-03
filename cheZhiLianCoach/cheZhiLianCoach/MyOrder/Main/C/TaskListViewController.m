@@ -191,8 +191,14 @@
         NSString *resultStr  = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
             [VC AnalyticalData:responseObject];
-            [VC.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-            [VC.pullToRefresh setPullToRefreshViewVisible:YES];
+            NSLog(@"VC.tableView.contentOffset.y;%f",VC.tableView.contentOffset.y);
+            if (VC.tableView.contentOffset.y > 0) {
+                
+            }else {
+               [VC.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+               [VC.pullToRefresh setPullToRefreshViewVisible:YES];
+            }
+         
         }else {
             [VC.taskListArray removeAllObjects];
             [VC makeToast:responseObject[@"msg"]];
@@ -620,7 +626,7 @@ __weak  TaskListViewController *VC = self;
 #pragma mark 查看历史订单
 - (IBAction)historyClick:(id)sender {
     HistoryViewController *viewController = [[HistoryViewController alloc] initWithNibName:@"HistoryViewController" bundle:nil];
-    viewController.userId = self.userId;
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient

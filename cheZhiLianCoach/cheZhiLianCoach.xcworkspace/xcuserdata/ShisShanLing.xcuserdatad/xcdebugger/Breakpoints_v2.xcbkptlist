@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cheZhiLianCoach/MyTIme/Main/C/ScheduleSettingViewController.m"
-            timestampString = "531216900.543678"
+            timestampString = "531388162.080103"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
-            landmarkName = "-checkOpenClass"
+            startingLineNumber = "421"
+            endingLineNumber = "421"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

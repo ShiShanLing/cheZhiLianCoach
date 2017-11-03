@@ -699,11 +699,11 @@
         
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         if ([resultStr isEqualToString:@"1"]) {
-            [VC makeToast:responseObject[@"msg"]];
+            [VC showAlert:responseObject[@"msg"] time:1.0];
             [UserDataSingleton mainSingleton].approvalState = @"1";
             [VC.navigationController popViewControllerAnimated:YES ];
         }else {
-            [VC makeToast:responseObject[@"msg"]];
+            [VC showAlert:responseObject[@"msg"] time:1.0];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error%@", error);
