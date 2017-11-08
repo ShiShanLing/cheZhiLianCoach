@@ -2,7 +2,7 @@
 //  CouponsModel+CoreDataProperties.h
 //  cheZhiLianCoach
 //
-//  Created by 石山岭 on 2017/10/12.
+//  Created by 石山岭 on 2017/11/6.
 //  Copyright © 2017年 石山岭. All rights reserved.
 //
 //
@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int16_t couponAllowState;
 @property (nullable, nonatomic, copy) NSString *couponClassId;
 @property (nullable, nonatomic, copy) NSString *couponDesc;
+@property (nonatomic) int16_t couponDuration;
 @property (nullable, nonatomic, copy) NSString *couponGoodsClassId;
 @property (nullable, nonatomic, copy) NSString *couponId;
 @property (nonatomic) int16_t couponIock;
@@ -42,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *storeId;
 @property (nullable, nonatomic, copy) NSString *storeName;
 @property (nullable, nonatomic, copy) NSString *timeLimit;
--(void)setValue:(id)value forKey:(NSString *)key;
+@property (nullable, nonatomic, copy) NSString *selected;
+- (void)setValue:(id)value forKey:(NSString *)key;
 @end
 
 NS_ASSUME_NONNULL_END

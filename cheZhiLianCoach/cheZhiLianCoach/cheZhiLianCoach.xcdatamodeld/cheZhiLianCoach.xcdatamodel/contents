@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="CoachAuditStatusModel" representedClassName="CoachAuditStatusModel" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="carType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -47,6 +47,7 @@
         <attribute name="couponAllowState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="couponClassId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="couponDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="couponDuration" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="couponGoodsClassId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="couponId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="couponIock" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -65,6 +66,7 @@
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="endTimeStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="selected" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startTimeStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="storeId" optional="YES" attributeType="String" syncable="YES"/>
@@ -174,13 +176,13 @@
         <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="330"/>
         <element name="CoachDriverAddreModel" positionX="-36" positionY="153" width="128" height="105"/>
         <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="255"/>
-        <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="435"/>
+        <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="465"/>
+        <element name="CoursePriceModel" positionX="-45" positionY="135" width="128" height="180"/>
         <element name="EvaluationOrderModel" positionX="-45" positionY="135" width="128" height="150"/>
         <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="300"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="OrderTimeModel" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
-        <element name="CoursePriceModel" positionX="-45" positionY="135" width="128" height="180"/>
     </elements>
 </model>

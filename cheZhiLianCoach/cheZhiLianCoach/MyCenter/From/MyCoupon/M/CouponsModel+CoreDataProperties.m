@@ -2,7 +2,7 @@
 //  CouponsModel+CoreDataProperties.m
 //  cheZhiLianCoach
 //
-//  Created by 石山岭 on 2017/10/12.
+//  Created by 石山岭 on 2017/11/6.
 //  Copyright © 2017年 石山岭. All rights reserved.
 //
 //
@@ -18,6 +18,7 @@
 @dynamic couponAllowState;
 @dynamic couponClassId;
 @dynamic couponDesc;
+@dynamic couponDuration;
 @dynamic couponGoodsClassId;
 @dynamic couponId;
 @dynamic couponIock;
@@ -41,6 +42,7 @@
 @dynamic storeId;
 @dynamic storeName;
 @dynamic timeLimit;
+@dynamic selected;
 - (void)setValue:(id)value forKey:(NSString *)key {
     if ([key isEqualToString:@"startTime"]) {
         //int 转 nsstring 再转 nsdate

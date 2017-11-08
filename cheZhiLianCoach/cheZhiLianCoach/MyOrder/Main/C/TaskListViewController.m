@@ -275,7 +275,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
-    if (orderModel.state == 3) {
+    if (orderModel.state == 2) {
         if (indexPath.row == timeModelArray.count -1) {
             return 179;
         }else {
@@ -291,7 +291,7 @@
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
     //这个判断是判断是否显示 拒绝和同意
-    if (orderModel.state == 3) {
+    if (orderModel.state == 2) {
         if (indexPath.row == timeModelArray.count -1) {
             cell.AgreedBtn.hidden = NO;
             cell.RefusedBtn.hidden = NO;
@@ -344,7 +344,6 @@
     TaskHeadView *headView = [nibContents lastObject];
     headView.frame = CGRectMake(0, 0, kScreen_widht, 162);
     headView.model = orderModel;
-    
     return headView;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

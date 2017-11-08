@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -825,7 +825,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_chongzhi" translatesAutoresizingMaskIntoConstraints="NO" id="u9R-Ef-oiB">
-                                            <rect key="frame" x="124.5" y="22" width="52" height="29"/>
+                                            <rect key="frame" x="124" y="22" width="52" height="29"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="52" id="P9Q-jx-xhs"/>
                                                 <constraint firstAttribute="height" constant="29" id="acx-S5-5rq"/>
@@ -1051,7 +1051,7 @@
                                     <rect key="frame" x="0.0" y="118" width="300" height="117"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_student_icon" translatesAutoresizingMaskIntoConstraints="NO" id="CET-0B-T1V">
-                                            <rect key="frame" x="132.5" y="15" width="37" height="30"/>
+                                            <rect key="frame" x="132" y="15" width="37" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="u8K-SX-N0n"/>
                                                 <constraint firstAttribute="width" constant="37" id="ucR-1O-Aud"/>
@@ -1180,7 +1180,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_tousu" translatesAutoresizingMaskIntoConstraints="NO" id="Wxw-nB-aQn">
-                                            <rect key="frame" x="131.5" y="17" width="37" height="33"/>
+                                            <rect key="frame" x="131" y="17" width="37" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="37" id="3ny-PG-Zqx"/>
                                                 <constraint firstAttribute="height" constant="33" id="pTs-54-Yye"/>
@@ -1291,7 +1291,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_推荐教练" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-WT-ZHI">
-                                            <rect key="frame" x="128.5" y="22" width="44" height="41"/>
+                                            <rect key="frame" x="128" y="22" width="44" height="41"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="41" id="bUZ-jT-Htb"/>
                                                 <constraint firstAttribute="width" constant="44" id="iDJ-q3-Pbi"/>
@@ -2928,7 +2928,7 @@
         <image name="icon_chongzhi" width="52" height="29"/>
         <image name="icon_pencil" width="16" height="16"/>
         <image name="icon_portrait_default" width="82" height="82"/>
-        <image name="icon_setting" width="19" height="18"/>
+        <image name="icon_setting" width="22" height="22"/>
         <image name="icon_tousu" width="37" height="33"/>
         <image name="im_bg" width="320" height="195"/>
         <image name="line_horiz_grey" width="1" height="1"/>

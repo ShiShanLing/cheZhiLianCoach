@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		A103CD901FA95B5300473230 /* CoursePriceModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A103CD8D1FA95B5300473230 /* CoursePriceModel+CoreDataClass.m */; };
 		A103CD911FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A103CD8F1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m */; };
+		A104FCA11FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A104FC9E1FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.m */; };
+		A104FCA21FB2AD8300650802 /* UIScrollView+DPRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = A104FCA01FB2AD8300650802 /* UIScrollView+DPRefresh.m */; };
 		A10EDD571F8E092B00434843 /* TradingRecordModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */; };
 		A10EDD581F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */; };
-		A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */; };
-		A11004741F8F8C170078533F /* CouponsModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */; };
 		A12A9B701F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */; };
 		A12A9B711F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A12A9B6F1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.m */; };
 		A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A141D6801F5810130099BA53 /* MyStudentListModel+CoreDataClass.m */; };
@@ -37,6 +37,8 @@
 		A191AD891F4E84C90063B9A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A191AD881F4E84C90063B9A7 /* Images.xcassets */; };
 		A191AD8E1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A191AD8B1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m */; };
 		A191AD8F1F4EC6180063B9A7 /* UserDataModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A191AD8D1F4EC6180063B9A7 /* UserDataModel+CoreDataProperties.m */; };
+		A192F1241FB0668600EF13A5 /* CouponsModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A192F1211FB0668600EF13A5 /* CouponsModel+CoreDataClass.m */; };
+		A192F1251FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A192F1231FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m */; };
 		A19BA5C81F4BC4B100CC4A3E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A19BA5C71F4BC4B100CC4A3E /* main.m */; };
 		A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19BA5CD1F4BC4B100CC4A3E /* ViewController.m */; };
 		A19BA5D11F4BC4B100CC4A3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A19BA5CF1F4BC4B100CC4A3E /* Main.storyboard */; };
@@ -220,14 +222,14 @@
 		A103CD8D1FA95B5300473230 /* CoursePriceModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CoursePriceModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A103CD8E1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoursePriceModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A103CD8F1FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CoursePriceModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A104FC9D1FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+DPEmptyDataSet.h"; sourceTree = "<group>"; };
+		A104FC9E1FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+DPEmptyDataSet.m"; sourceTree = "<group>"; };
+		A104FC9F1FB2AD8300650802 /* UIScrollView+DPRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+DPRefresh.h"; sourceTree = "<group>"; };
+		A104FCA01FB2AD8300650802 /* UIScrollView+DPRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+DPRefresh.m"; sourceTree = "<group>"; };
 		A10EDD531F8E092B00434843 /* TradingRecordModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A10EDD541F8E092B00434843 /* TradingRecordModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A10EDD551F8E092B00434843 /* TradingRecordModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradingRecordModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A10EDD561F8E092B00434843 /* TradingRecordModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TradingRecordModel+CoreDataProperties.m"; sourceTree = "<group>"; };
-		A110046F1F8F8C170078533F /* CouponsModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataClass.h"; sourceTree = "<group>"; };
-		A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataClass.m"; sourceTree = "<group>"; };
-		A11004711F8F8C170078533F /* CouponsModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataProperties.h"; sourceTree = "<group>"; };
-		A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataClass.h"; sourceTree = "<group>"; };
 		A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CoachAuditStatusModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoachAuditStatusModel+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -273,6 +275,10 @@
 		A191AD8B1F4EC6180063B9A7 /* UserDataModel+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UserDataModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		A191AD8C1F4EC6180063B9A7 /* UserDataModel+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserDataModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A191AD8D1F4EC6180063B9A7 /* UserDataModel+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UserDataModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A192F1201FB0668600EF13A5 /* CouponsModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A192F1211FB0668600EF13A5 /* CouponsModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A192F1221FB0668600EF13A5 /* CouponsModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CouponsModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A192F1231FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CouponsModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A19BA5C31F4BC4B100CC4A3E /* cheZhiLianCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cheZhiLianCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A19BA5C71F4BC4B100CC4A3E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A19BA5CC1F4BC4B100CC4A3E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -569,6 +575,17 @@
 				58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		A104FC9C1FB2AD8300650802 /* DPEmptyDataRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				A104FC9D1FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.h */,
+				A104FC9E1FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.m */,
+				A104FC9F1FB2AD8300650802 /* UIScrollView+DPRefresh.h */,
+				A104FCA01FB2AD8300650802 /* UIScrollView+DPRefresh.m */,
+			);
+			path = DPEmptyDataRefresh;
 			sourceTree = "<group>";
 		};
 		A141D6911F58FFD20099BA53 /* SDAutoLayout */ = {
@@ -1169,10 +1186,10 @@
 		A1AB9DA11F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
-				A110046F1F8F8C170078533F /* CouponsModel+CoreDataClass.h */,
-				A11004701F8F8C170078533F /* CouponsModel+CoreDataClass.m */,
-				A11004711F8F8C170078533F /* CouponsModel+CoreDataProperties.h */,
-				A11004721F8F8C170078533F /* CouponsModel+CoreDataProperties.m */,
+				A192F1201FB0668600EF13A5 /* CouponsModel+CoreDataClass.h */,
+				A192F1211FB0668600EF13A5 /* CouponsModel+CoreDataClass.m */,
+				A192F1221FB0668600EF13A5 /* CouponsModel+CoreDataProperties.h */,
+				A192F1231FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1460,6 +1477,7 @@
 		A1AB9E7F1F4C202B0056AB9D /* CustomControls */ = {
 			isa = PBXGroup;
 			children = (
+				A104FC9C1FB2AD8300650802 /* DPEmptyDataRefresh */,
 				A141D6911F58FFD20099BA53 /* SDAutoLayout */,
 				A1AB9EE01F4C29CA0056AB9D /* UIPlaceHolderTextView.h */,
 				A1AB9EE11F4C29CA0056AB9D /* UIPlaceHolderTextView.m */,
@@ -1861,10 +1879,10 @@
 				A1AB9EAD1F4C24560056AB9D /* CPTextViewPlaceholder.m in Sources */,
 				A1AB9E2D1F4C1BF10056AB9D /* MyDetailInfoViewController.m in Sources */,
 				A1AB9EFD1F4C330E0056AB9D /* ComplainMeCell.m in Sources */,
+				A192F1241FB0668600EF13A5 /* CouponsModel+CoreDataClass.m in Sources */,
 				A1A691CC1F502892009C2B30 /* CoachInfoViewController.m in Sources */,
 				A15967401F8CBF8B00FF0F77 /* EvaluationOrderModel+CoreDataClass.m in Sources */,
 				A1AB9ED61F4C27CB0056AB9D /* CZCroppingScrollView.m in Sources */,
-				A11004731F8F8C170078533F /* CouponsModel+CoreDataClass.m in Sources */,
 				A142C6481FA6F50A00BAB721 /* TaskTimeDetailsTVCell.m in Sources */,
 				A1AB9D911F4C16D70056AB9D /* MyViewController.m in Sources */,
 				A1AB9EA71F4C23E20056AB9D /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -1872,12 +1890,14 @@
 				A142C6561FA722D300BAB721 /* OrderTimeModel+CoreDataProperties.m in Sources */,
 				A1AB9EDF1F4C297F0056AB9D /* DSButton.m in Sources */,
 				A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */,
-				A11004741F8F8C170078533F /* CouponsModel+CoreDataProperties.m in Sources */,
 				A1AB9D6E1F4C15F00056AB9D /* TaskListTableViewCell.m in Sources */,
+				A192F1251FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m in Sources */,
 				A1AB9EC41F4C27200056AB9D /* TQStarRatingView.m in Sources */,
+				A104FCA21FB2AD8300650802 /* UIScrollView+DPRefresh.m in Sources */,
 				A1AB9DFF1F4C1B290056AB9D /* MyInfoViewController.m in Sources */,
 				A1AB9EF61F4C2CFE0056AB9D /* MainViewController.m in Sources */,
 				A1AB9EE21F4C29CA0056AB9D /* UIPlaceHolderTextView.m in Sources */,
+				A104FCA11FB2AD8300650802 /* UIScrollView+DPEmptyDataSet.m in Sources */,
 				A1AB9D731F4C16160056AB9D /* TaskListViewController.m in Sources */,
 				A1AB9ED71F4C27CB0056AB9D /* CZCropPreviewOverlayView.m in Sources */,
 				A141D6831F5810140099BA53 /* MyStudentListModel+CoreDataClass.m in Sources */,
@@ -2126,7 +2146,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cheZhiLianCoach/Public/cheZhiLianCoach.pch";
 				INFOPLIST_FILE = cheZhiLianCoach/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cheZhiLianCoach.www-iOSApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2147,7 +2167,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cheZhiLianCoach/Public/cheZhiLianCoach.pch";
 				INFOPLIST_FILE = cheZhiLianCoach/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cheZhiLianCoach.www-iOSApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
