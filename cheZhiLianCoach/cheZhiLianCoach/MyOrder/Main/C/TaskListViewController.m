@@ -167,9 +167,7 @@
 - (void)getDataFinish{
     [self.pullToRefresh tableViewReloadFinishedAnimated:YES];
     [self.pullToMore tableViewReloadFinished];
-    
     if (self.taskListArray.count == 0) {
-        
     }else{
         self.noDataViewBtn.hidden = YES;
     }
@@ -183,6 +181,7 @@
     URL_Dic[@"coachId" ] =[UserDataSingleton mainSingleton].coachId;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  TaskListViewController *VC = self;
+    
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"uploadProgress%@", uploadProgress);
@@ -277,15 +276,15 @@
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
     if (orderModel.state == 2) {
         if (indexPath.row == timeModelArray.count -1) {
-            return 179;
+            return 193;
         }else {
-            return 128;
+            return 142;
         }
     }else {
-        return 128;
+        return 142;
     }
 }
-
+//
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TaskTimeDetailsTVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskTimeDetailsTVCell" forIndexPath:indexPath];;
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
@@ -334,6 +333,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
 }
@@ -347,7 +347,7 @@
     return headView;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 175;
+    return 145;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_widht, 0.01)];

@@ -25,7 +25,7 @@
  * @param time      时间
  * @param amount    价格
  */
-- (void)setType:(NSString *)type time:(NSString *)time amount:(NSString *)amount{
+- (void)setType:(NSString *)type time:(NSString *)time amount:(NSString *)amount couponID:(NSString *)coupons{
     //时间
     if (![CommonUtil isEmpty:time]) {
         self.timeLabel.text = time;
@@ -33,6 +33,13 @@
     if ([CommonUtil isEmpty:amount]) {
         amount = @"0";
     }
+    
+    if (coupons.length != 0) {
+        self.titleLabel.text = @"优惠券提现";
+        self.moneyLabel.text =@"";
+        self.moneyLabel.textColor = MColor(32, 180, 120);
+    }else {
+    
     if ([type intValue] == 0){
         //学员支付
         self.titleLabel.text = @"收入";
@@ -75,6 +82,7 @@
         self.moneyLabel.text = [NSString stringWithFormat:@"- %@元", amount];
         self.moneyLabel.textColor = MColor(224, 72, 61);
         
+    }
     }
 }
 

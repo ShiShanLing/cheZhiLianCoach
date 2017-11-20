@@ -337,7 +337,7 @@
     NSString *type = [NSString stringWithFormat:@"%d", model.accountType];
     NSString *amount = [NSString stringWithFormat:@"%.2f", model.balanceChange];
     cell.width = [NSString stringWithFormat:@"%f", CGRectGetWidth([UIScreen mainScreen].bounds)];
-    [cell setType:type time:time amount:amount];
+    [cell setType:type time:time amount:amount couponID:model.couponMemberId];
     [cell setDesDic:model];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     

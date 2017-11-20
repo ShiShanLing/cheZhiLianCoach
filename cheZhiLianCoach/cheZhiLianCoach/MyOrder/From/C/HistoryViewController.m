@@ -243,7 +243,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
-    if (orderModel.state == 3) {
+    if (orderModel.state == 2) {
         if (indexPath.row == timeModelArray.count -1) {
             return 179;
         }else {

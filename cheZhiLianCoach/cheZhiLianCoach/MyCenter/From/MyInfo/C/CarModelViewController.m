@@ -20,12 +20,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    
+    [self requestCarTypeData];
 }
 
 - (void)requestCarTypeData {
-    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/gainCarType",kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     __weak  CarModelViewController *VC = self;
@@ -43,10 +41,8 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error%@", error);
     }];
-
-    
-    
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,6 +67,7 @@
     }
 }
 - (IBAction)clickForC1:(id)sender {
+    self.C2Button.selected = self.C1Button.selected;
     if (self.C1Button.selected) {
         self.C1Button.selected = NO;
     }else{
@@ -78,6 +75,7 @@
     }
 }
 - (IBAction)clickForC2:(id)sender {
+    self.C1Button.selected = self.C2Button.selected;
     if (self.C2Button.selected) {
         self.C2Button.selected = NO;
     }else{
@@ -97,15 +95,12 @@
     
     NSString *carStr;
     if (self.C1Button.selected) {
-        carStr = @"C1";
+        
+        self.blockCar(@"C1",@"1");
     }
     if (self.C2Button.selected) {
-        carStr = @"C2";
+        self.blockCar(@"C2",@"2");
     }
-    if (self.C2Button.selected && self.C1Button.selected) {
-        carStr = @"C1,C2";
-    }
-    self.blockCar(carStr);
     [self.navigationController popViewControllerAnimated:YES];
     
 }

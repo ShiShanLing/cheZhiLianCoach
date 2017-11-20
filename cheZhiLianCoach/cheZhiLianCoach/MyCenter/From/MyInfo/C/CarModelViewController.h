@@ -10,6 +10,6 @@
 
 @interface CarModelViewController : GreyTopViewController
 
-@property (nonatomic,copy) void(^blockCar)(NSString *carState);
+@property (nonatomic,copy) void(^blockCar)(NSString *carState,NSString *carTypeId);
 
 @end

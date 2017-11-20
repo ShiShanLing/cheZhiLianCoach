@@ -21,4 +21,6 @@
 @property (nonatomic, copy)NSString *URL_SHY;
 @property (nonatomic, copy)NSString *balance;
 @property (nonatomic,copy)NSString *carTypeId;
+
+@property (nonatomic, strong)CoachAuditStatusModel *coachModel;
 @end

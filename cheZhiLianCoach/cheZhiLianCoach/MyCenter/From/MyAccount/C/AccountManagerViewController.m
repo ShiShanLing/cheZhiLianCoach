@@ -111,7 +111,7 @@
 
 - (IBAction)clickForSubmit:(id)sender {
     [DejalBezelActivityView activityViewForView:self.view];
-    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/addCoachAlipay", kURL_SHY];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setAlipay", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
     URL_Dic[@"alipay"] = self.accountInputView.text;
@@ -136,7 +136,6 @@
 }
 
 - (IBAction)clickForClearAccount:(id)sender{
-    
     [DejalBezelActivityView activityViewForView:self.view];
 }
 
@@ -167,10 +166,6 @@
     [paramDic setObject:user_info[@"coachid"] forKey:@"coachid"];
     [paramDic setObject:user_info[@"token"] forKey:@"token"];
     [paramDic setObject:[NSString stringWithFormat:@"%d",setvalue] forKey:@"setvalue"];
-   
-    
     [DejalBezelActivityView activityViewForView:self.view];
-    
-    
 }
 @end

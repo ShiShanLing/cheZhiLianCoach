@@ -192,6 +192,8 @@
 		A1CE07C21F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CE07C01F6B797C001CB804 /* CoachDriverAddreModel+CoreDataProperties.m */; };
 		A1CE07C61F6BA60E001CB804 /* SetAddrTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CE07C41F6BA60E001CB804 /* SetAddrTVCell.m */; };
 		A1CE07C71F6BA60E001CB804 /* SetAddrTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1CE07C51F6BA60E001CB804 /* SetAddrTVCell.xib */; };
+		A1EE4A841FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE4A811FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.m */; };
+		A1EE4A851FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE4A831FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.m */; };
 		A1F28E6D1F4E733E00442CAF /* UserDataSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */; };
 		A1F28E6F1F4E737A00442CAF /* UserLogInData.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */; };
 		DED36E82F8A57F090582B70D /* libPods-cheZhiLianCoach.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27A5C879B46D53273282919B /* libPods-cheZhiLianCoach.a */; };
@@ -529,6 +531,10 @@
 		A1CE07C31F6BA60E001CB804 /* SetAddrTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetAddrTVCell.h; sourceTree = "<group>"; };
 		A1CE07C41F6BA60E001CB804 /* SetAddrTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetAddrTVCell.m; sourceTree = "<group>"; };
 		A1CE07C51F6BA60E001CB804 /* SetAddrTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetAddrTVCell.xib; sourceTree = "<group>"; };
+		A1EE4A801FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CarTypeModel+CoreDataClass.h"; sourceTree = "<group>"; };
+		A1EE4A811FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CarTypeModel+CoreDataClass.m"; sourceTree = "<group>"; };
+		A1EE4A821FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CarTypeModel+CoreDataProperties.h"; sourceTree = "<group>"; };
+		A1EE4A831FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CarTypeModel+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A1F28E6B1F4E733E00442CAF /* UserDataSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataSingleton.h; sourceTree = "<group>"; };
 		A1F28E6C1F4E733E00442CAF /* UserDataSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataSingleton.m; sourceTree = "<group>"; };
 		A1F28E6E1F4E737A00442CAF /* UserLogInData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UserLogInData.plist; sourceTree = "<group>"; };
@@ -1295,6 +1301,10 @@
 		A1AB9DA91F4C18110056AB9D /* M */ = {
 			isa = PBXGroup;
 			children = (
+				A1EE4A801FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.h */,
+				A1EE4A811FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.m */,
+				A1EE4A821FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.h */,
+				A1EE4A831FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.m */,
 				A12A9B6C1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.h */,
 				A12A9B6D1F5562640094929A /* CoachAuditStatusModel+CoreDataClass.m */,
 				A12A9B6E1F5562640094929A /* CoachAuditStatusModel+CoreDataProperties.h */,
@@ -1891,6 +1901,7 @@
 				A1AB9EDF1F4C297F0056AB9D /* DSButton.m in Sources */,
 				A19BA5CE1F4BC4B100CC4A3E /* ViewController.m in Sources */,
 				A1AB9D6E1F4C15F00056AB9D /* TaskListTableViewCell.m in Sources */,
+				A1EE4A841FBBEB12004BBC49 /* CarTypeModel+CoreDataClass.m in Sources */,
 				A192F1251FB0668600EF13A5 /* CouponsModel+CoreDataProperties.m in Sources */,
 				A1AB9EC41F4C27200056AB9D /* TQStarRatingView.m in Sources */,
 				A104FCA21FB2AD8300650802 /* UIScrollView+DPRefresh.m in Sources */,
@@ -1973,6 +1984,7 @@
 				A1AB9EA61F4C23E20056AB9D /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				A1AB9DFA1F4C1A9F0056AB9D /* MyMessageViewController.m in Sources */,
 				A103CD911FA95B5300473230 /* CoursePriceModel+CoreDataProperties.m in Sources */,
+				A1EE4A851FBBEB12004BBC49 /* CarTypeModel+CoreDataProperties.m in Sources */,
 				A1AB9E921F4C22560056AB9D /* DejalActivityView.m in Sources */,
 				A1AB9D821F4C165B0056AB9D /* UploadPhotoViewController.m in Sources */,
 				A1AB9E701F4C1D9A0056AB9D /* AmountDetailViewController.m in Sources */,
@@ -2139,9 +2151,10 @@
 			baseConfigurationReference = 2A92F4EEE068BD3C96D3454A /* Pods-cheZhiLianCoach.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3ZC4VG35Y5;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cheZhiLianCoach/Public/cheZhiLianCoach.pch";
@@ -2160,9 +2173,10 @@
 			baseConfigurationReference = 58082D283E9839AADCFBDC93 /* Pods-cheZhiLianCoach.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3ZC4VG35Y5;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/cheZhiLianCoach/Public/cheZhiLianCoach.pch";

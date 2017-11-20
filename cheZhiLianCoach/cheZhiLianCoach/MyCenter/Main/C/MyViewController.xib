@@ -2928,7 +2928,7 @@
         <image name="icon_chongzhi" width="52" height="29"/>
         <image name="icon_pencil" width="16" height="16"/>
         <image name="icon_portrait_default" width="82" height="82"/>
-        <image name="icon_setting" width="22" height="22"/>
+        <image name="icon_setting" width="19" height="18"/>
         <image name="icon_tousu" width="37" height="33"/>
         <image name="im_bg" width="320" height="195"/>
         <image name="line_horiz_grey" width="1" height="1"/>

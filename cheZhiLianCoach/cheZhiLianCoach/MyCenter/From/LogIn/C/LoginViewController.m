@@ -235,7 +235,7 @@
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"mobile"] = userName;
     URL_Dic[@"mobileCode"] = passWord;
-    URL_Dic[@"schoolId"] = @"1";
+    URL_Dic[@"schoolId"] = kSchoolId;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak LoginViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];

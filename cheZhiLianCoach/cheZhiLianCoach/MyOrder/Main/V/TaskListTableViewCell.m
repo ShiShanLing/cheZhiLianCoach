@@ -29,6 +29,7 @@
     self.payerType2.layer.masksToBounds = YES;
     self.payerType2.layer.borderColor = MColor(210, 210, 210).CGColor;
     self.payerType2.layer.borderWidth = 0.5;
+
 }
 
 - (void)handlerUpDownCarText:(DSButton *)sender {

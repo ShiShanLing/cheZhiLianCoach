@@ -126,21 +126,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    self.remindBackView.hidden = YES;
-    self.topConstraint.constant = 0 ;
-    self.defaultAddressLabel.text = @"未设置";
-    //姓名
-    NSString *realname = [userInfo[@"realname"] description];
-    self.realNameLabel.text = realname;
-    self.sexLabel.text = @"请选择";
-    self.birthdayLabel.text = @"请选择";
-    self.trainTimeLabel.text = @"请选择";
-    self.selfEvaluationLabel.text = @"一句话评价自己";
-  
-    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-      
-    }];
+
     [self getCoachDetail];
 }
 
@@ -341,7 +327,7 @@
 // 数据
 - (void)initSexData {
     self.pickerView.tag = 1;
-    self.selectArray = [NSMutableArray arrayWithObjects:@"男", @"女",@"默认", nil];
+    self.selectArray = [NSMutableArray arrayWithObjects:@"保密", @"男", @"女",nil];
 }
 // 自定义每行的view
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
@@ -396,7 +382,6 @@
             nextViewController.textString = self.selfEvaluationLabel.text;
         }
     }
-    
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
@@ -440,7 +425,6 @@
         selectRow = 1;
     }
 }
-
 #pragma mark - DatePickerViewControllerDelegate
 - (void)datePicker:(DatePickerViewController *)viewController selectedDate:(NSDate *)selectedDate{
     
@@ -448,8 +432,8 @@
     self.birthdayLabel.text = time;
     [self updateUserDirthday];
     self.birthdayChange = @"1";
+    
 }
-
 //选择生日
 - (IBAction)clickForSelectBirthDay:(UIButton *)sender{
     //日期
@@ -469,7 +453,6 @@
     }else{
         controller.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
-    
     [controller presentViewController:viewController animated:YES completion:^{
         viewController.view.superview.backgroundColor = [UIColor clearColor];
     }];
@@ -480,7 +463,30 @@
 }
 // 完成性别选择
 - (IBAction)clickForSexDone:(id)sender {
-    [self makeToast:@"功能未开通"];
+    
+    
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setSex",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"sex"] = [NSString stringWithFormat:@"%ld",selectRow];
+    __weak  MyInfoViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC AnalysisUserData];
+            [VC.selectView removeFromSuperview];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+
+    NSLog(@"selectRow%d", selectRow);
 }
 //提交
 - (IBAction)clickForCommit:(id)sender {
@@ -507,7 +513,55 @@
 
 
 - (void)getCoachDetail {
-    self.coachInfoState.text = @"【资格审核已提交】";
+    
+    CoachAuditStatusModel *model = [UserDataSingleton mainSingleton].coachModel;
+    
+    
+    
+    
+    self.remindBackView.hidden = YES;
+    self.topConstraint.constant = 0 ;
+    self.defaultAddressLabel.text = @"未设置";
+    //姓名
+    
+    self.realNameLabel.text = model.realName;
+    switch (model.sex) {
+        case  0:
+            self.sexLabel.text = @"保密";
+            break;
+        case  1:
+            self.sexLabel.text = @"男";
+            break;
+        case  2:
+            self.sexLabel.text = @"女";
+            break;
+        default:
+            break;
+    }
+    //teachAge
+    self.birthdayLabel.text = @"请选择";
+    self.trainTimeLabel.text = model.teachAge;
+    self.selfEvaluationLabel.text = model.descriptionStr;
+    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@",kURL_SHY,model.avatar]] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    }];
+    int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
+    switch (state) {
+        case 0:
+            self.coachInfoState.text = @"【还为申请成为教练!】";
+            break;
+        case 1:
+            self.coachInfoState.text = @"【正在等待审核您的资料!】";
+            break;
+        case 2:
+            self.coachInfoState.text = @"【您的资料已经审核通过!】";
+            break;
+        case 3:
+            self.coachInfoState.text = @"【您的资料审核未通过,请重新提交!】";
+            break;
+        default:
+            break;
+    }
+  
     self.coachInfoState.textColor = MColor(180, 180, 180);
     self.userState = @"1";
 }
@@ -572,7 +626,6 @@
         [self.alertPhotoView removeFromSuperview];
     }];
 }
-
 //上传头像
 - (void)uploadLogo:(UIImage *)image{
     [self respondsToSelector:@selector(indeterminateExample)];
@@ -648,5 +701,95 @@
     
     [DejalBezelActivityView activityViewForView:self.view];
 }
+#pragma make  数据获取
+- (void)AnalysisUserData{
+    [self  respondsToSelector:@selector(indeterminateExample)];
+    //获取应用程序沙盒的Documents目录
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSLog(@"paths%@", paths);
+    NSString *plistPath = [paths objectAtIndex:0];
+    NSString *filename=[plistPath stringByAppendingPathComponent:@"UserLogInData.plist"];
+    NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    NSLog(@"%@userData", userData);
+    NSArray *keyArray =[userData allKeys];
+    
+    if (keyArray.count == 0) {
+        
+        
+    }else {
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"coachId"] =userData[@"coachId"];
+        NSLog(@"URL_Dic%@", URL_Dic);
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        __block MyInfoViewController *VC = self;
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            [VC respondsToSelector:@selector(delayMethod)];
+            if ([resultStr isEqualToString:@"0"]) {
+                [VC showAlert:responseObject[@"msg"] time:1.0];
+            }else {
+                [VC AnalyticalData:responseObject];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [VC respondsToSelector:@selector(delayMethod)];
+            [VC showAlert:@"请求失败请重试" time:1.0];
+        }];
+    }
+}
+
+//解析的用户详情信息
+- (void)AnalyticalData:(NSDictionary *)dic {
+    NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
+    if ([state isEqualToString:@"1"]) {
+        NSDictionary *tempDic = dic[@"data"][0];
+        NSDictionary *urseDataDic = tempDic[@"coach"];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
+        
+        NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachAuditStatusModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        CoachAuditStatusModel *model = [[CoachAuditStatusModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        [userData removeAllObjects];
+        for (NSString *key in urseDataDic) {
+            if ([key isEqualToString:@"state"]) {
+                [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            if ([key isEqualToString:@"coachId"]) {
+                [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                NSLog(@"[UserDataSingleton mainSingleton].coachId%@", [UserDataSingleton mainSingleton].coachId);
+            }
+            if ([key isEqualToString:@"realName"]) {
+                [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
+            }
+            if ([key isEqualToString:@"balance"]) {
+                [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            if ([key isEqualToString:@"carTypeId"]) {
+                [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            [userData setObject:urseDataDic[key] forKey:key];
+            [model setValue:urseDataDic[key] forKey:key];
+        }
+        [UserDataSingleton mainSingleton].coachModel = model;
+        
+        //获取应用程序沙盒的Documents目录
+        NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *plistPath1 = [paths objectAtIndex:0];
+        
+        //得到完整的文件名
+        NSString *filename=[plistPath1 stringByAppendingPathComponent:@"UserLogInData.plist"];
+        //输入写入
+        [userData writeToFile:filename atomically:YES];
+        
+        //那怎么证明我的数据写入了呢？读出来看看
+        NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    }
+}
+
 
 @end

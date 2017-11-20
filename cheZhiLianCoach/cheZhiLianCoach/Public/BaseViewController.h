@@ -18,5 +18,6 @@
 - (IBAction)backClick:(id)sender;
 - (void)indeterminateExample;
 - (void)delayMethod;
-
+//刷新用户数据
+- (void)refreshUserData;
 @end

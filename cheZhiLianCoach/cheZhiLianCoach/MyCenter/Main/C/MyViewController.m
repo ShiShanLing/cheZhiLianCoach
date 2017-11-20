@@ -115,7 +115,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.mainScrollView.contentSize = CGSizeMake(0, self.dataBackView.height + self.dataBackView.y - 60);
+    self.mainScrollView.contentSize = CGSizeMake(0, self.dataBackView.height + self.dataBackView.y - 60-20);
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -123,14 +123,12 @@
     [super viewWillAppear:animated];
     [self AnalysisUserData];
     [self getMessageCount];
-    [self settingView];
     [self updateMoney];
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self settingView];
     
     // 注册监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LogOut:) name:@"LogOut" object:nil];
@@ -204,7 +202,6 @@
     NSString *totalTime = [userInfo[@"totaltime"] description];
     totalTime = [CommonUtil isEmpty:totalTime]?@"0":totalTime;
     state = @"2";//全部显示的为已经通过审核的UI
-    
     if ([state intValue] == 2) {
         self.dataView.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds)+80);
         [self.mainScrollView addSubview:self.dataView];
@@ -224,10 +221,7 @@
         
         self.phoneLabel.text = phone;
         [self.trainTimeButton setTitle:[NSString stringWithFormat:@"   已累计培训%@学时",totalTime] forState:UIControlStateNormal];
-        //余额
-        if ([CommonUtil isEmpty:money]) {
-            money = @"0";
-        }
+
         self.cashLabel.text = [NSString stringWithFormat:@"%@",money];
         
         //小巴券时间
@@ -277,9 +271,21 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-}
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    
+    
+}   // called on finger up as we are moving
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.mainScrollView.contentOffset = CGPointMake(0, 0);
+}      // called when scroll view grinds to a halt
+
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view NS_AVAILABLE_IOS(3_2) {
+    
+    
+} // called before the scroll view begins zooming its content
+
 #pragma mark - 键盘遮挡输入框处理
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
@@ -692,7 +698,7 @@
     NSArray* imageArray = @[[UIImage imageNamed:@"AppIcon"]];
     [shareParams SSDKSetupShareParamsByText:@"分享内容"
                                      images:imageArray
-                                        url:[NSURL URLWithString:[NSString stringWithFormat:@"%@/share/to_jump?share_type_id=2&school_id=1&stu_id=%@",kURL_SHY,[UserDataSingleton mainSingleton].coachId]]
+                                        url:[NSURL URLWithString:[NSString stringWithFormat:@"%@/share/to_jump?share_type_id=2&school_id=%@&stu_id=%@",kURL_SHY,kSchoolId,[UserDataSingleton mainSingleton].coachId]]
                                       title:@"分享注册"
                                        type:SSDKContentTypeAuto];
     //2、分享（可以弹出我们的分享菜单和编辑界面）
@@ -801,6 +807,7 @@
             [userData setObject:urseDataDic[key] forKey:key];
             [model setValue:urseDataDic[key] forKey:key];
         }
+        [UserDataSingleton mainSingleton].coachModel = model;
         [self.userDataArray addObject:model];
         //获取应用程序沙盒的Documents目录
         NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
@@ -818,9 +825,9 @@
     [self refreshUI];
 }
 
-
 - (void)refreshUI {
     CoachAuditStatusModel *model = self.userDataArray[0];
+    
     //判断该用户是否通过审核
     int state = model.state;
     //NSString *logoUrl = model.memberAvatar;
@@ -843,9 +850,11 @@
         [self.mainScrollView addSubview:self.dataView];
         self.mainScrollView.userInteractionEnabled=YES;
         
-        NSString *money = @"100";//余额
+        //http://www.jxchezhilian.com/img/upload/img/avatar/1510193524723.png
+        NSString  *url_Str = [NSString stringWithFormat:@"%@/img%@",kURL_SHY, model.avatar];
+        
         //头像
-        self.strokeImageView.hidden = YES;
+        [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:url_Str] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] options:SDWebImageProgressiveDownload];
         //昵称
         if (name.length == 0) {
             self.nameLabel.text = @"未设置";
@@ -854,10 +863,8 @@
         }
         self.phoneLabel.text = phone;
         [self.trainTimeButton setTitle:[NSString stringWithFormat:@" 已累计培训%@学时",totalTime] forState:UIControlStateNormal];
-        //余额
-        if ([CommonUtil isEmpty:money]) {
-            money = @"0";
-        }
+        NSString *money = [NSString stringWithFormat:@"%.2f", model.balance];//余额
+        NSLog(@"CoachAuditStatusModel%.2f", model.balance);
         self.cashLabel.text = [NSString stringWithFormat:@"%@",money];
         //小巴券时间
         int couponhour = 12;

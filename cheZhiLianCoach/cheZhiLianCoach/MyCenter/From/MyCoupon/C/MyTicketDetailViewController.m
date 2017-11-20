@@ -38,7 +38,6 @@
 @implementation MyTicketDetailViewController
 {
     NSMutableArray *selectArray;
-    NSString *requsetTag;
     NSString *recordids;
     UIView *view;
 }
@@ -55,6 +54,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.altogetherMoney.hidden = YES;
     self.mainTableView.delegate = self;
     self.mainTableView.dataSource = self;
     self.mainTableView.backgroundColor = MColor(243, 243, 243);
@@ -70,9 +70,6 @@
     
     [self.noDataButton setImage:[UIImage imageNamed:@"no_coupon"] forState:UIControlStateDisabled];
     self.noDataButton.enabled = NO;
-    
-    requsetTag = @"1";
-   // [self getAmountData];
     //合计金额
     NSString *money = @"0";
     NSString *altogetherMoney = [NSString stringWithFormat:@"合计：%@元", money];
@@ -146,12 +143,44 @@
 }
 //立即兑换
 - (IBAction)convertClick:(id)sender {
-    
-    if (selectArray.count > 0) {
-        requsetTag = @"2";
-      //  [self getAmountData];
+    if (self.couponsListAray.count > 0) {
+        NSString *couponIdStr;
+        
+            for (CouponsModel *model in  self.couponsListAray) {
+                if ([model.selected isEqualToString:@"1"]) {
+                    NSLog(@"model%@", model);
+                    if (couponIdStr.length == 0) {
+                        couponIdStr = model.couponMemberId;
+                    }else {
+                        couponIdStr = [NSString stringWithFormat:@"%@,%@", couponIdStr,model.couponMemberId];
+                    }
+                }
+            }
+        
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/exchangeCoupons",kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+        NSLog(@"couponIdStr%@", couponIdStr);
+        URL_Dic[@"couponMemberId"] =  couponIdStr;
+        __weak  MyTicketDetailViewController *self_VC = self;
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                  [self_VC showAlert:responseObject[@"msg"] time:1.0];
+                [self_VC requestData];
+            }else {
+                [self_VC showAlert:responseObject[@"msg"] time:1.0];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"error%@", error);
+        }];
+        
     }else{
-        [self makeToast:@"请至少选择一张学车券"];
+        [self showAlert:@"请至少选择一张优惠券" time:1.0];
     }
     
 }
@@ -203,12 +232,11 @@
         
         if ([modelTwo.selected isEqualToString:@"0"]) {
             cell.selectTag2.hidden = YES;
-        }else if([modelOne.selected isEqualToString:@"1"]){
+        }else if([modelTwo.selected isEqualToString:@"1"]){
             cell.selectTag2.hidden = NO;
         }
-        
-        NSString *state1 = @"1";//判断有没有提现过
-        if (state1.intValue == 2) {
+        int state1 = modelOne.couponIsUsed;//判断有没有提现过
+        if (state1 == 1) {
             [string1 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str1.length)];
             cell.clickButton1.enabled = NO;
             cell.applyLabel1.hidden = NO;
@@ -223,8 +251,8 @@
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
         cell.ticketFrom2.text = [self getFromString:@"1"];
         cell.ticketTime2.text = modelTwo.createTimeStr;
-        NSString *state2 = @"1";//判断有没有提现过
-        if (state2.intValue == 2) {
+        int state2 = modelTwo.couponIsUsed;//判断有没有提现过
+        if (state2 == 1) {
             [string2 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str2.length)];
             cell.clickButton2.enabled = NO;
             cell.applyLabel2.hidden = NO;
@@ -241,13 +269,14 @@
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
             cell.ticketFrom1.text = [self getFromString:@"1"];
             cell.ticketTime1.text = modelOne.createTimeStr;
-            NSString *state1 = @"1";//判断有没有提现过
+        
         if ([modelOne.selected isEqualToString:@"0"]) {
             cell.selectTag1.hidden = YES;
         }else if([modelOne.selected isEqualToString:@"1"]){
             cell.selectTag1.hidden = NO;
         }
-            if (state1.intValue == 2) {
+        int state1 = modelOne.couponIsUsed;//判断有没有提现过
+            if (state1 == 1) {
                 [string1 addAttribute:NSForegroundColorAttributeName value:MColor(222, 222, 222) range:NSMakeRange(0,str1.length)];
                 cell.clickButton1.enabled = NO;
                 cell.applyLabel1.hidden = NO;
@@ -279,21 +308,13 @@
 }
 
 -(void)selectTicket:(DSButton *) sender {
-
-    //合计金额
-    NSString *money = @"0";
-    //合计时间
-    NSString *ticketNum = @"0";
-    NSString *altogetherHours = @"0";
-    
-        if (sender.tag == 0) {
+        if (sender.tag == 1) {
             CouponsModel *model = self.couponsListAray[sender.indexPath.row * 2];
             if ([model.selected isEqualToString:@"1"]) {
                 model.selected = @"0";
             }else {
                 model.selected = @"1";
             }
-          //  self.couponsListAray[sender.indexPath.row * 2] = model;
         }else{
          CouponsModel *model = self.couponsListAray[sender.indexPath.row *2 +1];
             if ([model.selected isEqualToString:@"1"]) {
@@ -301,9 +322,20 @@
             }else {
                 model.selected = @"1";
             }
-          //  self.couponsListAray[sender.indexPath.row * 2 + 1] = model;
         }
     NSLog(@"self.couponsListAray%@", self.couponsListAray);
+    int num = 0;
+    int time = 0;
+    
+    for (int i= 0; i < self.couponsListAray.count; i++) {
+        CouponsModel *model = self.couponsListAray[i];
+        if ([model.selected isEqualToString:@"1"]   ) {
+            num ++ ;
+            time += model.couponDuration;
+        }
+    }
+    NSString *altogetherTimeStr = [NSString stringWithFormat:@"已选%d张共%d小时",num,time];
+    self.altogetherTime.text = altogetherTimeStr;
     [self.mainTableView reloadData];
 }
 

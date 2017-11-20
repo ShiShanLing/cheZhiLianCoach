@@ -205,6 +205,9 @@
 @end
 
 @implementation CoachInfoViewController {
+    
+    NSString * carTypeName;
+    NSString * carTypeId;
  
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -215,8 +218,11 @@
 - (void)viewDidDisappear:(BOOL)animated {
     
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    carTypeName = @"C1";
+    carTypeId = @"1";
     [self RequestCoachCurrentState];
     self.coachCardImageView.tag = 201;
     self.coachCarCardImageView.tag = 202;
@@ -305,32 +311,29 @@
 - (void)ParsingCoachData:(NSDictionary *)dataDic {
     
     if (![dataDic[@"data"] isKindOfClass:[NSArray class]]) {
-        [self makeToast:@"资料获取失败"];
+        [self showAlert:@"资料获取失败" time:1.0];
         return;
     }
     NSArray *coachArray =  dataDic[@"data"];
   
     if (coachArray.count == 0) {
-          [self makeToast:@"资料获取失败"];
+        [self showAlert:@"资料获取失败" time:1.0];
         return;
     }
     NSDictionary *coachDataDic =coachArray[0];
+
+    NSDictionary *coachDetailsDic = coachDataDic[@"coach"];
     
     NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachAuditStatusModel" inManagedObjectContext:self.managedContext];
     //根据描述 创建实体对象
     CoachAuditStatusModel *model = [[CoachAuditStatusModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
-    for (NSString *key in coachDataDic) {
-        NSLog(@"key%@", key);
+    for (NSString *key in coachDetailsDic) {
+        
         if ([key isEqualToString:@"state"]) {
             [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", coachDataDic[key]];
         }
-        if ([key isEqualToString:@"coachId"]) {
-            [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", coachDataDic[key]];
-        }
-
         if ([key isEqualToString:@"realName"]) {
             [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", coachDataDic[key]];
-            
         }
         if ([key isEqualToString:@"balance"]) {
             [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", coachDataDic[key]];
@@ -338,8 +341,7 @@
         if ([key isEqualToString:@"carTypeId"]) {
             [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", coachDataDic[key]];
         }
-        [model setValue:coachDataDic[key] forKey:key];
-        
+        [model setValue:coachDetailsDic[key] forKey:key];
         
     }
     [UserDataSingleton mainSingleton].approvalState = [NSString stringWithFormat:@"%d", model.state];
@@ -348,13 +350,11 @@
     self.schoolTextFiled.text = model.phone;
     self.coachCarLabel.text = @"C1";
     self.coachNameLabel.text = model.realName;
-    [self.coachCardImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardFront] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.coachCarCardImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardBack] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.carCheckImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.coachCertificate] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.carCheckBackImageView sd_setImageWithURL:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.driveCertificate] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
+    [self.coachCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardFront]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.coachCarCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardBack]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.coachCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckBackImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.driveCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
     int state = model.state;
-    self.userState = [NSString stringWithFormat:@"%hd", model.state];
-    [UserDataSingleton mainSingleton].approvalState = [NSString stringWithFormat:@"%hd", model.state];
     switch (state) {
         case 0:
             self.warmingLabel.text = @"您还未提交申请...";
@@ -370,7 +370,7 @@
             break;
         case 3:
             self.warmingLabel.text = @"申请已经拒绝";
-             self.commitBtn.hidden = YES;
+             self.commitBtn.hidden = NO;
             break;
         default:
             break;
@@ -597,17 +597,9 @@
         [self.teachCarPencilImage setImage:image];
     }
 }
-
 #pragma mark - 按钮方法
 //弹出驾校选择框
 - (IBAction)clickForSelectSchool:(id)sender {
-//    if (self.userState.intValue == 1) {
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//        [alert show];
-//    }else if (self.userState.intValue == 0){
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//        [alert show];
-//    }else{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"联系方式" message:@"请填写" preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
@@ -642,14 +634,17 @@
 }
 //提交按钮
 - (IBAction)clickForCommit:(id)sender {
+    
     if (self.cityNameLabel.text.length == 0) {
-        [self makeToast:@"城市不能为空"];
+        [self showAlert:@"城市不能为空" time:0.7];
         return;
     }
+    
     if (self.schoolTextFiled.text.length == 0) {
-        [self makeToast:@"联系方式不能为空"];
+        [self showAlert:@"联系方式不能为空" time:0.7];
         return;
     }
+    
     if (self.coachCarLabel.text.length == 0) {
         [self makeToast:@"请选择车型"];
         return;
@@ -674,11 +669,14 @@
         [self  mutableSetValueForKey:@"请提交车辆驾驶证"];
         return;
     }
+    
+    
+    
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/apply", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
-    URL_Dic[@"carTypeName"] = @"C1";
-    URL_Dic[@"carTypeId"] = @"1";
+    URL_Dic[@"carTypeName"] = carTypeName;
+    URL_Dic[@"carTypeId"] = carTypeId;
     URL_Dic[@"address"] = self.cityNameLabel.text;
     URL_Dic[@"phone"] = self.schoolTextFiled.text;
     URL_Dic[@"realName"] = self.coachNameLabel.text;
@@ -686,7 +684,7 @@
     URL_Dic[@"idCardBack"] = self.idCardBackPath;
     URL_Dic[@"coachCertificate"] = self.carCheckPath;
     URL_Dic[@"driveCertificate"] = self.carCheckBackPaht;
-    URL_Dic[@"schoolId"] = @"1";
+    URL_Dic[@"schoolId"] = kSchoolId;
     URL_Dic[@"longitude"] = @"113.54312";
     URL_Dic[@"latitude"] = @"114.65432";
     NSLog(@"URL_Dic%@", URL_Dic);
@@ -713,7 +711,7 @@
 //    [alertView show];
     
    }
-//C1或C2的选择
+
 - (IBAction)clickForC1:(id)sender {
     if (self.userState.intValue == 2) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -745,7 +743,9 @@
         }
     }
 }
-- (IBAction)clickForCarModel:(id)sender {
+
+//车型的选择
+-(IBAction)clickForCarModel:(id)sender {
     if (self.userState.intValue == 2) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
@@ -754,66 +754,19 @@
         [alert show];
     }else{
         CarModelViewController *nextViewController = [[CarModelViewController alloc] initWithNibName:@"CarModelViewController" bundle:nil];
-
-        nextViewController.blockCar = ^(NSString *carState) {
+        nextViewController.blockCar = ^(NSString *carState,NSString *carTypeId) {
             NSLog(@"carState%@", carState);
+            carTypeId = carTypeId;
+            carTypeName = carState;
           _coachCarLabel.text = carState;
-            
         };
-
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
-    
 }
 // 监听弹话框点击事件
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 1)
-    {
-        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-        NSString *coachImage = [CommonUtil stringForID:userInfo[@"coach_cardpicurl"]]; // 教练证正面照片地址
-        NSString *coachBackImage = [CommonUtil stringForID:userInfo[@"drive_cardpicurl"]]; // 驾驶证照片地址
-        NSString *carCheckImage = [CommonUtil stringForID:userInfo[@"car_cardpicfurl"]]; // 车辆年检证照片地址&车辆行驶证正面
-        NSString *carCheckBackImage = [CommonUtil stringForID:userInfo[@"car_cardpicburl"]]; // 车辆行驶证反面
-        
-        NSNumber *isNotEmpty = [NSNumber numberWithBool:YES];
-        
-        if ([CommonUtil isEmpty:coachImage] && self.coachCardDelBtn.hidden) {
-            isNotEmpty = [NSNumber numberWithBool:NO];
-        }
-        if ([CommonUtil isEmpty:coachBackImage] && self.coachCarCardDelBtn.hidden) {
-            isNotEmpty = [NSNumber numberWithBool:NO];
-        }
-        if ([CommonUtil isEmpty:carCheckImage] && self.carCheckDelBtn.hidden) {
-            isNotEmpty = [NSNumber numberWithBool:NO];
-        }
-        if ([CommonUtil isEmpty:carCheckBackImage] && self.carCheckBackDelBtn.hidden) {
-            isNotEmpty = [NSNumber numberWithBool:NO];
-        }
-        if (self.schoolTextFiled.text.length == 0 || [self.schoolTextFiled.text isEqualToString:@"请输入您的驾校名称"] || !isNotEmpty) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请正确填写完所有信息后再提交" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
-        }else{
-            NSString *cardNum = [self.idCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *cardNumPt = [self.cardMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *coachNum = [self.coachCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *coachNumPt = [self.coachMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *driveNum = [self.driveCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *driveNumPt = [self.driveMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *carCNum = [self.carCheckField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *carCNumPt = [self.carCheckMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *carModel = [self.teachCarCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *carLicense = [self.teachCarField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            //驾校
-            NSString *carSchoolName = [self.schoolTextFiled.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-        }
-        
-    }
+  
+    
 }
 //名字编辑
 - (IBAction)handleEditorName:(id)sender {
@@ -850,11 +803,11 @@
         okAction.enabled = nameTF.text.length >= 2;
     }
 }
-// 关闭选择页面
+// 关闭选择页面c
 - (IBAction)clickForCancelSelect:(id)sender {
     [self.selectView removeFromSuperview];
 }
-// 重新进行选择车型
+
 - (IBAction)clickagainCarModelDone:(id)sender {
     //    [_myCarModelArray removeAllObjects];
     //    while (self.keepLabelView.subviews.count) {

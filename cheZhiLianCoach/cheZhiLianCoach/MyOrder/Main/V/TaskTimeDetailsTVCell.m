@@ -39,13 +39,11 @@
     self.RefusedBtn.layer.masksToBounds =  YES;
     self.AgreedBtn.layer.cornerRadius = 5;
     self.AgreedBtn.layer.masksToBounds = YES;
-    
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self =[super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-       
     }
     return self;
 }
@@ -94,7 +92,7 @@
     
     NSString *startTime = [CommonUtil InDataForString:model.startTime];//开始时间
     NSString *endTime = [CommonUtil InDataForString:model.endTime];//结束时间
-    NSString *address = @"安徽省临泉县关庙镇!";//地址
+    NSString *address = @"暂无!";//地址
     NSString *total = [NSString stringWithFormat:@"%d", model.price] ; //订单总价
     int state = model.trainState;
     if (state == 0) {

@@ -73,6 +73,7 @@
 
 #pragma make  数据获取
 - (void)AnalysisUserData{
+    
     //获取应用程序沙盒的Documents目录
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSLog(@"paths%@", paths);
@@ -116,6 +117,7 @@
         [VC jumpToMainViewController];
         NSLog(@"用户详情获取error%@", error);
     }];
+    
 }
 
 //解析的登录过后的数据
@@ -149,7 +151,6 @@
             }
             [userData setObject:urseDataDic[key] forKey:key];
         }
-        
         //获取应用程序沙盒的Documents目录
         NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
         NSString *plistPath1 = [paths objectAtIndex:0];
@@ -161,7 +162,8 @@
         
         //那怎么证明我的数据写入了呢？读出来看看
         NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
-        NSLog(@"查看是否存储成功%@", userData2);
+        NSLog(@"查看是否存储成功%@ [UserDataSingleton mainSingleton].coachId %@", userData2,[UserDataSingleton mainSingleton].coachId);
+        
     }
     [self jumpToMainViewController];
 }

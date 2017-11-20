@@ -21,6 +21,7 @@
 @dynamic accountType;
 @dynamic createTime;
 @dynamic userId;
+@dynamic couponMemberId;
 -(void)setValue:(id)value forKey:(NSString *)key {
     
     if ([key isEqualToString:@"createTime"]) {

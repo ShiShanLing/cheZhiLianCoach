@@ -22,10 +22,8 @@
     [self.studentStarView addSubview:self.studentStarRatingView];
     
     [self.nameButton setBackgroundColor:[UIColor clearColor]];
-//    [self.nameButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -54, 0, 54)];
-//    [self.nameButton setImageEdgeInsets:UIEdgeInsetsMake(0, self.nameButton.titleLabel.bounds.size.width, 0, -self.nameButton.titleLabel.bounds.size.width)];
+    //
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

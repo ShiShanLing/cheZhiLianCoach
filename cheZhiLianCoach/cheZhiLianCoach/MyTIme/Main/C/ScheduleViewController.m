@@ -244,15 +244,13 @@ static  BOOL EditTime;
     }
 }
 //比较两个时间是否相等
-- (BOOL)isSameDay:(NSDate *)date1 date2:(NSDate *)date2
-{
+- (BOOL)isSameDay:(NSDate *)date1 date2:(NSDate *)date2 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlag = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
     NSDateComponents *comp1 = [calendar components:unitFlag fromDate:date1];
     NSDateComponents *comp2 = [calendar components:unitFlag fromDate:date2];
     return (([comp1 day] == [comp2 day]) && ([comp1 month] == [comp2 month]) && ([comp1 year] == [comp2 year]));
 }
-
 /**
  获取当天时间段价钱
  */
@@ -272,7 +270,7 @@ static  BOOL EditTime;
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"schoolId"] = kSchoolId;
     URL_Dic[@"dateTime"] = [CommonUtil getStringForDate:nowDate format:@"yyyy-MM-dd"];
-    URL_Dic[@"carTypeId"] = [UserDataSingleton mainSingleton].carTypeId?[UserDataSingleton mainSingleton].carTypeId:@"1";
+    URL_Dic[@"carTypeId"] = [UserDataSingleton mainSingleton].carTypeId.length == 0?@"1":[UserDataSingleton mainSingleton].carTypeId;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak  ScheduleViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
@@ -306,9 +304,7 @@ static  BOOL EditTime;
         [self.CoursePriceArray addObject:model];
     }
     [self requestData:currentTime];
- //   NSLog(@"self.CoursePriceArray%@", self.CoursePriceArray);
 }
-
 #pragma mark 请求数据
 - (void)requestData:(NSDate *)date {
     self.allSelectButton.selected = NO;
@@ -333,7 +329,6 @@ static  BOOL EditTime;
     //NSLog(@"最终转为字符串时间1 = %@  SJCStr%@", newTime, SJCStr);
     NSString *URL_Str = [NSString stringWithFormat:@"%@/train/api/coachReserveTime", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
-    
     URL_Dic[@"coachId"]= [UserDataSingleton mainSingleton].coachId;
     [URL_Dic setValue:SJCStr forKey:@"dateMillis"];
     NSLog(@"URL_Dic%@", URL_Dic);

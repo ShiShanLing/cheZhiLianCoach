@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="CarTypeModel" representedClassName="CarTypeModel" syncable="YES">
+        <attribute name="carTypeId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="carTypeName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="CoachAuditStatusModel" representedClassName="CoachAuditStatusModel" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="balance" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="carType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="coachCertificate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coachId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descriptionStr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="driveCertificate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idCardBack" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idCardFront" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,6 +27,7 @@
         <attribute name="score" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="teachAge" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CoachDriverAddreModel" representedClassName="CoachDriverAddreModel" syncable="YES">
         <attribute name="addressId" optional="YES" attributeType="String" syncable="YES"/>
@@ -134,6 +142,7 @@
     <entity name="TradingRecordModel" representedClassName="TradingRecordModel" syncable="YES">
         <attribute name="accountType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="balanceChange" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="couponMemberId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="logId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
@@ -173,7 +182,8 @@
         <attribute name="userType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="330"/>
+        <element name="CarTypeModel" positionX="-45" positionY="135" width="128" height="75"/>
+        <element name="CoachAuditStatusModel" positionX="-63" positionY="135" width="128" height="390"/>
         <element name="CoachDriverAddreModel" positionX="-36" positionY="153" width="128" height="105"/>
         <element name="CoachTimeListModel" positionX="-54" positionY="144" width="128" height="255"/>
         <element name="CouponsModel" positionX="-45" positionY="135" width="128" height="465"/>
@@ -182,7 +192,7 @@
         <element name="MyOrderModel" positionX="-45" positionY="135" width="128" height="300"/>
         <element name="MyStudentListModel" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="OrderTimeModel" positionX="-45" positionY="135" width="128" height="210"/>
-        <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="135"/>
+        <element name="TradingRecordModel" positionX="-45" positionY="135" width="128" height="150"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="510"/>
     </elements>
 </model>

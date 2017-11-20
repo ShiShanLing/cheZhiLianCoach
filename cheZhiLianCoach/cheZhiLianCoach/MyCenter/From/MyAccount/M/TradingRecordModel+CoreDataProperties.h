@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int16_t accountType;
 @property (nullable, nonatomic, copy) NSDate *createTime;
 @property (nullable, nonatomic, copy) NSString *userId;
+@property (nullable, nonatomic, copy) NSString *couponMemberId;
 -(void)setValue:(id)value forKey:(NSString *)key;
 @end
 

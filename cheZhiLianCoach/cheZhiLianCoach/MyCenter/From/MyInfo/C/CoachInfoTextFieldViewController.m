@@ -68,16 +68,37 @@
 }
 
 - (IBAction)clickForCommit:(id)sender {
-    if (self.inputTextfield.text.length > 0) {
-            [self updateUserData];
-    }else{
-        [self makeToast:@"不能提交空白资料"];
+    
+    switch (self.viewType.intValue) {
+        case 1:
+            if (self.inputTextfield.text.length > 0) {
+                [self updateUserName];
+            }else{
+                [self showAlert:@"不能提交空白资料" time:1.0];
+            }
+            break;
+        case 2:
+            if (self.inputTextfield.text.length > 0) {
+                [self upDateDrivingAge];
+            }else{
+                [self showAlert:@"不能提交空白资料" time:1.0];
+            }
+            break;
+        case 3:
+            if (self.inputTextView.text.length > 0) {
+                [self upDatePersonalAssessment];
+            }else{
+                [self showAlert:@"不能提交空白资料" time:1.0];
+            }
+            break;
+            
+        default:
+            break;
     }
 }
-
 #pragma mark - 接口
 //提交个人资料
-- (void)updateUserData{
+- (void)updateUserName{
     [self respondsToSelector:@selector(indeterminateExample)];
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setRealName",kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
@@ -102,16 +123,159 @@
         [VC showAlert:@"更改姓名请求失败!"time:1.2];
         NSLog(@"error%@", error);
     }];
-
 }
 
-//提交个人资料
-- (void)updateUserData:(NSString *)key and:(id)value{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *coachId = userInfo[@"coachid"];
-   
-    [DejalBezelActivityView activityViewForView:self.view];
+
+- (void)upDateDrivingAge {
+//    [self showAlert:@"等待添加选择器!" time:1.0];
+ //   return;
+    [self respondsToSelector:@selector(indeterminateExample)];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setTeachAge",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"teachAge"] = @"18";
+    __weak  CoachInfoTextFieldViewController   *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [VC respondsToSelector:@selector(delayMethod)];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC AnalysisUserData];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC respondsToSelector:@selector(delayMethod)];
+        [VC showAlert:@"更改姓名请求失败!"time:1.2];
+        NSLog(@"error%@", error);
+    }];
 }
+
+- (void)upDatePersonalAssessment {
+    
+    [self respondsToSelector:@selector(indeterminateExample)];
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/addPersonalDesc",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
+    URL_Dic[@"description"] = self.inputTextView.text;
+    NSLog(@"URL_Dic%@", URL_Dic);
+    
+    __weak  CoachInfoTextFieldViewController   *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        [VC respondsToSelector:@selector(delayMethod)];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+            [VC AnalysisUserData];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [VC respondsToSelector:@selector(delayMethod)];
+        [VC showAlert:@"更改个人评价请求失败!"time:1.2];
+        NSLog(@"error%@", error);
+    }];
+}
+
+
+#pragma make  数据获取
+- (void)AnalysisUserData{
+    //获取应用程序沙盒的Documents目录
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSLog(@"paths%@", paths);
+    NSString *plistPath = [paths objectAtIndex:0];
+    NSString *filename=[plistPath stringByAppendingPathComponent:@"UserLogInData.plist"];
+    NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    NSLog(@"%@userData", userData);
+    NSArray *keyArray =[userData allKeys];
+    
+    if (keyArray.count == 0) {
+        
+        
+    }else {
+        //http://106.14.158.95:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/detail?coachId=206405433894470f91db2657ae8e73e3
+        NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/detail", kURL_SHY];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        URL_Dic[@"coachId"] =userData[@"coachId"];
+        NSLog(@"URL_Dic%@", URL_Dic);
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        __block CoachInfoTextFieldViewController *VC = self;
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+            if ([resultStr isEqualToString:@"0"]) {
+                
+            }else {
+                [VC AnalyticalData:responseObject];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            [VC showAlert:@"请求失败请重试" time:1.0];
+        }];
+    }
+}
+//解析的用户详情信息
+- (void)AnalyticalData:(NSDictionary *)dic {
+    NSString *state = [NSString stringWithFormat:@"%@", dic[@"result"]];
+    if ([state isEqualToString:@"1"]) {
+        NSDictionary *tempDic = dic[@"data"][0];
+        NSDictionary *urseDataDic = tempDic[@"coach"];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
+        
+        NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachAuditStatusModel" inManagedObjectContext:self.managedContext];
+        //根据描述 创建实体对象
+        CoachAuditStatusModel *model = [[CoachAuditStatusModel alloc] initWithEntity:des insertIntoManagedObjectContext:self.managedContext];
+        [userData removeAllObjects];
+        for (NSString *key in urseDataDic) {
+            if ([key isEqualToString:@"state"]) {
+                [UserDataSingleton mainSingleton].approvalState =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            if ([key isEqualToString:@"coachId"]) {
+                [UserDataSingleton mainSingleton].coachId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                NSLog(@"[UserDataSingleton mainSingleton].coachId%@", [UserDataSingleton mainSingleton].coachId);
+            }
+            if ([key isEqualToString:@"realName"]) {
+                [UserDataSingleton mainSingleton].userName =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+                
+            }
+            if ([key isEqualToString:@"balance"]) {
+                [UserDataSingleton mainSingleton].balance =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            if ([key isEqualToString:@"carTypeId"]) {
+                [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", urseDataDic[key]];
+            }
+            [userData setObject:urseDataDic[key] forKey:key];
+            [model setValue:urseDataDic[key] forKey:key];
+        }
+        [UserDataSingleton mainSingleton].coachModel = model;
+        
+        //获取应用程序沙盒的Documents目录
+        NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *plistPath1 = [paths objectAtIndex:0];
+        
+        //得到完整的文件名
+        NSString *filename=[plistPath1 stringByAppendingPathComponent:@"UserLogInData.plist"];
+        //输入写入
+        [userData writeToFile:filename atomically:YES];
+        
+        //那怎么证明我的数据写入了呢？读出来看看
+        NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)backLogin{
     if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){

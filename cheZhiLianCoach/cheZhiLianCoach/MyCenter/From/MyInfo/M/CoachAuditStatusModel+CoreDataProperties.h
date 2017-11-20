@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *driveCertificate;
 @property (nullable, nonatomic, copy) NSString *address;
 @property(nullable, nonatomic, copy) NSString *rejectReason;
+@property(nullable, nonatomic, copy) NSString *avatar;
+@property(nullable, nonatomic, copy) NSString *teachAge;
+@property(nullable, nonatomic, copy) NSString *descriptionStr;
+@property (nonatomic) float balance;
 
 -(void)setValue:(id)value forKey:(NSString *)key;
 
