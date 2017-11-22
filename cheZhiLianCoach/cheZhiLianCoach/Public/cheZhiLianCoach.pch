@@ -65,9 +65,10 @@
 #define kFit(x) (SScreen_Width*((x)/kIphone6Width))
 #define MColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0f]
 //http://192.168.0.250:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT/coach/api/openClass?coachId=69f5b3990b5d4c5895e444ee8a73bb05&subType=2&time=1509746400000,1509750000000,1509750000000,1509753600000
-//张玉霄  http://192.168.0.250:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
-//沈会阳  http://192.168.100.101:8080/seller
+//张玉霄 http://192.168.0.250:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
+//沈会洋  http://192.168.100.101:8080/seller
 //线上      http://www.jxchezhilian.com
+//臧鹏维  http://192.168.0.245:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
 //              http://192.168.100.101:8080/seller
 #define kURL_SHY @"http://www.jxchezhilian.com"
 

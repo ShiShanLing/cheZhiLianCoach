@@ -24,6 +24,9 @@
     NSString *isChangeCity;
 //    NSString *cityid;
 }
+@property (weak, nonatomic) IBOutlet UIView *windowView;
+
+
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
 @property (strong, nonatomic) IBOutlet UIView *idPhototView;
@@ -309,7 +312,7 @@
 }
 
 - (void)ParsingCoachData:(NSDictionary *)dataDic {
-    
+    self.windowView.hidden = YES;
     if (![dataDic[@"data"] isKindOfClass:[NSArray class]]) {
         [self showAlert:@"资料获取失败" time:1.0];
         return;
@@ -342,7 +345,6 @@
             [UserDataSingleton mainSingleton].carTypeId =[NSString stringWithFormat:@"%@", coachDataDic[key]];
         }
         [model setValue:coachDetailsDic[key] forKey:key];
-        
     }
     [UserDataSingleton mainSingleton].approvalState = [NSString stringWithFormat:@"%d", model.state];
     NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" "];
@@ -359,18 +361,22 @@
         case 0:
             self.warmingLabel.text = @"您还未提交申请...";
              self.commitBtn.hidden = NO;
+            self.windowView.hidden = YES;
             break;
         case 1:
             self.warmingLabel.text = @"正在等待审核..";
              self.commitBtn.hidden = YES;
+            self.windowView.hidden = NO;
             break;
         case 2:
             self.warmingLabel.text = @"申请已经通过";
              self.commitBtn.hidden = YES;
+            self.windowView.hidden = NO;
             break;
         case 3:
             self.warmingLabel.text = @"申请已经拒绝";
              self.commitBtn.hidden = NO;
+            self.windowView.hidden = YES;
             break;
         default:
             break;
@@ -922,7 +928,7 @@
 #pragma mark - LocationViewControllerDelegate
 - (void)location:(LocationViewController *)viewController selectDic:(NSDictionary *)selectDic{
     isChangeCity = @"1";
-    
+    NSLog(@"selectDic%@", selectDic);
     self.selectProvince = selectDic[@"province"];
     self.selectCity = selectDic[@"city"];
     self.selectArea = selectDic[@"area"];
@@ -938,7 +944,10 @@
     } else {
         addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.selectProvince.provinceName, self.selectCity.cityName, areaStr];
     }
-
+    
+    NSLog(@"self.selectProvince.provinceName%@self.selectCity.cityName%@", self.selectProvince.provinceName,self.selectCity.cityName);
+    
+    
     self.cityNameLabel.text = addrStr;
 }
 //选择城市

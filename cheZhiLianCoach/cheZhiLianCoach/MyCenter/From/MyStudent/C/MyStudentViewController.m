@@ -72,7 +72,7 @@
     
     if(isRefresh){
         [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
-        [self.studentTableView setContentOffset:CGPointMake(0, -60) animated:YES];
+        [self.studentTableView setContentOffset:CGPointMake(0, 0) animated:YES];
         [self pullToRefreshTriggered:self.pullToRefresh];
     }
 }
