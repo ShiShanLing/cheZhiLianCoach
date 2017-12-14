@@ -635,10 +635,7 @@
 				A19BA5CD1F4BC4B100CC4A3E /* ViewController.m */,
 				A1AB9E7F1F4C202B0056AB9D /* CustomControls */,
 				A1AB9D4A1F4C10EE0056AB9D /* Public */,
-				A1AB9D4B1F4C10EE0056AB9D /* ThirdParty */,
 				A1AB9D471F4C10C30056AB9D /* Category */,
-				A1AB9D481F4C10C30056AB9D /* Extension */,
-				A1AB9D491F4C10C30056AB9D /* Protocol */,
 				A1AB9D321F4C0F4B0056AB9D /* MyOrder */,
 				A1AB9D3B1F4C0F4B0056AB9D /* MyTIme */,
 				A1AB9D291F4C0F4B0056AB9D /* MyCenter */,
@@ -850,40 +847,8 @@
 			isa = PBXGroup;
 			children = (
 				A1AB9D401F4C0F4B0056AB9D /* Main */,
-				A1AB9D3C1F4C0F4B0056AB9D /* From */,
 			);
 			path = MyTIme;
-			sourceTree = "<group>";
-		};
-		A1AB9D3C1F4C0F4B0056AB9D /* From */ = {
-			isa = PBXGroup;
-			children = (
-				A1AB9D3D1F4C0F4B0056AB9D /* C */,
-				A1AB9D3E1F4C0F4B0056AB9D /* M */,
-				A1AB9D3F1F4C0F4B0056AB9D /* V */,
-			);
-			path = From;
-			sourceTree = "<group>";
-		};
-		A1AB9D3D1F4C0F4B0056AB9D /* C */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = C;
-			sourceTree = "<group>";
-		};
-		A1AB9D3E1F4C0F4B0056AB9D /* M */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = M;
-			sourceTree = "<group>";
-		};
-		A1AB9D3F1F4C0F4B0056AB9D /* V */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = V;
 			sourceTree = "<group>";
 		};
 		A1AB9D401F4C0F4B0056AB9D /* Main */ = {
@@ -946,20 +911,6 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
-		A1AB9D481F4C10C30056AB9D /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		A1AB9D491F4C10C30056AB9D /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		A1AB9D4A1F4C10EE0056AB9D /* Public */ = {
 			isa = PBXGroup;
 			children = (
@@ -982,13 +933,6 @@
 				A1A62FBC1F9849E000786A4B /* OrderTimeList.m */,
 			);
 			path = Public;
-			sourceTree = "<group>";
-		};
-		A1AB9D4B1F4C10EE0056AB9D /* ThirdParty */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ThirdParty;
 			sourceTree = "<group>";
 		};
 		A1AB9D511F4C12570056AB9D /* LogIn */ = {

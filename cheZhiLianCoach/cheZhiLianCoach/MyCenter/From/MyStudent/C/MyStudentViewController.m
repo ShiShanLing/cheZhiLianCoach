@@ -122,8 +122,8 @@
         //[cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
         
     }else{
-        [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];
-        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
+        [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImage_URL,logo]] placeholderImage:[UIImage imageNamed:@"logo_default"]];
+        [cell.detailImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImage_URL,logo]] placeholderImage:[UIImage imageNamed:@"logo_default"]];//背景图片
     }
     if(![CommonUtil isEmpty:realname]){
         cell.timeLabel.text = realname;

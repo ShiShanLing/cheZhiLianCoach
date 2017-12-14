@@ -70,8 +70,8 @@
 //线上      http://www.jxchezhilian.com
 //臧鹏维  http://192.168.0.245:8080/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT
 //              http://192.168.100.101:8080/seller
-#define kURL_SHY @"http://www.jxchezhilian.com"
-
+#define kURL_SHY @"http://www.jxchezhilian.com/school"
+#define kImage_URL @"http://www.jxchezhilian.com/img"
 #define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
 #define kSchoolId @"1"
 //[UserDataSingleton mainSingleton].URL_SHY [NSString stringWithFormat:@"http://%@%@", [UserDataSingleton mainSingleton].URL_SHY,@"/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"]

@@ -542,7 +542,7 @@
     self.birthdayLabel.text = @"请选择";
     self.trainTimeLabel.text = model.teachAge;
     self.selfEvaluationLabel.text = model.descriptionStr;
-    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@",kURL_SHY,model.avatar]] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kImage_URL,model.avatar]] placeholderImage:[UIImage imageNamed:@"ic_head_gray"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
     int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
     switch (state) {

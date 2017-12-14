@@ -352,10 +352,10 @@
     self.schoolTextFiled.text = model.phone;
     self.coachCarLabel.text = @"C1";
     self.coachNameLabel.text = model.realName;
-    [self.coachCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardFront]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.coachCarCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.idCardBack]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.carCheckImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.coachCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-    [self.carCheckBackImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/img%@", kURL_SHY, model.driveCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
+    [self.coachCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kImage_URL, model.idCardFront]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.coachCarCardImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kImage_URL, model.idCardBack]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kImage_URL, model.coachCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
+    [self.carCheckBackImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kImage_URL, model.driveCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
     int state = model.state;
     switch (state) {
         case 0:
@@ -594,11 +594,9 @@
     if ([textField isEqual:self.driveCardField]) {
         [self.driveCardPencilImage setImage:image];
     }
-    
     if ([textField isEqual:self.carCheckField]) {
         [self.carCheckPencilImage setImage:image];
     }
-    
     if ([textField isEqual:self.teachCarField]) {
         [self.teachCarPencilImage setImage:image];
     }

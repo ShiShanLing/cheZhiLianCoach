@@ -851,7 +851,7 @@
         self.mainScrollView.userInteractionEnabled=YES;
         
         //http://www.jxchezhilian.com/img/upload/img/avatar/1510193524723.png
-        NSString  *url_Str = [NSString stringWithFormat:@"%@/img%@",kURL_SHY, model.avatar];
+        NSString  *url_Str = [NSString stringWithFormat:@"%@%@",kImage_URL, model.avatar];
         
         //头像
         [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:url_Str] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] options:SDWebImageProgressiveDownload];

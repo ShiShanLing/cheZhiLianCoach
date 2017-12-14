@@ -667,9 +667,7 @@ static  BOOL EditTime;
     //    view.backgroundColor = [UIColor blackColor];
     self.openBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 16);
     [view addSubview:self.openBtn];
-    NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *state = [coachInfo[@"state"] description];
-    if (![state isEqualToString:@"2"]) {
+
         UIView *signView = [[UIView alloc]initWithFrame:CGRectMake(0, 16, SCREEN_WIDTH, 32)];
         signView.backgroundColor = MColor(249, 239, 210);
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 11, 6, 9)];
@@ -702,7 +700,7 @@ static  BOOL EditTime;
         [remindButton setTitleColor:MColor(252, 89, 0) forState:UIControlStateNormal];
         [signView addSubview:remindButton];
         [view addSubview:signView];
-    }
+    
     return view;
 }
 #pragma mark tableHeaderView
