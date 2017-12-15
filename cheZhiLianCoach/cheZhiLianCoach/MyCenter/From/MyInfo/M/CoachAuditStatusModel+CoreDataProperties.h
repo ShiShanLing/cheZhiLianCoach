@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, nonatomic, copy) NSString *avatar;
 @property(nullable, nonatomic, copy) NSString *teachAge;
 @property(nullable, nonatomic, copy) NSString *descriptionStr;
+@property(nullable, nonatomic, copy) NSDate *birthday;
 @property (nonatomic) float balance;
 
 -(void)setValue:(id)value forKey:(NSString *)key;

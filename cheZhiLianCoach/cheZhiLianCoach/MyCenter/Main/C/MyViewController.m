@@ -445,13 +445,23 @@
 }
 // 兑换小巴券
 - (IBAction)clickForConvertTicket:(id)sender {
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     MyTicketDetailViewController *nextController = [[MyTicketDetailViewController alloc] initWithNibName:@"MyTicketDetailViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
+    }
 }
 //查看小巴币详情
 - (IBAction)clickForCoinDetail:(id)sender {
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     ConvertCoinViewController *nextController = [[ConvertCoinViewController alloc] initWithNibName:@"ConvertCoinViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
+    }
 }
 // 取消取钱
 - (IBAction)clickForCancel:(id)sender {
@@ -459,8 +469,13 @@
 }
 //查看收支详细
 - (IBAction)lookDetail:(id)sender {
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     AmountDetailViewController *nextController = [[AmountDetailViewController alloc] initWithNibName:@"AmountDetailViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
+    }
 }
 //查看小巴券明细
 - (IBAction)lookTicketDetail:(id)sender {
@@ -547,13 +562,23 @@
 - (IBAction)clickToMyComplainView:(id)sender {
 //    MyComplainViewController *targetViewController = [[MyComplainViewController alloc] initWithNibName:@"MyComplainViewController" bundle:nil];
 //    [self.navigationController pushViewController:targetViewController animated:YES];
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     MyStudentViewController *nextViewController = [[MyStudentViewController alloc] initWithNibName:@"MyStudentViewController" bundle:nil];
     [self.navigationController pushViewController:nextViewController animated:YES];
+    }
 }
 // 我的评价
 - (IBAction)clickToMyEvaluateView:(id)sender {
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     MyEvaluationViewController *targetViewController = [[MyEvaluationViewController alloc] initWithNibName:@"MyEvaluationViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
+    }
 }
 // 我的通知
 - (IBAction)clickToMyMessageView:(id)sender {
@@ -562,8 +587,13 @@
 }
 // 我的资料
 - (IBAction)clickToMyInfoView:(id)sender {
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     MyInfoViewController *targetViewController = [[MyInfoViewController alloc] initWithNibName:@"MyInfoViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
+    }
 }
 // 上车地址设置
 - (IBAction)clickToSetAddrView:(id)sender {
@@ -578,7 +608,13 @@
 }
 //在线客服
 - (IBAction)clickForOnlineServe:(id)sender {
-   
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
+        
+        
+    }
 }
 #warning 暂时不知道是干什么的 监听某个事件
 - (void)chatAction:(NSNotification *)notification {
@@ -586,15 +622,25 @@
 }
 // 教学内容设置
 - (IBAction)clickToSetTeachView:(id)sender{
-    
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
     SetTeachViewController *targetViewController = [[SetTeachViewController alloc] initWithNibName:@"SetTeachViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
-    
+    }
 }
 // 进入设置界面
 - (IBAction)clickToSetting:(id)sender {
-    SetViewController *targetViewController = [[SetViewController alloc] initWithNibName:@"SetViewController" bundle:nil];
-    [self.navigationController pushViewController:targetViewController animated:YES];
+    
+    
+    if ([UserDataSingleton mainSingleton].coachId.length == 0) {
+        LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:NO];
+    }else {
+        SetViewController *targetViewController = [[SetViewController alloc] initWithNibName:@"SetViewController" bundle:nil];
+        [self.navigationController pushViewController:targetViewController animated:YES];
+    }
 }
 //实现消息通知方法
 - (void)LogOut:(NSNotification *)notification{
@@ -821,7 +867,7 @@
         //那怎么证明我的数据写入了呢？读出来看看
         NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
     }
-    NSLog(@"userDataArray%@", self.userDataArray);
+    NSLog(@"userDataArray%@[UserDataSingleton mainSingleton].coachModel%@", self.userDataArray,[UserDataSingleton mainSingleton].coachModel);
     [self refreshUI];
 }
 
@@ -886,9 +932,13 @@
         [self.starView changeStarForegroundViewWithScore:score];
         
     }else{
+        
         int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
         switch (state) {
-            case 0:
+            case -1:
+                self.auditStateLabel.text = @"还为申请成为教练!";
+                break;
+            case 0 :
                 self.auditStateLabel.text = @"还为申请成为教练!";
                 break;
             case 1:

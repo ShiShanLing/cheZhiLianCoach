@@ -104,7 +104,7 @@
     CoachDriverAddreModel *model = self.addrArray[indexPath.row];
     
     if (model.isDefault == 1)  {
-        [self makeToast:@"默认地址不能删除"];
+        [self showAlert:@"默认地址不能删除" time:0.8];
         return;
     }
     [self delAddress:model.addressId];
@@ -147,7 +147,7 @@
             NSLog(@"responseObject%@", responseObject);
             NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
             if ([resultStr isEqualToString:@"1"]) {
-                [VC showAlert:responseObject[@"msg"] time:1.2];
+                //[VC showAlert:responseObject[@"msg"] time:1.2];
                 [VC getAddressData];
             }else {
                 [VC showAlert:responseObject[@"msg"] time:1.2];
@@ -210,9 +210,8 @@
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
         [DejalBezelActivityView removeView];
         if ([resultStr isEqualToString:@"1"]) {
-            [VC showAlert:responseObject[@"msg"] time:1.2];
             [VC.defaultAddrView removeFromSuperview];
-            
+            [VC getAddressData];
         }else {
             
             [VC showAlert:responseObject[@"msg"] time:1.2];
@@ -251,9 +250,11 @@
 - (void)ParsingAddressInfor:(NSArray *)data {
     [self.addrArray removeAllObjects];
     if (data.count == 0) {
-        [self showAlert:@"还没有添加地址" time:1.2];
+        self.nodataImageBtn.hidden =  NO;
+     //   [self showAlert:@"还没有添加地址" time:1.2];
         return;
     }
+    self.nodataImageBtn.hidden = YES;
     for (NSDictionary *dic in data) {
         NSEntityDescription *des = [NSEntityDescription entityForName:@"CoachDriverAddreModel" inManagedObjectContext:self.managedContext];
         //根据描述 创建实体对象

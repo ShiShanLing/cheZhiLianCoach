@@ -644,15 +644,13 @@ static  BOOL EditTime;
 }
 #pragma mark sectionFooterView
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    
+    int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
     if (section == 0) {
         if (isReload2Section) {
             //不显示第一行的section
             return 0;
         }
-        NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-        NSString *state = [coachInfo[@"state"] description];
-        if (![state isEqualToString:@"2"]) {
+           if (state != 2) {
             return 16+32;
         }else{
             return 16;
@@ -664,6 +662,7 @@ static  BOOL EditTime;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 16)];
+    int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
     //    view.backgroundColor = [UIColor blackColor];
     self.openBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 16);
     [view addSubview:self.openBtn];
@@ -677,10 +676,11 @@ static  BOOL EditTime;
         [remindButton addTarget:self action:@selector(clickCoachInfo) forControlEvents:UIControlEventTouchUpInside];
         remindButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [remindButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-     
-        
-        int  state = [UserDataSingleton mainSingleton].approvalState.intValue;
+    
             switch (state) {
+                case -1:
+                    [remindButton setTitle:@"    还为申请成为教练!" forState:UIControlStateNormal];
+                    break;
                 case 0:
                     [remindButton setTitle:@"    还为申请成为教练!" forState:UIControlStateNormal];
                     break;
@@ -697,9 +697,15 @@ static  BOOL EditTime;
                 default:
                     break;
             }
-        [remindButton setTitleColor:MColor(252, 89, 0) forState:UIControlStateNormal];
+    [remindButton setTitleColor:MColor(252, 89, 0) forState:UIControlStateNormal];
+    if (state == 2) {
+        
+    }else {
         [signView addSubview:remindButton];
         [view addSubview:signView];
+    }
+    
+    
     
     return view;
 }

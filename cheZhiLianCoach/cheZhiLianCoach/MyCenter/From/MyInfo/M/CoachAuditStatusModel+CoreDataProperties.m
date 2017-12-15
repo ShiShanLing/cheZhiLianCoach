@@ -36,6 +36,7 @@
 @dynamic balance;
 @dynamic teachAge;
 @dynamic descriptionStr;
+@dynamic birthday;
 -(void)setValue:(id)value forKey:(NSString *)key {
     if ([key isEqualToString:@"createTime"]) {
    //     int 转 nsstring 再转 nsdate
@@ -47,6 +48,14 @@
         self.teachAge = [NSString stringWithFormat:@"%@", value];
     } else if([key isEqualToString:@"description"]){
         self.descriptionStr = [NSString stringWithFormat:@"%@", value];
+    }else if([key isEqualToString:@"birthday"]){
+        
+     //   int 转 nsstring 再转 nsdate
+        NSString *str=[NSString stringWithFormat:@"%@", value];
+        NSTimeInterval time=[str doubleValue]/1000;//因为时差问题要加8小时 == 28800 sec
+        NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
+        self.birthday = detaildate;
+        
     }else{
         [super setValue:value forKey:key];
     }

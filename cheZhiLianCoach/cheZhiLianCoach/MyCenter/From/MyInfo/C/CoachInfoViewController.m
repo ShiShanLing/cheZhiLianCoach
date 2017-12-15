@@ -358,6 +358,11 @@
     [self.carCheckBackImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kImage_URL, model.driveCertificate]] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"] ];
     int state = model.state;
     switch (state) {
+        case -1:
+            self.warmingLabel.text = @"您还未提交申请...";
+            self.commitBtn.hidden = NO;
+            self.windowView.hidden = YES;
+            break;
         case 0:
             self.warmingLabel.text = @"您还未提交申请...";
              self.commitBtn.hidden = NO;

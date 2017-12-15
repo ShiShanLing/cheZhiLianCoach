@@ -169,7 +169,6 @@
 
         }
         
-        
         return label;
     } else if (component == 1) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(35, 0, width, 32)];

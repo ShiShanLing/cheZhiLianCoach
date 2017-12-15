@@ -125,7 +125,6 @@
     }];
 }
 
-
 - (void)upDateDrivingAge {
 //    [self showAlert:@"等待添加选择器!" time:1.0];
  //   return;
@@ -133,7 +132,7 @@
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setTeachAge",kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
-    URL_Dic[@"teachAge"] = @"18";
+    URL_Dic[@"teachAge"] = self.inputTextfield.text;
     __weak  CoachInfoTextFieldViewController   *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
