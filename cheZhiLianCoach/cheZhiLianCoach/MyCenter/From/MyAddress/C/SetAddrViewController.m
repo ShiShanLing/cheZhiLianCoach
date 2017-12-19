@@ -108,7 +108,6 @@
         return;
     }
     [self delAddress:model.addressId];
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -193,10 +192,10 @@
 - (IBAction)clickToClose:(id)sender {
     [self.defaultAddrView removeFromSuperview];
 }
-
 #pragma mark 设置为默认地址
 - (IBAction)clickToSetDefaultAddr:(id)sender {
-    [DejalBezelActivityView activityViewForView:self.view];
+    
+    [self respondsToSelector:@selector(indeterminateExample)];
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/setDefault", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"addressId"] = self.addressid;
@@ -208,16 +207,15 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"responseObject%@", responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         if ([resultStr isEqualToString:@"1"]) {
             [VC.defaultAddrView removeFromSuperview];
             [VC getAddressData];
         }else {
-            
             [VC showAlert:responseObject[@"msg"] time:1.2];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         NSLog(@"error%@", error);
     }];
 
@@ -227,7 +225,7 @@
 #pragma mark - 接口
 //获取地址信息
 - (void)getAddressData{
-    [DejalBezelActivityView activityViewForView:self.view];
+    [self respondsToSelector:@selector(indeterminateExample)];
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/findTrainAddressList", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
@@ -239,10 +237,10 @@
         NSLog(@"uploadProgress%@", uploadProgress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"获取地址信息responseObject%@", responseObject);
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         [VC ParsingAddressInfor:responseObject[@"data"]];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         NSLog(@"error%@", error);
     }];
 }
@@ -269,7 +267,7 @@
 }
 //删除地址
 - (void)delAddress:(NSString *)addressid{
-    [DejalBezelActivityView activityViewForView:self.view];
+    [self respondsToSelector:@selector(indeterminateExample)];
     NSString *URL_Str = [NSString stringWithFormat:@"%@/coach/api/deleteAddress", kURL_SHY];
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"coachId"] = [UserDataSingleton mainSingleton].coachId;
@@ -281,17 +279,17 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"responseObject%@", responseObject);
         NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         if ([resultStr isEqualToString:@"1"]) {
             [VC showAlert:responseObject[@"msg"] time:1.2];
-            [VC.defaultAddrView removeFromSuperview];
+            
             [VC getAddressData];
         }else {
             
             [VC showAlert:responseObject[@"msg"] time:1.2];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [DejalBezelActivityView removeView];
+        [VC respondsToSelector:@selector(delayMethod)];
         NSLog(@"error%@", error);
     }];
 

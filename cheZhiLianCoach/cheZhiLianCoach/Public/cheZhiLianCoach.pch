@@ -73,7 +73,7 @@
 #define kURL_SHY @"http://www.jxchezhilian.com/school"
 #define kImage_URL @"http://www.jxchezhilian.com/img"
 #define kCoachId  @"f3adf20a7fa64344bec4abd50f316b20"
-#define kSchoolId @"c05d9e7637a54ef88b25386959c83609"
+#define kSchoolId @"1"
 //线上的驾校ID  1
 //开发组驾校OD c05d9e7637a54ef88b25386959c83609
 //[UserDataSingleton mainSingleton].URL_SHY [NSString stringWithFormat:@"http://%@%@", [UserDataSingleton mainSingleton].URL_SHY,@"/com-zerosoft-boot-assembly-seller-local-1.0.0-SNAPSHOT"]

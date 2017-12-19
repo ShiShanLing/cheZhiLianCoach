@@ -139,6 +139,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     isRefresh = YES;
+    [self versionUpdate];
     [self refreshData];
 }
 
@@ -694,6 +695,83 @@ __weak  TaskListViewController *VC = self;
     }
     return taskArray;
 }
+
+- (void)versionUpdate{
+    //获得当前发布的版本
+    if(![self judgeNeedVersionUpdate])  return ;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+        
+        NSString *URL_Str = [[NSString alloc] initWithFormat:@"http://itunes.apple.com/lookup?id=%@",@"1314836414"];
+        NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+        __block NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+            NSLog(@"uploadProgress%@", uploadProgress);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"responseObject%@", responseObject);
+            NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"resultCount"]];
+            if ([resultStr isEqualToString:@"1"]) {
+                NSArray *array  = responseObject[@"results"];
+                if (array.count == 0) {
+                    
+                }else {
+                    dic = responseObject[@"results"][0];
+                    NSLog(@"dic%@", dic);
+                    //获得上线版本号
+                    NSString *version = [dic objectForKey:@"version"];
+                    
+                    NSString *updateInfo = [dic objectForKey:@"releaseNotes"];
+                    
+                    //获得当前版本
+                    NSString *currentVersion = [[[NSBundle mainBundle]infoDictionary]objectForKey:@"CFBundleShortVersionString"];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //更新界面
+                        
+                        NSLog(@"当前版本%@线上版本%@", currentVersion,version);
+                        if ( version &&![version isEqualToString:currentVersion]) {
+                            
+                            NSString *message = [NSString stringWithFormat:@"有新版本发布啦!\n%@",updateInfo];
+                            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示"message:message delegate:self cancelButtonTitle:@"忽略"otherButtonTitles:@"前往更新",nil];
+                            
+                            [alertView show];
+                        }else{
+                            //已是最高版本
+                            NSLog(@"已经是最高版本");
+                        }
+                    });
+                }
+            }else {
+                
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"error%@", error);
+        }];
+        
+        
+    });
+}
+/*根据被点击按钮的索引处理点击事件--当被按钮被点击了这里做出一个反馈*/
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex ==1) {
+        NSString *url =@"https://itunes.apple.com/cn/app/%E8%BD%A6%E6%99%BA%E8%81%94%E6%95%99%E7%BB%83%E7%AB%AF/id1314836414?mt=8";//
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+    }
+}
+//每天进行一次版本判断
+- (BOOL)judgeNeedVersionUpdate {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    //获取年-月-日
+    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+    NSString *currentDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentDate"];
+    if ([currentDate isEqualToString:dateString]) {
+        return NO;
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:dateString forKey:@"currentDate"];
+    return YES;
+}
+
 
 
 @end

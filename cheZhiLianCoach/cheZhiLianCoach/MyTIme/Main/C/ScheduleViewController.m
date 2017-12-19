@@ -491,7 +491,6 @@ static  BOOL EditTime;
     [self.openBtn setImage:[UIImage imageNamed:@"arrow_up"] forState:UIControlStateNormal];
     [self.openBtn setImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateSelected];
     [self.openBtn addTarget:self action:@selector(clickForOpenClose:) forControlEvents:UIControlEventTouchUpInside];
- 
 }
 
 #pragma mark - tableView代理
