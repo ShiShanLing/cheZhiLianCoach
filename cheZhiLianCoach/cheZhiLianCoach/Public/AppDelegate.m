@@ -37,7 +37,6 @@
      配置回调处理，在此方法中根据设置的platformType来填充应用配置信息
      */
     
-    
     [ShareSDK registerApp:@"21ed803626c70" activePlatforms:@[@(SSDKPlatformTypeWechat),
                                                              @(SSDKPlatformTypeQQ),] onImport:^(SSDKPlatformType platformType) {
                                                                  switch (platformType){
@@ -53,8 +52,8 @@
                                                              } onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
                                                                  switch (platformType){
                                                                      case SSDKPlatformTypeWechat:
-                                                                         [appInfo SSDKSetupWeChatByAppId:@"wx3fbcf0d51a2e675e"
-                                                                                               appSecret:@"2231aa718a55856af0397d3c64282da9"];
+                                                                         [appInfo SSDKSetupWeChatByAppId:@"wx07165c8fe823a9ad"
+                                                                                               appSecret:@"1c5b1ebfcb0639d34283d28565cb5f16"];
                                                                          break;
                                                                      case SSDKPlatformTypeQQ:
                                                                          [appInfo SSDKSetupQQByAppId:@"1106149369"
@@ -65,7 +64,6 @@
                                                                          break;
                                                                  }
                                                              }];
-    
     [self AnalysisUserData];
     return YES;
 }

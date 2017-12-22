@@ -196,18 +196,11 @@
     MyOrderModel *orderModel = self.taskListArray[indexPath.section];
     NSArray *timeModelArray = (NSArray *)orderModel.orderTimes;
     //这个判断是判断是否显示 拒绝和同意
-    if (orderModel.state == 3) {
-        if (indexPath.row == timeModelArray.count -1) {
-            cell.AgreedBtn.hidden = NO;
-            cell.RefusedBtn.hidden = NO;
-        }else {
-            cell.AgreedBtn.hidden = YES;
-            cell.RefusedBtn.hidden = YES;
-        }
-    }else {
+
+    
         cell.AgreedBtn.hidden = YES;
         cell.RefusedBtn.hidden = YES;
-    }
+
     
     OrderTimeModel *timeModel  =timeModelArray[indexPath.row];
     if (indexPath.row == timeModelArray.count-1) {
@@ -218,24 +211,8 @@
     cell.model = timeModel;
     cell.indexPath = indexPath;
     cell.delegate  = self;
-    NSString *btnState;
-    switch (timeModel.trainState) {
-        case 0:
-            btnState = @"确认上车";
-            cell.timeEditorBtn.backgroundColor = MColor(0, 190, 122);
-            break;
-        case 1:
-            btnState = @"确认下车";
-            cell.timeEditorBtn.backgroundColor = MColor(0, 190, 122);
-            break;
-        case 2:
-            btnState = @"已结束";
-            cell.timeEditorBtn.backgroundColor = MColor(149, 149, 149);
-            break;
-        default:
-            break;
-    }
-    [cell.timeEditorBtn setTitle:btnState forState:(UIControlStateNormal)];
+
+    cell.timeEditorBtn.hidden = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -38,6 +38,7 @@
                 <outlet property="moneyDetailLabel" destination="N98-qV-iIQ" id="gNY-gh-g1r"/>
                 <outlet property="moneyTitleLabel" destination="JHg-7P-UuA" id="AGs-qm-xV9"/>
                 <outlet property="moneyYuanField" destination="J0R-bQ-ujZ" id="eP7-CG-RsX"/>
+                <outlet property="muInfoBtn" destination="zOT-LG-BT8" id="hyA-C0-tws"/>
                 <outlet property="nameLabel" destination="3G8-fM-2hr" id="NNk-O0-YKm"/>
                 <outlet property="numLabel" destination="SBF-lK-iEh" id="3aC-O0-ILZ"/>
                 <outlet property="numView" destination="EPh-Vz-796" id="ijD-zo-z2F"/>
@@ -79,7 +80,7 @@
                 <constraint firstItem="eGB-6d-8QK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FnA-8B-IBR"/>
                 <constraint firstAttribute="trailing" secondItem="eGB-6d-8QK" secondAttribute="trailing" id="pMe-5o-mVJ"/>
             </constraints>
-            <point key="canvasLocation" x="-440.5" y="1185.5"/>
+            <point key="canvasLocation" x="-397" y="2029"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JIm-I9-nDo" userLabel="zige">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -766,11 +767,11 @@
             </connections>
         </tapGestureRecognizer>
         <view contentMode="scaleToFill" id="Sb9-hY-Sxk" userLabel="有数据的view">
-            <rect key="frame" x="0.0" y="0.0" width="651" height="742"/>
+            <rect key="frame" x="0.0" y="0.0" width="651" height="807"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1E6-07-i9j">
-                    <rect key="frame" x="0.0" y="180" width="651" height="542"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1E6-07-i9j">
+                    <rect key="frame" x="0.0" y="180" width="651" height="627"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="crI-Mn-xeX" userLabel="tools">
                             <rect key="frame" x="0.0" y="124" width="651" height="354"/>
@@ -1576,6 +1577,9 @@
                                 </mask>
                                 <mask key="constraints">
                                     <exclude reference="9hI-eS-6pl"/>
+                                    <exclude reference="GY2-sA-WtM"/>
+                                    <exclude reference="MuB-pw-HVh"/>
+                                    <exclude reference="q2A-1Y-YlY"/>
                                     <exclude reference="Lwh-Lb-r3c"/>
                                     <exclude reference="eN0-Yh-Tqb"/>
                                     <exclude reference="2Ej-Fy-Wjf"/>
@@ -1583,14 +1587,16 @@
                                     <exclude reference="ZXF-cN-MlE"/>
                                     <exclude reference="kEg-06-jta"/>
                                     <exclude reference="xdy-zR-6fR"/>
-                                    <exclude reference="GY2-sA-WtM"/>
-                                    <exclude reference="MuB-pw-HVh"/>
-                                    <exclude reference="q2A-1Y-YlY"/>
                                     <exclude reference="o4n-pO-fwd"/>
                                     <exclude reference="srf-tU-qko"/>
                                     <exclude reference="unr-he-JIq"/>
                                     <exclude reference="vq7-qC-5Cj"/>
                                     <exclude reference="yZf-En-LlQ"/>
+                                    <exclude reference="2BB-kR-TFT"/>
+                                    <exclude reference="8Kx-AQ-RCM"/>
+                                    <exclude reference="9Dh-Dn-PNy"/>
+                                    <exclude reference="NnL-PR-m3z"/>
+                                    <exclude reference="Sph-dh-oKH"/>
                                     <exclude reference="8qA-Le-QFL"/>
                                     <exclude reference="Vmp-Zh-rgw"/>
                                     <exclude reference="cvb-Oa-jla"/>
@@ -1600,11 +1606,6 @@
                                     <exclude reference="dTR-qu-nXU"/>
                                     <exclude reference="nhc-5t-D1a"/>
                                     <exclude reference="pAQ-7T-5Pi"/>
-                                    <exclude reference="2BB-kR-TFT"/>
-                                    <exclude reference="8Kx-AQ-RCM"/>
-                                    <exclude reference="9Dh-Dn-PNy"/>
-                                    <exclude reference="NnL-PR-m3z"/>
-                                    <exclude reference="Sph-dh-oKH"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular">
@@ -1615,6 +1616,9 @@
                                 </mask>
                                 <mask key="constraints">
                                     <include reference="9hI-eS-6pl"/>
+                                    <include reference="GY2-sA-WtM"/>
+                                    <include reference="MuB-pw-HVh"/>
+                                    <include reference="q2A-1Y-YlY"/>
                                     <exclude reference="EtI-zh-V4b"/>
                                     <include reference="Lwh-Lb-r3c"/>
                                     <exclude reference="Pm3-bo-MbU"/>
@@ -1634,14 +1638,16 @@
                                     <exclude reference="jFU-1b-Mug"/>
                                     <include reference="kEg-06-jta"/>
                                     <include reference="xdy-zR-6fR"/>
-                                    <include reference="GY2-sA-WtM"/>
-                                    <include reference="MuB-pw-HVh"/>
-                                    <include reference="q2A-1Y-YlY"/>
                                     <include reference="o4n-pO-fwd"/>
                                     <include reference="srf-tU-qko"/>
                                     <include reference="unr-he-JIq"/>
                                     <exclude reference="vq7-qC-5Cj"/>
                                     <exclude reference="yZf-En-LlQ"/>
+                                    <include reference="2BB-kR-TFT"/>
+                                    <exclude reference="8Kx-AQ-RCM"/>
+                                    <exclude reference="9Dh-Dn-PNy"/>
+                                    <include reference="NnL-PR-m3z"/>
+                                    <include reference="Sph-dh-oKH"/>
                                     <include reference="8qA-Le-QFL"/>
                                     <exclude reference="QKo-MQ-kLz"/>
                                     <include reference="Vmp-Zh-rgw"/>
@@ -1657,11 +1663,6 @@
                                     <exclude reference="nhc-5t-D1a"/>
                                     <include reference="pAQ-7T-5Pi"/>
                                     <exclude reference="wdY-24-5zA"/>
-                                    <include reference="2BB-kR-TFT"/>
-                                    <exclude reference="8Kx-AQ-RCM"/>
-                                    <exclude reference="9Dh-Dn-PNy"/>
-                                    <include reference="NnL-PR-m3z"/>
-                                    <include reference="Sph-dh-oKH"/>
                                 </mask>
                             </variation>
                         </view>
@@ -2604,7 +2605,7 @@
                 <constraint firstItem="ZWF-Xo-Ua0" firstAttribute="top" secondItem="Sb9-hY-Sxk" secondAttribute="top" id="vq8-0y-cRG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-309.5" y="392"/>
+            <point key="canvasLocation" x="-309.5" y="424.5"/>
         </view>
         <view contentMode="scaleToFill" id="cq4-9k-0Rw" userLabel="规则">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -2928,7 +2929,7 @@
         <image name="icon_chongzhi" width="52" height="29"/>
         <image name="icon_pencil" width="16" height="16"/>
         <image name="icon_portrait_default" width="82" height="82"/>
-        <image name="icon_setting" width="19" height="18"/>
+        <image name="icon_setting" width="22" height="22"/>
         <image name="icon_tousu" width="37" height="33"/>
         <image name="im_bg" width="320" height="195"/>
         <image name="line_horiz_grey" width="1" height="1"/>

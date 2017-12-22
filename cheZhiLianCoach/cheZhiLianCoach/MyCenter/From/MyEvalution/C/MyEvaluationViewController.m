@@ -169,7 +169,7 @@
     if (self.evaluationType == 2) {
         return complainMyDataArr.count;
     }else {
-        return  10;
+        return  0;
     }
 }
 

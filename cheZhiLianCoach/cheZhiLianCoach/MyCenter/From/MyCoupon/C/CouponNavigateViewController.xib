@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CouponNavigateViewController">
             <connections>
                 <outlet property="couponLabel" destination="CNM-54-hvq" id="Xi0-C7-8KI"/>
-                <outlet property="noAbilityLabel" destination="fB3-Rk-Th0" id="dYY-vd-7b5"/>
-                <outlet property="sendButton" destination="Xrn-vj-VC8" id="F6o-Hj-pIg"/>
-                <outlet property="sendCouponBackView" destination="Vqw-b7-ymK" id="9eN-YA-4n0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -139,71 +136,10 @@
                         <constraint firstAttribute="trailing" secondItem="iB1-LC-vfU" secondAttribute="trailing" constant="8" id="tyb-Ja-CUr"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vqw-b7-ymK">
-                    <rect key="frame" x="0.0" y="117" width="375" height="53"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   发放学车券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRs-YE-8ZB" userLabel="label">
-                            <rect key="frame" x="0.0" y="0.0" width="200" height="53"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="Fsr-7X-Pzf"/>
-                                <constraint firstAttribute="height" constant="53" id="OlO-Xf-N4p"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" red="0.1450980392" green="0.1450980392" blue="0.1450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_button_right" translatesAutoresizingMaskIntoConstraints="NO" id="Kkw-ta-o70">
-                            <rect key="frame" x="358" y="20" width="9" height="14"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="14" id="9Zc-wh-7W3"/>
-                                <constraint firstAttribute="width" constant="9" id="lNz-4a-aqs"/>
-                            </constraints>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xrn-vj-VC8" userLabel="aboutUs">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="53"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="53" id="Cq5-IU-Jol"/>
-                            </constraints>
-                            <state key="normal">
-                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="clickForSendCoupon:" destination="-1" eventType="touchUpInside" id="50f-Az-0EF"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstItem="Xrn-vj-VC8" firstAttribute="leading" secondItem="Vqw-b7-ymK" secondAttribute="leading" id="At4-iF-GoY"/>
-                        <constraint firstAttribute="trailing" secondItem="Xrn-vj-VC8" secondAttribute="trailing" id="BQn-wA-uBb"/>
-                        <constraint firstItem="YRs-YE-8ZB" firstAttribute="leading" secondItem="Vqw-b7-ymK" secondAttribute="leading" id="PWV-cl-XbC"/>
-                        <constraint firstAttribute="height" constant="53" id="YId-BM-ttf"/>
-                        <constraint firstItem="Kkw-ta-o70" firstAttribute="top" secondItem="Vqw-b7-ymK" secondAttribute="top" constant="20" id="az9-Pd-eds"/>
-                        <constraint firstAttribute="trailing" secondItem="Kkw-ta-o70" secondAttribute="trailing" constant="8" id="boZ-4B-DMu"/>
-                        <constraint firstItem="Xrn-vj-VC8" firstAttribute="top" secondItem="Vqw-b7-ymK" secondAttribute="top" id="dMb-gL-9L9"/>
-                        <constraint firstItem="YRs-YE-8ZB" firstAttribute="top" secondItem="Vqw-b7-ymK" secondAttribute="top" id="fW4-gf-qKI"/>
-                    </constraints>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未获得发放权限，若需要发放请联系客服" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fB3-Rk-Th0">
-                    <rect key="frame" x="12" y="178" width="576" height="21"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="576" id="Spy-n6-pGZ"/>
-                        <constraint firstAttribute="height" constant="21" id="XE5-Yb-7fP"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="1" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" red="0.94586122035980225" green="0.94583284854888916" blue="0.94584894180297852" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Vqw-b7-ymK" secondAttribute="trailing" id="2zz-yc-AHa"/>
-                <constraint firstItem="Vqw-b7-ymK" firstAttribute="top" secondItem="7mc-ri-nEe" secondAttribute="bottom" id="56o-OR-oAu"/>
-                <constraint firstItem="fB3-Rk-Th0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="AsB-IE-Tvs"/>
-                <constraint firstItem="fB3-Rk-Th0" firstAttribute="top" secondItem="Vqw-b7-ymK" secondAttribute="bottom" constant="8" id="FjM-r5-t0j"/>
                 <constraint firstItem="7mc-ri-nEe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Qmj-mh-t8S"/>
-                <constraint firstItem="Vqw-b7-ymK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RQr-PV-nsw"/>
                 <constraint firstAttribute="trailing" secondItem="7mc-ri-nEe" secondAttribute="trailing" id="bFo-Nw-eGe"/>
                 <constraint firstItem="7mc-ri-nEe" firstAttribute="top" secondItem="XsK-ZF-KqU" secondAttribute="bottom" id="dFG-0O-Ok6"/>
                 <constraint firstAttribute="trailing" secondItem="XsK-ZF-KqU" secondAttribute="trailing" id="rGA-At-pxa"/>

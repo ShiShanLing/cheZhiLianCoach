@@ -28,6 +28,8 @@
     [self.navigationController pushViewController:nextController animated:YES];
 }
 - (IBAction)clickForCoinDetail:(id)sender {
+    [self showAlert:@"该功能暂未开通" time:0.8];
+    return;
     ConvertCoinViewController *nextController = [[ConvertCoinViewController alloc] initWithNibName:@"ConvertCoinViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
 }

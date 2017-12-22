@@ -33,6 +33,7 @@
     NSString *updatePrice;
     NSString *getPrice;//取现金额
 }
+@property (weak, nonatomic) IBOutlet UIButton *muInfoBtn;
 @property (strong, nonatomic) CZPhotoPickerController *pickPhotoController;
 @property (strong, nonatomic) IBOutlet UIView *checkView;           // 验证教练资格视图
 @property (strong, nonatomic) IBOutlet UIView *getMoneyView;        // 申请金额视图
@@ -128,6 +129,7 @@
 }
 
 - (void)viewDidLoad {
+    self.muInfoBtn.hidden = YES;
     [super viewDidLoad];
     
     // 注册监听
@@ -270,22 +272,6 @@
     self.mainScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    
-    
-}   // called on finger up as we are moving
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    self.mainScrollView.contentOffset = CGPointMake(0, 0);
-}      // called when scroll view grinds to a halt
-
-
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view NS_AVAILABLE_IOS(3_2) {
-    
-    
-} // called before the scroll view begins zooming its content
-
 #pragma mark - 键盘遮挡输入框处理
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
@@ -443,7 +429,7 @@
     self.alertMoneyLabel.text = [NSString stringWithFormat:@"%@元", money];
     [self.alertMoneyLabel.superview  bringSubviewToFront:self.alertMoneyLabel];
 }
-// 兑换小巴券
+// 兑换
 - (IBAction)clickForConvertTicket:(id)sender {
     if ([UserDataSingleton mainSingleton].coachId.length == 0) {
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -453,12 +439,14 @@
     [self.navigationController pushViewController:nextController animated:YES];
     }
 }
-//查看小巴币详情
+//查看详情
 - (IBAction)clickForCoinDetail:(id)sender {
     if ([UserDataSingleton mainSingleton].coachId.length == 0) {
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:NO];
     }else {
+        [self showAlert:@"该功能暂未开通" time:0.8];
+        return;
     ConvertCoinViewController *nextController = [[ConvertCoinViewController alloc] initWithNibName:@"ConvertCoinViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
     }
@@ -612,8 +600,8 @@
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:NO];
     }else {
-        
-        
+        [self showAlert:@"该功能暂未开通" time:0.8];
+        return;
     }
 }
 #warning 暂时不知道是干什么的 监听某个事件
@@ -729,7 +717,6 @@
 - (void)alipayForPartner:(NSString *)partner seller:(NSString *)seller privateKey:(NSString *)privateKey
                  tradeNO:(NSString *)tradeNO subject:(NSString *)subject body:(NSString *)body
                    price:(NSString *)price notifyURL:(NSString *)notifyURL{
-   
 
 
 }
@@ -739,7 +726,7 @@
 }
 //分享有礼
 - (IBAction)clickForRecommendPrize:(id)sender {
-    
+    NSLog(@"%@",[NSURL URLWithString:[NSString stringWithFormat:@"%@/share/to_jump?share_type_id=2&school_id=%@&stu_id=%@",kURL_SHY,kSchoolId,[UserDataSingleton mainSingleton].coachId]]);
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     NSArray* imageArray = @[[UIImage imageNamed:@"AppIcon"]];
     [shareParams SSDKSetupShareParamsByText:@"分享内容"

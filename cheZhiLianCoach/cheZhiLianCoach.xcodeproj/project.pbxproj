@@ -733,8 +733,6 @@
 			isa = PBXGroup;
 			children = (
 				A1AB9D341F4C0F4B0056AB9D /* C */,
-				A1AB9D351F4C0F4B0056AB9D /* M */,
-				A1AB9D361F4C0F4B0056AB9D /* V */,
 			);
 			path = From;
 			sourceTree = "<group>";
@@ -753,20 +751,6 @@
 				A1AB9D7D1F4C165B0056AB9D /* UploadPhotoViewController.xib */,
 			);
 			path = C;
-			sourceTree = "<group>";
-		};
-		A1AB9D351F4C0F4B0056AB9D /* M */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = M;
-			sourceTree = "<group>";
-		};
-		A1AB9D361F4C0F4B0056AB9D /* V */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = V;
 			sourceTree = "<group>";
 		};
 		A1AB9D371F4C0F4B0056AB9D /* Main */ = {
@@ -1365,8 +1349,6 @@
 			isa = PBXGroup;
 			children = (
 				A1AB9DC21F4C184D0056AB9D /* C */,
-				A1AB9DC31F4C184D0056AB9D /* M */,
-				A1AB9DC41F4C184D0056AB9D /* V */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -1388,20 +1370,6 @@
 				A1AB9DD01F4C185D0056AB9D /* SetViewController.xib */,
 			);
 			path = C;
-			sourceTree = "<group>";
-		};
-		A1AB9DC31F4C184D0056AB9D /* M */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = M;
-			sourceTree = "<group>";
-		};
-		A1AB9DC41F4C184D0056AB9D /* V */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = V;
 			sourceTree = "<group>";
 		};
 		A1AB9E7F1F4C202B0056AB9D /* CustomControls */ = {
@@ -1610,7 +1578,7 @@
 					A19BA5C21F4BC4B100CC4A3E = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3ZC4VG35Y5;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					A19BA5DE1F4BC4B100CC4A3E = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -2072,8 +2040,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3ZC4VG35Y5;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2083,8 +2051,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cheZhiLianCoach.www-iOSApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "242fc106-c7fe-48bb-9bfb-fb1da2e19496";
+				PROVISIONING_PROFILE_SPECIFIER = chezhilianCoach;
 			};
 			name = Debug;
 		};
@@ -2094,8 +2062,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3ZC4VG35Y5;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2105,8 +2073,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cheZhiLianCoach.www-iOSApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "242fc106-c7fe-48bb-9bfb-fb1da2e19496";
+				PROVISIONING_PROFILE_SPECIFIER = chezhilianCoach;
 			};
 			name = Release;
 		};

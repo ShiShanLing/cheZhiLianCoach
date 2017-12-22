@@ -71,12 +71,15 @@
 
 // 进入意见反馈界面
 - (IBAction)clickFeedBack:(id)sender {
+    [self showAlert:@"该功能为开通" time:0.8];
+    return;
     FeedBackViewController *targetViewController = [[FeedBackViewController alloc] initWithNibName:@"FeedBackViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
 
 // 进入关于我们界面
 - (IBAction)clickAboutUs:(id)sender {
+    
     AboutUsViewController *targetViewController = [[AboutUsViewController alloc] initWithNibName:@"AboutUsViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:NO];
 }
@@ -96,18 +99,24 @@
 }
 
 - (IBAction)clickForRule:(id)sender {
+    [self showAlert:@"该功能为开通" time:0.8];
+    return;
     CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
     viewController.fromVC = @"1";
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)clickService:(id)sender {
+    [self showAlert:@"该功能为开通" time:0.8];
+    return;
     CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
     viewController.fromVC = @"2";
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)clickForCompanyDrive:(id)sender {
+    [self showAlert:@"该功能为开通" time:0.8];
+    return;
     CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
     viewController.fromVC = @"3";
     [self.navigationController pushViewController:viewController animated:YES];
