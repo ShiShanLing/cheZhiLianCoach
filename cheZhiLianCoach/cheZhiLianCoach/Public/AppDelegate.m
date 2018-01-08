@@ -202,9 +202,7 @@
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
     self.window.rootViewController = navi;
     [navi setNavigationBarHidden:YES];
-    
 }
-
 #pragma mark - Core Data stack
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;

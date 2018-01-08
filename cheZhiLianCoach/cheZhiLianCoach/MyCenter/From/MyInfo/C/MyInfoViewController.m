@@ -510,10 +510,6 @@
         NSLog(@"error%@", error);
     }];
 
-    
-    
-    
-    
     [self updateUserDirthday];
     self.birthdayChange = @"1";
 }

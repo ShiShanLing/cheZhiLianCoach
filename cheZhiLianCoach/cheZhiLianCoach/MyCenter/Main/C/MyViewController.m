@@ -100,6 +100,12 @@
  */
 @property (nonatomic, strong)NSMutableArray *userDataArray;
 
+
+
+
+//驾校选择器
+
+
 @end
 
 @implementation MyViewController
@@ -358,7 +364,6 @@
 }
 // 更改头像
 - (IBAction)clickForChangePortrait:(id)sender {
-//    self.photoView.hidden = NO;
     self.alertPhotoView.frame = self.view.frame;
     [self.view addSubview:self.alertPhotoView];
 }

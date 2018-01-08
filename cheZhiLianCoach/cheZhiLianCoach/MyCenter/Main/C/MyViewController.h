@@ -33,4 +33,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *starViewConstraint;
 @property (strong, nonatomic) IBOutlet UIImageView *starImageView;
 
+
+
+
 @end

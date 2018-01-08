@@ -5,32 +5,96 @@
 //  Created by Dino on 15/3/23.
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
-
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "CoachInfoViewController.h"
 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate,UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *loginContentView;
-
+@property (weak, nonatomic) IBOutlet UITextField *drivingNameTF;//驾校名字
 @property (strong, nonatomic) IBOutlet UITextField *userName;   // 账号
 @property (strong, nonatomic) IBOutlet UITextField *passWord;   // 密码
+@property (weak, nonatomic) IBOutlet UILabel *chooseDrving;
 
 @property (strong, nonatomic) IBOutlet UIView *loginDetailsView;
 @property (strong, nonatomic) IBOutlet UIButton *loginBtnOutlet;
 
+//选择器
+@property (strong, nonatomic) IBOutlet UIView *selectView;
+@property (nonatomic, strong) IBOutlet UIPickerView *pickerView; // 选择器
+@property (strong, nonatomic) NSMutableArray *selectArray;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController {
+    NSInteger selectRow;
+    NSString  *drivingID;//所选择的
+}
+// 关闭选择页面
+- (IBAction)clickForCancelSelect:(id)sender {
+    [self.selectView removeFromSuperview];
+}
 
+// 完成驾校选择
+- (IBAction)clickForDone:(UIButton *)sender {
+    self.drivingNameTF.text = self.selectArray[selectRow][@"storeName"];
+    drivingID = self.selectArray[selectRow][@"storeId"];
+    
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"chooseDriving" ofType:@"plist"];
+    NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    [userData removeAllObjects];
+    userData =[NSMutableDictionary dictionaryWithDictionary:self.selectArray[selectRow]];
+    //获取应用程序沙盒的Documents目录
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *plistPath1 = [paths objectAtIndex:0];
+    
+    //得到完整的文件名
+    NSString *filename=[plistPath1 stringByAppendingPathComponent:@"chooseDriving.plist"];
+    //输入写入
+    [userData writeToFile:filename atomically:YES];
+    
+    //那怎么证明我的数据写入了呢？读出来看看
+    NSMutableDictionary *userData2 = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    NSLog(@"查看是否存储成功%@", userData2);
+    [self.selectView removeFromSuperview];
+}
+//选择驾校
+- (IBAction)handleChooseDriing:(id)sender {
+    [self.pickerView reloadAllComponents];
+    self.selectView.frame = [UIScreen mainScreen].bounds;
+    [self.view addSubview:self.selectView];
+}
+- (void)handleSingleFingerEvent:(UITapGestureRecognizer *)tap {
+    
+    [self.selectView removeFromSuperview];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initSexData];
+    UITapGestureRecognizer *singleFingerOne = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                      action:@selector(handleSingleFingerEvent:)];
+    singleFingerOne.numberOfTouchesRequired = 1; //手指数
+    singleFingerOne.numberOfTapsRequired = 1; //tap次数
+    singleFingerOne.delegate = self;
+    
+    [self.selectView addGestureRecognizer:singleFingerOne];
+
+    self.chooseDrving.userInteractionEnabled = YES;
+    self.drivingNameTF.userInteractionEnabled = NO;
+    self.selectArray = [NSMutableArray array];
+    self.pickerView.showsSelectionIndicator = NO;
+    self.pickerView.delegate = self;
+    self.pickerView.dataSource = self;
+    
     // Do any additional setup after loading the view from its nib.
     self.loginContentView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [self.scrollView addSubview:self.loginContentView];
+    [self.drivingNameTF  setValue:MColor(173, 173, 173) forKeyPath:@"_placeholderLabel.textColor"];
+    self.drivingNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.userName setValue:MColor(173, 173, 173) forKeyPath:@"_placeholderLabel.textColor"];
     [self.passWord setValue:MColor(173, 173, 173) forKeyPath:@"_placeholderLabel.textColor"];
     self.loginBtnOutlet.layer.cornerRadius = 3;
@@ -122,12 +186,10 @@
     
     
 }
-
 // 取消
 - (IBAction)cancelClick:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 - (IBAction)hideKeyboardClick:(id)sender {
     [self.userName resignFirstResponder];
@@ -235,7 +297,7 @@
     NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
     URL_Dic[@"mobile"] = userName;
     URL_Dic[@"mobileCode"] = passWord;
-    URL_Dic[@"schoolId"] = kSchoolId;
+    URL_Dic[@"schoolId"] = drivingID;
     NSLog(@"URL_Dic%@", URL_Dic);
     __weak LoginViewController *VC = self;
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
@@ -305,9 +367,7 @@
         NSDictionary *tempDic = dic[@"data"][0];
         NSDictionary *urseDataDic = tempDic[@"coach"];
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"UserLogInData" ofType:@"plist"];
-        
         NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-        
         [userData removeAllObjects];
         for (NSString *key in urseDataDic) {
             if ([key isEqualToString:@"state"]) {
@@ -345,7 +405,6 @@
     [app jumpToMainViewController];
 }
 
-
 - (IBAction)handleDirectLogin:(UIButton *)sender {
     
     // 用户密码都不为空调用接口
@@ -354,5 +413,92 @@
     
 }
 
+#pragma mark - PickerVIew
+// 行高
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return 45.0;
+}
+// 组数
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+// 每组行数
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return self.selectArray.count;
+}
+// 数据
+- (void)initSexData {
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *plistPath1 = [paths objectAtIndex:0];
+    //得到完整的文件名
+    NSString *filename=[plistPath1 stringByAppendingPathComponent:@"chooseDriving.plist"];
+    //那怎么证明我的数据写入了呢？读出来看看
+    NSMutableDictionary *userData = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    
+    NSArray *datacount = [userData allKeys];
+    if (datacount != 0) {
+        self.drivingNameTF.text = userData[@"storeName"];
+        drivingID = userData[@"storeId"];
+    }
+    
+    self.pickerView.tag = 1;
+    NSString *URL_Str = [NSString stringWithFormat:@"%@/store/api/getAllSchoolList",kURL_SHY];
+    NSMutableDictionary *URL_Dic = [NSMutableDictionary dictionary];
+    __weak  LoginViewController *VC = self;
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    [session POST:URL_Str parameters:URL_Dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"uploadProgress%@", uploadProgress);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject%@", responseObject);
+        NSString *resultStr = [NSString stringWithFormat:@"%@", responseObject[@"result"]];
+        if ([resultStr isEqualToString:@"1"]) {
+            [VC ParsingDrivingData:responseObject];
+        }else {
+            [VC showAlert:responseObject[@"msg"] time:1.2];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error%@", error);
+    }];
+}
+
+- (void) ParsingDrivingData:(NSDictionary *)data {
+    NSArray *dataArray = data[@"data"];
+    if (dataArray.count == 0) {
+        [self showAlert:@"驾校信息获取失败,暂时无法登陆" time:1.0];
+        return;
+    }
+    for (NSDictionary *dic in dataArray) {
+        NSMutableDictionary *MDIC = [NSMutableDictionary dictionary];
+        [MDIC setValue:dic[@"storeId"] forKey:@"storeId"];
+        [MDIC setValue:dic[@"storeName"] forKey:@"storeName"];
+        [self.selectArray addObject:MDIC];
+    }
+}
+// 自定义每行的view
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    UILabel *myView = nil;
+    // 性别选择器
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 45)];
+    myView.textAlignment = NSTextAlignmentCenter;
+    
+    myView.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
+    
+    myView.textColor = MColor(161, 161, 161);
+    
+    myView.backgroundColor = [UIColor clearColor];
+    
+    if (selectRow == row){
+        myView.textColor = MColor(34, 192, 100);
+    }
+        myView.text = [self.selectArray objectAtIndex:row][@"storeName"];
+    return myView;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    selectRow = row;
+    NSLog(@"selectRow%ld", (long)selectRow);
+    [pickerView reloadComponent:0];
+    
+}
 
 @end

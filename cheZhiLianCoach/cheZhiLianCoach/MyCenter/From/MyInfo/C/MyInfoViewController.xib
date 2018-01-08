@@ -682,7 +682,7 @@
                 <constraint firstItem="MwE-ZI-468" firstAttribute="leading" secondItem="hYy-2a-whD" secondAttribute="leading" id="hA4-kM-zgH"/>
                 <constraint firstItem="Ray-zQ-RAj" firstAttribute="width" secondItem="Imv-0s-2cN" secondAttribute="width" id="iID-0v-jLk"/>
             </constraints>
-            <point key="canvasLocation" x="-242.5" y="357.5"/>
+            <point key="canvasLocation" x="1" y="47"/>
         </view>
         <view contentMode="scaleToFill" id="EIB-DP-ZFW" userLabel="pwdProveView">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
